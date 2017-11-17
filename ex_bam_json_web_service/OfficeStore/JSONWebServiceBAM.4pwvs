@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<WorkspaceViewState version="1.0">
+  <ExpandedNodes>
+    <Node path="JSONWebServiceBAM.4pw" type="pm/main-project"/>
+    <Node path="JSONWebServiceBAM.4pw/Officestore Model" type="pm/group"/>
+    <Node path="JSONWebServiceBAM.4pw/Officestore Model/Applicationflow" type="pm/library"/>
+    <Node path="JSONWebServiceBAM.4pw/Officestore Model/Databases" type="pm/library"/>
+    <Node path="JSONWebServiceBAM.4pw/Officestore Model/WebServer" type="pm/application"/>
+    <Node path="JSONWebServiceBAM.4pw/Officestore Model/WebServices" type="pm/library"/>
+  </ExpandedNodes>
+  <OpenDocuments>
+    <Document container="true" filePath="appflow/OfficestoreAppFlow.4ba" locator="" module="mod-ba"/>
+    <Document container="true" filePath="services/Customers.4wsj" locator="" module="mod-br"/>
+  </OpenDocuments>
+  <CurrentDocument filePath="appflow/OfficestoreAppFlow.4ba" module="mod-ba"/>
+</WorkspaceViewState>

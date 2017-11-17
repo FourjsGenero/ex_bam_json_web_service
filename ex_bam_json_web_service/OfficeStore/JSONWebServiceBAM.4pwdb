@@ -1,0 +1,990 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<WorkspaceDatabase fileContentsEncoding="CP1252" version="2.0">
+<File m="officestore_dbxconstraints" n="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" ts="20171115154504485">
+<Fct c="17" el="2272" l="2241" n="officestore_dbxconstraints_account_pk_account_checkFKConstraint(p_data RECORD)" t="F">
+<Call c="22" l="2264" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="2231" l="2217" n="officestore_dbxconstraints_account_lastname_checkColumnConstraints(p_lastname unknown)" t="F">
+<Call c="14" l="2227" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="2207" l="2193" n="officestore_dbxconstraints_account_firstname_checkColumnConstraints(p_firstname unknown)" t="F">
+<Call c="14" l="2203" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="2183" l="2169" n="officestore_dbxconstraints_account_userid_checkColumnConstraints(p_userid unknown)" t="F">
+<Call c="14" l="2179" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="2159" l="2124" n="officestore_dbxconstraints_account_pk_account_checkUniqueConstraint(p_forUpdate BOOLEAN,p_key RECORD)" t="F">
+<Call c="18" l="2151" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="2113" l="2083" n="officestore_dbxconstraints_account_checkTableConstraints(p_forUpdate BOOLEAN,p_data RECORD)" t="F">
+<Call c="10" l="2096" n="officestore_dbxconstraints_account_userid_checkColumnConstraints" t="F"/>
+<Call c="10" l="2097" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="2098" n="officestore_dbxconstraints_account_firstname_checkColumnConstraints" t="F"/>
+<Call c="10" l="2099" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="2100" n="officestore_dbxconstraints_account_lastname_checkColumnConstraints" t="F"/>
+<Call c="10" l="2101" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="2103" n="officestore_dbxconstraints_account_pk_account_checkUniqueConstraint" t="F"/>
+<Call c="10" l="2104" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="2106" n="officestore_dbxconstraints_category_pk_category_checkFKConstraint" t="F"/>
+<Call c="10" l="2107" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="2108" n="officestore_dbxconstraints_country_pk_country_checkFKConstraint" t="F"/>
+<Call c="10" l="2109" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="2072" l="2041" n="officestore_dbxconstraints_category_pk_category_checkFKConstraint(p_data RECORD)" t="F">
+<Call c="22" l="2064" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="2031" l="2017" n="officestore_dbxconstraints_category_catid_checkColumnConstraints(p_catid unknown)" t="F">
+<Call c="14" l="2027" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="2007" l="1972" n="officestore_dbxconstraints_category_pk_category_checkUniqueConstraint(p_forUpdate BOOLEAN,p_key RECORD)" t="F">
+<Call c="18" l="1999" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1961" l="1940" n="officestore_dbxconstraints_category_checkTableConstraints(p_forUpdate BOOLEAN,p_data RECORD)" t="F">
+<Call c="10" l="1953" n="officestore_dbxconstraints_category_catid_checkColumnConstraints" t="F"/>
+<Call c="10" l="1954" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1956" n="officestore_dbxconstraints_category_pk_category_checkUniqueConstraint" t="F"/>
+<Call c="10" l="1957" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1929" l="1898" n="officestore_dbxconstraints_country_pk_country_checkFKConstraint(p_data RECORD)" t="F">
+<Call c="22" l="1921" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1888" l="1874" n="officestore_dbxconstraints_country_code_checkColumnConstraints(p_code unknown)" t="F">
+<Call c="14" l="1884" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1864" l="1829" n="officestore_dbxconstraints_country_pk_country_checkUniqueConstraint(p_forUpdate BOOLEAN,p_key RECORD)" t="F">
+<Call c="18" l="1856" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1818" l="1797" n="officestore_dbxconstraints_country_checkTableConstraints(p_forUpdate BOOLEAN,p_data RECORD)" t="F">
+<Call c="10" l="1810" n="officestore_dbxconstraints_country_code_checkColumnConstraints" t="F"/>
+<Call c="10" l="1811" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1813" n="officestore_dbxconstraints_country_pk_country_checkUniqueConstraint" t="F"/>
+<Call c="10" l="1814" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1786" l="1755" n="officestore_dbxconstraints_inventory_pk_inventory_checkFKConstraint(p_data RECORD)" t="F">
+<Call c="22" l="1778" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1745" l="1731" n="officestore_dbxconstraints_inventory_qty_checkColumnConstraints(p_qty unknown)" t="F">
+<Call c="14" l="1741" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1721" l="1707" n="officestore_dbxconstraints_inventory_itemid_checkColumnConstraints(p_itemid unknown)" t="F">
+<Call c="14" l="1717" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1697" l="1662" n="officestore_dbxconstraints_inventory_pk_inventory_checkUniqueConstraint(p_forUpdate BOOLEAN,p_key RECORD)" t="F">
+<Call c="18" l="1689" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1651" l="1625" n="officestore_dbxconstraints_inventory_checkTableConstraints(p_forUpdate BOOLEAN,p_data RECORD)" t="F">
+<Call c="10" l="1638" n="officestore_dbxconstraints_inventory_itemid_checkColumnConstraints" t="F"/>
+<Call c="10" l="1639" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1640" n="officestore_dbxconstraints_inventory_qty_checkColumnConstraints" t="F"/>
+<Call c="10" l="1641" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1643" n="officestore_dbxconstraints_inventory_pk_inventory_checkUniqueConstraint" t="F"/>
+<Call c="10" l="1644" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1646" n="officestore_dbxconstraints_item_pk_item_checkFKConstraint" t="F"/>
+<Call c="10" l="1647" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1614" l="1583" n="officestore_dbxconstraints_item_pk_item_checkFKConstraint(p_data RECORD)" t="F">
+<Call c="22" l="1606" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1573" l="1559" n="officestore_dbxconstraints_item_productid_checkColumnConstraints(p_productid unknown)" t="F">
+<Call c="14" l="1569" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1549" l="1535" n="officestore_dbxconstraints_item_itemid_checkColumnConstraints(p_itemid unknown)" t="F">
+<Call c="14" l="1545" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1525" l="1490" n="officestore_dbxconstraints_item_pk_item_checkUniqueConstraint(p_forUpdate BOOLEAN,p_key RECORD)" t="F">
+<Call c="18" l="1517" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1479" l="1451" n="officestore_dbxconstraints_item_checkTableConstraints(p_forUpdate BOOLEAN,p_data RECORD)" t="F">
+<Call c="10" l="1464" n="officestore_dbxconstraints_item_itemid_checkColumnConstraints" t="F"/>
+<Call c="10" l="1465" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1466" n="officestore_dbxconstraints_item_productid_checkColumnConstraints" t="F"/>
+<Call c="10" l="1467" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1469" n="officestore_dbxconstraints_item_pk_item_checkUniqueConstraint" t="F"/>
+<Call c="10" l="1470" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1472" n="officestore_dbxconstraints_product_pk_product_checkFKConstraint" t="F"/>
+<Call c="10" l="1473" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1474" n="officestore_dbxconstraints_supplier_pk_supplier_checkFKConstraint" t="F"/>
+<Call c="10" l="1475" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1440" l="1407" n="officestore_dbxconstraints_lineitem_pk_lineitem_checkFKConstraint(p_data RECORD)" t="F">
+<Call c="22" l="1432" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1397" l="1383" n="officestore_dbxconstraints_lineitem_unitprice_checkColumnConstraints(p_unitprice unknown)" t="F">
+<Call c="14" l="1393" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1373" l="1359" n="officestore_dbxconstraints_lineitem_quantity_checkColumnConstraints(p_quantity unknown)" t="F">
+<Call c="14" l="1369" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1349" l="1335" n="officestore_dbxconstraints_lineitem_itemid_checkColumnConstraints(p_itemid unknown)" t="F">
+<Call c="14" l="1345" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1325" l="1311" n="officestore_dbxconstraints_lineitem_linenum_checkColumnConstraints(p_linenum unknown)" t="F">
+<Call c="14" l="1321" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1301" l="1287" n="officestore_dbxconstraints_lineitem_orderid_checkColumnConstraints(p_orderid unknown)" t="F">
+<Call c="14" l="1297" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1277" l="1239" n="officestore_dbxconstraints_lineitem_pk_lineitem_checkUniqueConstraint(p_forUpdate BOOLEAN,p_key RECORD)" t="F">
+<Call c="18" l="1269" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1228" l="1194" n="officestore_dbxconstraints_lineitem_checkTableConstraints(p_forUpdate BOOLEAN,p_data RECORD)" t="F">
+<Call c="10" l="1207" n="officestore_dbxconstraints_lineitem_orderid_checkColumnConstraints" t="F"/>
+<Call c="10" l="1208" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1209" n="officestore_dbxconstraints_lineitem_linenum_checkColumnConstraints" t="F"/>
+<Call c="10" l="1210" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1211" n="officestore_dbxconstraints_lineitem_itemid_checkColumnConstraints" t="F"/>
+<Call c="10" l="1212" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1213" n="officestore_dbxconstraints_lineitem_quantity_checkColumnConstraints" t="F"/>
+<Call c="10" l="1214" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1215" n="officestore_dbxconstraints_lineitem_unitprice_checkColumnConstraints" t="F"/>
+<Call c="10" l="1216" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1218" n="officestore_dbxconstraints_lineitem_pk_lineitem_checkUniqueConstraint" t="F"/>
+<Call c="10" l="1219" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1221" n="officestore_dbxconstraints_item_pk_item_checkFKConstraint" t="F"/>
+<Call c="10" l="1222" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="1223" n="officestore_dbxconstraints_orders_pk_orders_checkFKConstraint" t="F"/>
+<Call c="10" l="1224" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1183" l="1152" n="officestore_dbxconstraints_orders_pk_orders_checkFKConstraint(p_data RECORD)" t="F">
+<Call c="22" l="1175" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1142" l="1128" n="officestore_dbxconstraints_orders_sourceapp_checkColumnConstraints(p_sourceapp unknown)" t="F">
+<Call c="14" l="1138" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1118" l="1104" n="officestore_dbxconstraints_orders_totalprice_checkColumnConstraints(p_totalprice unknown)" t="F">
+<Call c="14" l="1114" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1094" l="1080" n="officestore_dbxconstraints_orders_orderdate_checkColumnConstraints(p_orderdate unknown)" t="F">
+<Call c="14" l="1090" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1070" l="1056" n="officestore_dbxconstraints_orders_userid_checkColumnConstraints(p_userid unknown)" t="F">
+<Call c="14" l="1066" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1046" l="1032" n="officestore_dbxconstraints_orders_orderid_checkColumnConstraints(p_orderid unknown)" t="F">
+<Call c="14" l="1042" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="1022" l="987" n="officestore_dbxconstraints_orders_pk_orders_checkUniqueConstraint(p_forUpdate BOOLEAN,p_key RECORD)" t="F">
+<Call c="18" l="1014" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="976" l="940" n="officestore_dbxconstraints_orders_checkTableConstraints(p_forUpdate BOOLEAN,p_data RECORD)" t="F">
+<Call c="10" l="953" n="officestore_dbxconstraints_orders_orderid_checkColumnConstraints" t="F"/>
+<Call c="10" l="954" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="955" n="officestore_dbxconstraints_orders_userid_checkColumnConstraints" t="F"/>
+<Call c="10" l="956" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="957" n="officestore_dbxconstraints_orders_orderdate_checkColumnConstraints" t="F"/>
+<Call c="10" l="958" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="959" n="officestore_dbxconstraints_orders_totalprice_checkColumnConstraints" t="F"/>
+<Call c="10" l="960" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="961" n="officestore_dbxconstraints_orders_sourceapp_checkColumnConstraints" t="F"/>
+<Call c="10" l="962" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="964" n="officestore_dbxconstraints_orders_pk_orders_checkUniqueConstraint" t="F"/>
+<Call c="10" l="965" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="967" n="officestore_dbxconstraints_account_pk_account_checkFKConstraint" t="F"/>
+<Call c="10" l="968" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="969" n="officestore_dbxconstraints_country_pk_country_checkFKConstraint" t="F"/>
+<Call c="10" l="970" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="971" n="officestore_dbxconstraints_country_pk_country_checkFKConstraint" t="F"/>
+<Call c="10" l="972" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="929" l="896" n="officestore_dbxconstraints_orderstatus_pk_orderstatus_checkFKConstraint(p_data RECORD)" t="F">
+<Call c="22" l="921" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="886" l="872" n="officestore_dbxconstraints_orderstatus_orstatus_checkColumnConstraints(p_orstatus unknown)" t="F">
+<Call c="14" l="882" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="862" l="848" n="officestore_dbxconstraints_orderstatus_mdate_checkColumnConstraints(p_mdate unknown)" t="F">
+<Call c="14" l="858" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="838" l="824" n="officestore_dbxconstraints_orderstatus_linenum_checkColumnConstraints(p_linenum unknown)" t="F">
+<Call c="14" l="834" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="814" l="800" n="officestore_dbxconstraints_orderstatus_orderid_checkColumnConstraints(p_orderid unknown)" t="F">
+<Call c="14" l="810" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="790" l="752" n="officestore_dbxconstraints_orderstatus_pk_orderstatus_checkUniqueConstraint(p_forUpdate BOOLEAN,p_key RECORD)" t="F">
+<Call c="18" l="782" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="741" l="711" n="officestore_dbxconstraints_orderstatus_checkTableConstraints(p_forUpdate BOOLEAN,p_data RECORD)" t="F">
+<Call c="10" l="724" n="officestore_dbxconstraints_orderstatus_orderid_checkColumnConstraints" t="F"/>
+<Call c="10" l="725" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="726" n="officestore_dbxconstraints_orderstatus_linenum_checkColumnConstraints" t="F"/>
+<Call c="10" l="727" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="728" n="officestore_dbxconstraints_orderstatus_mdate_checkColumnConstraints" t="F"/>
+<Call c="10" l="729" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="730" n="officestore_dbxconstraints_orderstatus_orstatus_checkColumnConstraints" t="F"/>
+<Call c="10" l="731" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="733" n="officestore_dbxconstraints_orderstatus_pk_orderstatus_checkUniqueConstraint" t="F"/>
+<Call c="10" l="734" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="736" n="officestore_dbxconstraints_orders_pk_orders_checkFKConstraint" t="F"/>
+<Call c="10" l="737" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="700" l="669" n="officestore_dbxconstraints_product_pk_product_checkFKConstraint(p_data RECORD)" t="F">
+<Call c="22" l="692" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="659" l="645" n="officestore_dbxconstraints_product_catid_checkColumnConstraints(p_catid unknown)" t="F">
+<Call c="14" l="655" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="635" l="621" n="officestore_dbxconstraints_product_productid_checkColumnConstraints(p_productid unknown)" t="F">
+<Call c="14" l="631" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="611" l="576" n="officestore_dbxconstraints_product_pk_product_checkUniqueConstraint(p_forUpdate BOOLEAN,p_key RECORD)" t="F">
+<Call c="18" l="603" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="565" l="539" n="officestore_dbxconstraints_product_checkTableConstraints(p_forUpdate BOOLEAN,p_data RECORD)" t="F">
+<Call c="10" l="552" n="officestore_dbxconstraints_product_productid_checkColumnConstraints" t="F"/>
+<Call c="10" l="553" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="554" n="officestore_dbxconstraints_product_catid_checkColumnConstraints" t="F"/>
+<Call c="10" l="555" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="557" n="officestore_dbxconstraints_product_pk_product_checkUniqueConstraint" t="F"/>
+<Call c="10" l="558" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="560" n="officestore_dbxconstraints_category_pk_category_checkFKConstraint" t="F"/>
+<Call c="10" l="561" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="528" l="497" n="officestore_dbxconstraints_seqreg_pk_seqreg_checkFKConstraint(p_data RECORD)" t="F">
+<Call c="22" l="520" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="487" l="473" n="officestore_dbxconstraints_seqreg_sr_last_checkColumnConstraints(p_sr_last unknown)" t="F">
+<Call c="14" l="483" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="463" l="449" n="officestore_dbxconstraints_seqreg_sr_name_checkColumnConstraints(p_sr_name unknown)" t="F">
+<Call c="14" l="459" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="439" l="404" n="officestore_dbxconstraints_seqreg_pk_seqreg_checkUniqueConstraint(p_forUpdate BOOLEAN,p_key RECORD)" t="F">
+<Call c="18" l="431" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="393" l="370" n="officestore_dbxconstraints_seqreg_checkTableConstraints(p_forUpdate BOOLEAN,p_data RECORD)" t="F">
+<Call c="10" l="383" n="officestore_dbxconstraints_seqreg_sr_name_checkColumnConstraints" t="F"/>
+<Call c="10" l="384" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="385" n="officestore_dbxconstraints_seqreg_sr_last_checkColumnConstraints" t="F"/>
+<Call c="10" l="386" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="388" n="officestore_dbxconstraints_seqreg_pk_seqreg_checkUniqueConstraint" t="F"/>
+<Call c="10" l="389" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="359" l="328" n="officestore_dbxconstraints_signon_pk_signon_checkFKConstraint(p_data RECORD)" t="F">
+<Call c="22" l="351" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="318" l="304" n="officestore_dbxconstraints_signon_password_checkColumnConstraints(p_password unknown)" t="F">
+<Call c="14" l="314" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="294" l="280" n="officestore_dbxconstraints_signon_userid_checkColumnConstraints(p_userid unknown)" t="F">
+<Call c="14" l="290" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="270" l="235" n="officestore_dbxconstraints_signon_pk_signon_checkUniqueConstraint(p_forUpdate BOOLEAN,p_key RECORD)" t="F">
+<Call c="18" l="262" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="224" l="198" n="officestore_dbxconstraints_signon_checkTableConstraints(p_forUpdate BOOLEAN,p_data RECORD)" t="F">
+<Call c="10" l="211" n="officestore_dbxconstraints_signon_userid_checkColumnConstraints" t="F"/>
+<Call c="10" l="212" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="213" n="officestore_dbxconstraints_signon_password_checkColumnConstraints" t="F"/>
+<Call c="10" l="214" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="216" n="officestore_dbxconstraints_signon_pk_signon_checkUniqueConstraint" t="F"/>
+<Call c="10" l="217" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="219" n="officestore_dbxconstraints_account_pk_account_checkFKConstraint" t="F"/>
+<Call c="10" l="220" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="187" l="156" n="officestore_dbxconstraints_supplier_pk_supplier_checkFKConstraint(p_data RECORD)" t="F">
+<Call c="22" l="179" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="146" l="132" n="officestore_dbxconstraints_supplier_sustatus_checkColumnConstraints(p_sustatus unknown)" t="F">
+<Call c="14" l="142" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="122" l="108" n="officestore_dbxconstraints_supplier_suppid_checkColumnConstraints(p_suppid unknown)" t="F">
+<Call c="14" l="118" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="98" l="63" n="officestore_dbxconstraints_supplier_pk_supplier_checkUniqueConstraint(p_forUpdate BOOLEAN,p_key RECORD)" t="F">
+<Call c="18" l="90" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+<Fct c="17" el="52" l="29" n="officestore_dbxconstraints_supplier_checkTableConstraints(p_forUpdate BOOLEAN,p_data RECORD)" t="F">
+<Call c="10" l="42" n="officestore_dbxconstraints_supplier_suppid_checkColumnConstraints" t="F"/>
+<Call c="10" l="43" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="44" n="officestore_dbxconstraints_supplier_sustatus_checkColumnConstraints" t="F"/>
+<Call c="10" l="45" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+<Call c="10" l="47" n="officestore_dbxconstraints_supplier_pk_supplier_checkUniqueConstraint" t="F"/>
+<Call c="10" l="48" n="libdbapp_utilBuildErrorNoAndErrorMsg" t="F"/>
+</Fct>
+</File>
+<File m="officestore_dbxdata" n="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" ts="20171115154504438">
+<Dep t="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl"/>
+<Fct c="17" el="3891" l="3884" n="officestore_dbxdata_account_setDefaultValuesFromDBSchema()" t="F"/>
+<Fct c="17" el="3878" l="3803" n="officestore_dbxdata_account_pk_account_deleteReferencingRowsByKey(p_key RECORD)" t="F">
+<Call c="10" l="3828" n="officestore_dbxdata_account_pk_account_selectRowByKey" t="F"/>
+<Call c="37" l="3865" n="officestore_dbxdata_signon_pk_signon_deleteRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="3793" l="3762" n="officestore_dbxdata_account_pk_account_checkRowByKeyWithConcurrentAccess(p_dataT0 RECORD,p_lock BOOLEAN)" t="F">
+<Call c="10" l="3778" n="officestore_dbxdata_account_pk_account_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="3751" l="3725" n="officestore_dbxdata_account_pk_account_deleteRowByKeyWithConcurrentAccess(p_dataT0 RECORD)" t="F">
+<Call c="17" l="3735" n="libdbapp_begin_work" t="F"/>
+<Call c="21" l="3738" n="officestore_dbxdata_account_pk_account_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="25" l="3741" n="officestore_dbxdata_account_pk_account_deleteRowByKey" t="F"/>
+<Call c="25" l="3745" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="3747" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="3715" l="3687" n="officestore_dbxdata_account_pk_account_deleteRowByKey(p_key RECORD)" t="F">
+<Call c="17" l="3695" n="libdbapp_begin_work" t="F"/>
+<Call c="18" l="3699" n="officestore_dbxdata_account_pk_account_deleteReferencingRowsByKey" t="F"/>
+<Call c="25" l="3709" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="3711" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="3677" l="3639" n="officestore_dbxdata_account_pk_account_updateRowByKey(p_dataT0 RECORD,p_dataT1 RECORD)" t="F">
+<Call c="17" l="3651" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="3655" n="officestore_dbxdata_account_pk_account_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="49" i="officestore_dbxconstraints" l="3658" n="officestore_dbxconstraints_account_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="3671" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="3673" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="3628" l="3619" n="officestore_dbxdata_account_pk_account_insertRowByKey(p_data RECORD)" t="F">
+<Call c="10" l="3626" n="officestore_dbxdata_account_insertRowByKey" t="F"/>
+</Fct>
+<Fct c="18" el="3609" l="3583" n="officestore_dbxdata_account_insertRowByKey(p_data RECORD)" t="F">
+<Call c="17" l="3589" n="libdbapp_begin_work" t="F"/>
+<Call c="41" i="officestore_dbxconstraints" l="3592" n="officestore_dbxconstraints_account_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="3603" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="3605" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="3573" l="3540" n="officestore_dbxdata_account_pk_account_selectRowByKey(p_key RECORD,p_lock BOOLEAN)" t="F"/>
+<Fct c="17" el="3529" l="3522" n="officestore_dbxdata_category_setDefaultValuesFromDBSchema()" t="F"/>
+<Fct c="17" el="3516" l="3453" n="officestore_dbxdata_category_pk_category_deleteReferencingRowsByKey(p_key RECORD)" t="F">
+<Call c="10" l="3473" n="officestore_dbxdata_category_pk_category_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="3443" l="3412" n="officestore_dbxdata_category_pk_category_checkRowByKeyWithConcurrentAccess(p_dataT0 RECORD,p_lock BOOLEAN)" t="F">
+<Call c="10" l="3428" n="officestore_dbxdata_category_pk_category_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="3401" l="3375" n="officestore_dbxdata_category_pk_category_deleteRowByKeyWithConcurrentAccess(p_dataT0 RECORD)" t="F">
+<Call c="17" l="3385" n="libdbapp_begin_work" t="F"/>
+<Call c="21" l="3388" n="officestore_dbxdata_category_pk_category_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="25" l="3391" n="officestore_dbxdata_category_pk_category_deleteRowByKey" t="F"/>
+<Call c="25" l="3395" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="3397" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="3365" l="3337" n="officestore_dbxdata_category_pk_category_deleteRowByKey(p_key RECORD)" t="F">
+<Call c="17" l="3345" n="libdbapp_begin_work" t="F"/>
+<Call c="18" l="3349" n="officestore_dbxdata_category_pk_category_deleteReferencingRowsByKey" t="F"/>
+<Call c="25" l="3359" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="3361" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="3327" l="3289" n="officestore_dbxdata_category_pk_category_updateRowByKey(p_dataT0 RECORD,p_dataT1 RECORD)" t="F">
+<Call c="17" l="3301" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="3305" n="officestore_dbxdata_category_pk_category_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="49" i="officestore_dbxconstraints" l="3308" n="officestore_dbxconstraints_category_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="3321" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="3323" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="3278" l="3269" n="officestore_dbxdata_category_pk_category_insertRowByKey(p_data RECORD)" t="F">
+<Call c="10" l="3276" n="officestore_dbxdata_category_insertRowByKey" t="F"/>
+</Fct>
+<Fct c="18" el="3259" l="3233" n="officestore_dbxdata_category_insertRowByKey(p_data RECORD)" t="F">
+<Call c="17" l="3239" n="libdbapp_begin_work" t="F"/>
+<Call c="41" i="officestore_dbxconstraints" l="3242" n="officestore_dbxconstraints_category_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="3253" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="3255" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="3223" l="3190" n="officestore_dbxdata_category_pk_category_selectRowByKey(p_key RECORD,p_lock BOOLEAN)" t="F"/>
+<Fct c="17" el="3179" l="3172" n="officestore_dbxdata_country_setDefaultValuesFromDBSchema()" t="F"/>
+<Fct c="17" el="3166" l="3080" n="officestore_dbxdata_country_pk_country_deleteReferencingRowsByKey(p_key RECORD)" t="F">
+<Call c="10" l="3104" n="officestore_dbxdata_country_pk_country_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="3070" l="3039" n="officestore_dbxdata_country_pk_country_checkRowByKeyWithConcurrentAccess(p_dataT0 RECORD,p_lock BOOLEAN)" t="F">
+<Call c="10" l="3055" n="officestore_dbxdata_country_pk_country_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="3028" l="3002" n="officestore_dbxdata_country_pk_country_deleteRowByKeyWithConcurrentAccess(p_dataT0 RECORD)" t="F">
+<Call c="17" l="3012" n="libdbapp_begin_work" t="F"/>
+<Call c="21" l="3015" n="officestore_dbxdata_country_pk_country_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="25" l="3018" n="officestore_dbxdata_country_pk_country_deleteRowByKey" t="F"/>
+<Call c="25" l="3022" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="3024" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2992" l="2964" n="officestore_dbxdata_country_pk_country_deleteRowByKey(p_key RECORD)" t="F">
+<Call c="17" l="2972" n="libdbapp_begin_work" t="F"/>
+<Call c="18" l="2976" n="officestore_dbxdata_country_pk_country_deleteReferencingRowsByKey" t="F"/>
+<Call c="25" l="2986" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2988" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2954" l="2916" n="officestore_dbxdata_country_pk_country_updateRowByKey(p_dataT0 RECORD,p_dataT1 RECORD)" t="F">
+<Call c="17" l="2928" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="2932" n="officestore_dbxdata_country_pk_country_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="49" i="officestore_dbxconstraints" l="2935" n="officestore_dbxconstraints_country_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="2948" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2950" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2905" l="2896" n="officestore_dbxdata_country_pk_country_insertRowByKey(p_data RECORD)" t="F">
+<Call c="10" l="2903" n="officestore_dbxdata_country_insertRowByKey" t="F"/>
+</Fct>
+<Fct c="18" el="2886" l="2860" n="officestore_dbxdata_country_insertRowByKey(p_data RECORD)" t="F">
+<Call c="17" l="2866" n="libdbapp_begin_work" t="F"/>
+<Call c="41" i="officestore_dbxconstraints" l="2869" n="officestore_dbxconstraints_country_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="2880" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2882" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2850" l="2817" n="officestore_dbxdata_country_pk_country_selectRowByKey(p_key RECORD,p_lock BOOLEAN)" t="F"/>
+<Fct c="17" el="2806" l="2799" n="officestore_dbxdata_inventory_setDefaultValuesFromDBSchema()" t="F"/>
+<Fct c="17" el="2793" l="2762" n="officestore_dbxdata_inventory_pk_inventory_checkRowByKeyWithConcurrentAccess(p_dataT0 RECORD,p_lock BOOLEAN)" t="F">
+<Call c="10" l="2778" n="officestore_dbxdata_inventory_pk_inventory_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="2751" l="2725" n="officestore_dbxdata_inventory_pk_inventory_deleteRowByKeyWithConcurrentAccess(p_dataT0 RECORD)" t="F">
+<Call c="17" l="2735" n="libdbapp_begin_work" t="F"/>
+<Call c="21" l="2738" n="officestore_dbxdata_inventory_pk_inventory_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="25" l="2741" n="officestore_dbxdata_inventory_pk_inventory_deleteRowByKey" t="F"/>
+<Call c="25" l="2745" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2747" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2715" l="2690" n="officestore_dbxdata_inventory_pk_inventory_deleteRowByKey(p_key RECORD)" t="F">
+<Call c="17" l="2698" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="2709" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2711" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2680" l="2642" n="officestore_dbxdata_inventory_pk_inventory_updateRowByKey(p_dataT0 RECORD,p_dataT1 RECORD)" t="F">
+<Call c="17" l="2654" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="2658" n="officestore_dbxdata_inventory_pk_inventory_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="49" i="officestore_dbxconstraints" l="2661" n="officestore_dbxconstraints_inventory_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="2674" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2676" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2631" l="2622" n="officestore_dbxdata_inventory_pk_inventory_insertRowByKey(p_data RECORD)" t="F">
+<Call c="10" l="2629" n="officestore_dbxdata_inventory_insertRowByKey" t="F"/>
+</Fct>
+<Fct c="18" el="2612" l="2586" n="officestore_dbxdata_inventory_insertRowByKey(p_data RECORD)" t="F">
+<Call c="17" l="2592" n="libdbapp_begin_work" t="F"/>
+<Call c="41" i="officestore_dbxconstraints" l="2595" n="officestore_dbxconstraints_inventory_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="2606" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2608" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2576" l="2543" n="officestore_dbxdata_inventory_pk_inventory_selectRowByKey(p_key RECORD,p_lock BOOLEAN)" t="F"/>
+<Fct c="17" el="2532" l="2525" n="officestore_dbxdata_item_setDefaultValuesFromDBSchema()" t="F"/>
+<Fct c="17" el="2519" l="2455" n="officestore_dbxdata_item_pk_item_deleteReferencingRowsByKey(p_key RECORD)" t="F">
+<Call c="10" l="2476" n="officestore_dbxdata_item_pk_item_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="2445" l="2414" n="officestore_dbxdata_item_pk_item_checkRowByKeyWithConcurrentAccess(p_dataT0 RECORD,p_lock BOOLEAN)" t="F">
+<Call c="10" l="2430" n="officestore_dbxdata_item_pk_item_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="2403" l="2377" n="officestore_dbxdata_item_pk_item_deleteRowByKeyWithConcurrentAccess(p_dataT0 RECORD)" t="F">
+<Call c="17" l="2387" n="libdbapp_begin_work" t="F"/>
+<Call c="21" l="2390" n="officestore_dbxdata_item_pk_item_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="25" l="2393" n="officestore_dbxdata_item_pk_item_deleteRowByKey" t="F"/>
+<Call c="25" l="2397" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2399" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2367" l="2339" n="officestore_dbxdata_item_pk_item_deleteRowByKey(p_key RECORD)" t="F">
+<Call c="17" l="2347" n="libdbapp_begin_work" t="F"/>
+<Call c="18" l="2351" n="officestore_dbxdata_item_pk_item_deleteReferencingRowsByKey" t="F"/>
+<Call c="25" l="2361" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2363" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2329" l="2291" n="officestore_dbxdata_item_pk_item_updateRowByKey(p_dataT0 RECORD,p_dataT1 RECORD)" t="F">
+<Call c="17" l="2303" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="2307" n="officestore_dbxdata_item_pk_item_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="49" i="officestore_dbxconstraints" l="2310" n="officestore_dbxconstraints_item_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="2323" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2325" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2280" l="2271" n="officestore_dbxdata_item_pk_item_insertRowByKey(p_data RECORD)" t="F">
+<Call c="10" l="2278" n="officestore_dbxdata_item_insertRowByKey" t="F"/>
+</Fct>
+<Fct c="18" el="2261" l="2235" n="officestore_dbxdata_item_insertRowByKey(p_data RECORD)" t="F">
+<Call c="17" l="2241" n="libdbapp_begin_work" t="F"/>
+<Call c="41" i="officestore_dbxconstraints" l="2244" n="officestore_dbxconstraints_item_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="2255" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2257" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2225" l="2192" n="officestore_dbxdata_item_pk_item_selectRowByKey(p_key RECORD,p_lock BOOLEAN)" t="F"/>
+<Fct c="17" el="2181" l="2174" n="officestore_dbxdata_lineitem_setDefaultValuesFromDBSchema()" t="F"/>
+<Fct c="17" el="2168" l="2135" n="officestore_dbxdata_lineitem_pk_lineitem_checkRowByKeyWithConcurrentAccess(p_dataT0 RECORD,p_lock BOOLEAN)" t="F">
+<Call c="10" l="2153" n="officestore_dbxdata_lineitem_pk_lineitem_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="2124" l="2096" n="officestore_dbxdata_lineitem_pk_lineitem_deleteRowByKeyWithConcurrentAccess(p_dataT0 RECORD)" t="F">
+<Call c="17" l="2108" n="libdbapp_begin_work" t="F"/>
+<Call c="21" l="2111" n="officestore_dbxdata_lineitem_pk_lineitem_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="25" l="2114" n="officestore_dbxdata_lineitem_pk_lineitem_deleteRowByKey" t="F"/>
+<Call c="25" l="2118" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2120" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2086" l="2059" n="officestore_dbxdata_lineitem_pk_lineitem_deleteRowByKey(p_key RECORD)" t="F">
+<Call c="17" l="2068" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="2080" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2082" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="2049" l="2008" n="officestore_dbxdata_lineitem_pk_lineitem_updateRowByKey(p_dataT0 RECORD,p_dataT1 RECORD)" t="F">
+<Call c="17" l="2022" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="2026" n="officestore_dbxdata_lineitem_pk_lineitem_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="49" i="officestore_dbxconstraints" l="2029" n="officestore_dbxconstraints_lineitem_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="2043" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="2045" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1997" l="1988" n="officestore_dbxdata_lineitem_pk_lineitem_insertRowByKey(p_data RECORD)" t="F">
+<Call c="10" l="1995" n="officestore_dbxdata_lineitem_insertRowByKey" t="F"/>
+</Fct>
+<Fct c="18" el="1978" l="1942" n="officestore_dbxdata_lineitem_insertRowByKey(p_data RECORD)" t="F">
+<Call c="17" l="1948" n="libdbapp_begin_work" t="F"/>
+<Call c="41" i="officestore_dbxconstraints" l="1961" n="officestore_dbxconstraints_lineitem_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="1972" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1974" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1932" l="1896" n="officestore_dbxdata_lineitem_pk_lineitem_selectRowByKey(p_key RECORD,p_lock BOOLEAN)" t="F"/>
+<Fct c="17" el="1885" l="1878" n="officestore_dbxdata_orders_setDefaultValuesFromDBSchema()" t="F"/>
+<Fct c="17" el="1872" l="1793" n="officestore_dbxdata_orders_pk_orders_deleteReferencingRowsByKey(p_key RECORD)" t="F">
+<Call c="10" l="1822" n="officestore_dbxdata_orders_pk_orders_selectRowByKey" t="F"/>
+<Call c="37" l="1859" n="officestore_dbxdata_lineitem_pk_lineitem_deleteRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="1783" l="1752" n="officestore_dbxdata_orders_pk_orders_checkRowByKeyWithConcurrentAccess(p_dataT0 RECORD,p_lock BOOLEAN)" t="F">
+<Call c="10" l="1768" n="officestore_dbxdata_orders_pk_orders_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="1741" l="1715" n="officestore_dbxdata_orders_pk_orders_deleteRowByKeyWithConcurrentAccess(p_dataT0 RECORD)" t="F">
+<Call c="17" l="1725" n="libdbapp_begin_work" t="F"/>
+<Call c="21" l="1728" n="officestore_dbxdata_orders_pk_orders_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="25" l="1731" n="officestore_dbxdata_orders_pk_orders_deleteRowByKey" t="F"/>
+<Call c="25" l="1735" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1737" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1705" l="1677" n="officestore_dbxdata_orders_pk_orders_deleteRowByKey(p_key RECORD)" t="F">
+<Call c="17" l="1685" n="libdbapp_begin_work" t="F"/>
+<Call c="18" l="1689" n="officestore_dbxdata_orders_pk_orders_deleteReferencingRowsByKey" t="F"/>
+<Call c="25" l="1699" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1701" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1667" l="1629" n="officestore_dbxdata_orders_pk_orders_updateRowByKey(p_dataT0 RECORD,p_dataT1 RECORD)" t="F">
+<Call c="17" l="1641" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="1645" n="officestore_dbxdata_orders_pk_orders_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="49" i="officestore_dbxconstraints" l="1648" n="officestore_dbxconstraints_orders_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="1661" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1663" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1618" l="1609" n="officestore_dbxdata_orders_pk_orders_insertRowByKey(p_data RECORD)" t="F">
+<Call c="10" l="1616" n="officestore_dbxdata_orders_insertRowByKey" t="F"/>
+</Fct>
+<Fct c="18" el="1599" l="1569" n="officestore_dbxdata_orders_insertRowByKey(p_data RECORD)" t="F">
+<Call c="17" l="1575" n="libdbapp_begin_work" t="F"/>
+<Call c="14" l="1577" n="libdbapp_get_sequence" t="F"/>
+<Call c="45" i="officestore_dbxconstraints" l="1580" n="officestore_dbxconstraints_orders_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="26" l="1585" n="libdbapp_get_inserted_sequence" t="F"/>
+<Call c="25" l="1593" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1595" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1559" l="1526" n="officestore_dbxdata_orders_pk_orders_selectRowByKey(p_key RECORD,p_lock BOOLEAN)" t="F"/>
+<Fct c="17" el="1515" l="1508" n="officestore_dbxdata_orderstatus_setDefaultValuesFromDBSchema()" t="F"/>
+<Fct c="17" el="1502" l="1469" n="officestore_dbxdata_orderstatus_pk_orderstatus_checkRowByKeyWithConcurrentAccess(p_dataT0 RECORD,p_lock BOOLEAN)" t="F">
+<Call c="10" l="1487" n="officestore_dbxdata_orderstatus_pk_orderstatus_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="1458" l="1430" n="officestore_dbxdata_orderstatus_pk_orderstatus_deleteRowByKeyWithConcurrentAccess(p_dataT0 RECORD)" t="F">
+<Call c="17" l="1442" n="libdbapp_begin_work" t="F"/>
+<Call c="21" l="1445" n="officestore_dbxdata_orderstatus_pk_orderstatus_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="25" l="1448" n="officestore_dbxdata_orderstatus_pk_orderstatus_deleteRowByKey" t="F"/>
+<Call c="25" l="1452" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1454" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1420" l="1393" n="officestore_dbxdata_orderstatus_pk_orderstatus_deleteRowByKey(p_key RECORD)" t="F">
+<Call c="17" l="1402" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="1414" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1416" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1383" l="1342" n="officestore_dbxdata_orderstatus_pk_orderstatus_updateRowByKey(p_dataT0 RECORD,p_dataT1 RECORD)" t="F">
+<Call c="17" l="1356" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="1360" n="officestore_dbxdata_orderstatus_pk_orderstatus_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="49" i="officestore_dbxconstraints" l="1363" n="officestore_dbxconstraints_orderstatus_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="1377" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1379" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1331" l="1322" n="officestore_dbxdata_orderstatus_pk_orderstatus_insertRowByKey(p_data RECORD)" t="F">
+<Call c="10" l="1329" n="officestore_dbxdata_orderstatus_insertRowByKey" t="F"/>
+</Fct>
+<Fct c="18" el="1312" l="1286" n="officestore_dbxdata_orderstatus_insertRowByKey(p_data RECORD)" t="F">
+<Call c="17" l="1292" n="libdbapp_begin_work" t="F"/>
+<Call c="41" i="officestore_dbxconstraints" l="1295" n="officestore_dbxconstraints_orderstatus_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="1306" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1308" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1276" l="1240" n="officestore_dbxdata_orderstatus_pk_orderstatus_selectRowByKey(p_key RECORD,p_lock BOOLEAN)" t="F"/>
+<Fct c="17" el="1229" l="1222" n="officestore_dbxdata_product_setDefaultValuesFromDBSchema()" t="F"/>
+<Fct c="17" el="1216" l="1175" n="officestore_dbxdata_product_pk_product_deleteReferencingRowsByKey(p_key RECORD)" t="F">
+<Call c="10" l="1191" n="officestore_dbxdata_product_pk_product_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="1165" l="1134" n="officestore_dbxdata_product_pk_product_checkRowByKeyWithConcurrentAccess(p_dataT0 RECORD,p_lock BOOLEAN)" t="F">
+<Call c="10" l="1150" n="officestore_dbxdata_product_pk_product_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="1123" l="1097" n="officestore_dbxdata_product_pk_product_deleteRowByKeyWithConcurrentAccess(p_dataT0 RECORD)" t="F">
+<Call c="17" l="1107" n="libdbapp_begin_work" t="F"/>
+<Call c="21" l="1110" n="officestore_dbxdata_product_pk_product_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="25" l="1113" n="officestore_dbxdata_product_pk_product_deleteRowByKey" t="F"/>
+<Call c="25" l="1117" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1119" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1087" l="1059" n="officestore_dbxdata_product_pk_product_deleteRowByKey(p_key RECORD)" t="F">
+<Call c="17" l="1067" n="libdbapp_begin_work" t="F"/>
+<Call c="18" l="1071" n="officestore_dbxdata_product_pk_product_deleteReferencingRowsByKey" t="F"/>
+<Call c="25" l="1081" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1083" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1049" l="1011" n="officestore_dbxdata_product_pk_product_updateRowByKey(p_dataT0 RECORD,p_dataT1 RECORD)" t="F">
+<Call c="17" l="1023" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="1027" n="officestore_dbxdata_product_pk_product_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="49" i="officestore_dbxconstraints" l="1030" n="officestore_dbxconstraints_product_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="1043" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1045" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1000" l="991" n="officestore_dbxdata_product_pk_product_insertRowByKey(p_data RECORD)" t="F">
+<Call c="10" l="998" n="officestore_dbxdata_product_insertRowByKey" t="F"/>
+</Fct>
+<Fct c="18" el="981" l="955" n="officestore_dbxdata_product_insertRowByKey(p_data RECORD)" t="F">
+<Call c="17" l="961" n="libdbapp_begin_work" t="F"/>
+<Call c="41" i="officestore_dbxconstraints" l="964" n="officestore_dbxconstraints_product_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="975" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="977" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="945" l="912" n="officestore_dbxdata_product_pk_product_selectRowByKey(p_key RECORD,p_lock BOOLEAN)" t="F"/>
+<Fct c="17" el="901" l="894" n="officestore_dbxdata_seqreg_setDefaultValuesFromDBSchema()" t="F"/>
+<Fct c="17" el="888" l="857" n="officestore_dbxdata_seqreg_pk_seqreg_checkRowByKeyWithConcurrentAccess(p_dataT0 RECORD,p_lock BOOLEAN)" t="F">
+<Call c="10" l="873" n="officestore_dbxdata_seqreg_pk_seqreg_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="846" l="820" n="officestore_dbxdata_seqreg_pk_seqreg_deleteRowByKeyWithConcurrentAccess(p_dataT0 RECORD)" t="F">
+<Call c="17" l="830" n="libdbapp_begin_work" t="F"/>
+<Call c="21" l="833" n="officestore_dbxdata_seqreg_pk_seqreg_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="25" l="836" n="officestore_dbxdata_seqreg_pk_seqreg_deleteRowByKey" t="F"/>
+<Call c="25" l="840" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="842" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="810" l="785" n="officestore_dbxdata_seqreg_pk_seqreg_deleteRowByKey(p_key RECORD)" t="F">
+<Call c="17" l="793" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="804" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="806" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="775" l="737" n="officestore_dbxdata_seqreg_pk_seqreg_updateRowByKey(p_dataT0 RECORD,p_dataT1 RECORD)" t="F">
+<Call c="17" l="749" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="753" n="officestore_dbxdata_seqreg_pk_seqreg_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="49" i="officestore_dbxconstraints" l="756" n="officestore_dbxconstraints_seqreg_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="769" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="771" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="726" l="717" n="officestore_dbxdata_seqreg_pk_seqreg_insertRowByKey(p_data RECORD)" t="F">
+<Call c="10" l="724" n="officestore_dbxdata_seqreg_insertRowByKey" t="F"/>
+</Fct>
+<Fct c="18" el="707" l="681" n="officestore_dbxdata_seqreg_insertRowByKey(p_data RECORD)" t="F">
+<Call c="17" l="687" n="libdbapp_begin_work" t="F"/>
+<Call c="41" i="officestore_dbxconstraints" l="690" n="officestore_dbxconstraints_seqreg_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="701" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="703" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="671" l="638" n="officestore_dbxdata_seqreg_pk_seqreg_selectRowByKey(p_key RECORD,p_lock BOOLEAN)" t="F"/>
+<Fct c="17" el="627" l="620" n="officestore_dbxdata_signon_setDefaultValuesFromDBSchema()" t="F"/>
+<Fct c="17" el="614" l="583" n="officestore_dbxdata_signon_pk_signon_checkRowByKeyWithConcurrentAccess(p_dataT0 RECORD,p_lock BOOLEAN)" t="F">
+<Call c="10" l="599" n="officestore_dbxdata_signon_pk_signon_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="572" l="546" n="officestore_dbxdata_signon_pk_signon_deleteRowByKeyWithConcurrentAccess(p_dataT0 RECORD)" t="F">
+<Call c="17" l="556" n="libdbapp_begin_work" t="F"/>
+<Call c="21" l="559" n="officestore_dbxdata_signon_pk_signon_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="25" l="562" n="officestore_dbxdata_signon_pk_signon_deleteRowByKey" t="F"/>
+<Call c="25" l="566" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="568" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="536" l="511" n="officestore_dbxdata_signon_pk_signon_deleteRowByKey(p_key RECORD)" t="F">
+<Call c="17" l="519" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="530" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="532" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="501" l="463" n="officestore_dbxdata_signon_pk_signon_updateRowByKey(p_dataT0 RECORD,p_dataT1 RECORD)" t="F">
+<Call c="17" l="475" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="479" n="officestore_dbxdata_signon_pk_signon_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="49" i="officestore_dbxconstraints" l="482" n="officestore_dbxconstraints_signon_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="495" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="497" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="452" l="443" n="officestore_dbxdata_signon_pk_signon_insertRowByKey(p_data RECORD)" t="F">
+<Call c="10" l="450" n="officestore_dbxdata_signon_insertRowByKey" t="F"/>
+</Fct>
+<Fct c="18" el="433" l="407" n="officestore_dbxdata_signon_insertRowByKey(p_data RECORD)" t="F">
+<Call c="17" l="413" n="libdbapp_begin_work" t="F"/>
+<Call c="41" i="officestore_dbxconstraints" l="416" n="officestore_dbxconstraints_signon_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="427" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="429" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="397" l="364" n="officestore_dbxdata_signon_pk_signon_selectRowByKey(p_key RECORD,p_lock BOOLEAN)" t="F"/>
+<Fct c="17" el="353" l="346" n="officestore_dbxdata_supplier_setDefaultValuesFromDBSchema()" t="F"/>
+<Fct c="17" el="340" l="299" n="officestore_dbxdata_supplier_pk_supplier_deleteReferencingRowsByKey(p_key RECORD)" t="F">
+<Call c="10" l="315" n="officestore_dbxdata_supplier_pk_supplier_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="289" l="258" n="officestore_dbxdata_supplier_pk_supplier_checkRowByKeyWithConcurrentAccess(p_dataT0 RECORD,p_lock BOOLEAN)" t="F">
+<Call c="10" l="274" n="officestore_dbxdata_supplier_pk_supplier_selectRowByKey" t="F"/>
+</Fct>
+<Fct c="17" el="247" l="221" n="officestore_dbxdata_supplier_pk_supplier_deleteRowByKeyWithConcurrentAccess(p_dataT0 RECORD)" t="F">
+<Call c="17" l="231" n="libdbapp_begin_work" t="F"/>
+<Call c="21" l="234" n="officestore_dbxdata_supplier_pk_supplier_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="25" l="237" n="officestore_dbxdata_supplier_pk_supplier_deleteRowByKey" t="F"/>
+<Call c="25" l="241" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="243" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="211" l="183" n="officestore_dbxdata_supplier_pk_supplier_deleteRowByKey(p_key RECORD)" t="F">
+<Call c="17" l="191" n="libdbapp_begin_work" t="F"/>
+<Call c="18" l="195" n="officestore_dbxdata_supplier_pk_supplier_deleteReferencingRowsByKey" t="F"/>
+<Call c="25" l="205" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="207" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="173" l="135" n="officestore_dbxdata_supplier_pk_supplier_updateRowByKey(p_dataT0 RECORD,p_dataT1 RECORD)" t="F">
+<Call c="17" l="147" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="151" n="officestore_dbxdata_supplier_pk_supplier_checkRowByKeyWithConcurrentAccess" t="F"/>
+<Call c="49" i="officestore_dbxconstraints" l="154" n="officestore_dbxconstraints_supplier_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="25" l="167" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="169" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="124" l="115" n="officestore_dbxdata_supplier_pk_supplier_insertRowByKey(p_data RECORD)" t="F">
+<Call c="10" l="122" n="officestore_dbxdata_supplier_insertRowByKey" t="F"/>
+</Fct>
+<Fct c="18" el="105" l="75" n="officestore_dbxdata_supplier_insertRowByKey(p_data RECORD)" t="F">
+<Call c="17" l="81" n="libdbapp_begin_work" t="F"/>
+<Call c="14" l="83" n="libdbapp_get_sequence" t="F"/>
+<Call c="45" i="officestore_dbxconstraints" l="86" n="officestore_dbxconstraints_supplier_checkTableConstraints" p="../OfficeStoreRes/schema-4dbx/officestore_dbxconstraints.4gl" t="F"/>
+<Call c="26" l="91" n="libdbapp_get_inserted_sequence" t="F"/>
+<Call c="25" l="99" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="101" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="65" l="32" n="officestore_dbxdata_supplier_pk_supplier_selectRowByKey(p_key RECORD,p_lock BOOLEAN)" t="F"/>
+</File>
+<File m="WebServiceServerJSON1_server" n="bin/WebServiceServerJSON1_server.4gl" ts="20171115151707350">
+<Dep t="services/Customers_service.4gl"/>
+<Fct c="1" el="95" l="26" n="main()" t="F">
+<Call c="21" i="libdbappWS" l="56" n="initializeRestHttpResponse" t="F"/>
+<Call c="29" i="libdbappWS" l="64" n="createRestHttpServiceRequest" t="F"/>
+<Call c="44" i="Customers_service" l="67" n="Customers_service_process" p="services/Customers_service.4gl" t="F"/>
+<Call c="29" i="libdbappWS" l="74" n="sendTextResponseRestHttpServiceRequest" t="F"/>
+</Fct>
+</File>
+<File m="Customers_service" n="services/Customers_service.4gl" ts="20171115151707265">
+<Dep t="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl"/>
+<Dep t="services/Customers_uidata.4gl"/>
+<Fct c="17" el="1631" l="1606" n="Customers_service_LineItems_delete()" t="F">
+<Call c="17" l="1613" n="libdbapp_begin_work" t="F"/>
+<Call c="35" i="Customers_uidata" l="1618" n="Customers_uidata_LineItems_deleteRow" p="services/Customers_uidata.4gl" t="F"/>
+<Call c="25" l="1625" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1627" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1600" l="1575" n="Customers_service_Orders_delete()" t="F">
+<Call c="17" l="1582" n="libdbapp_begin_work" t="F"/>
+<Call c="35" i="Customers_uidata" l="1587" n="Customers_uidata_Orders_deleteRow" p="services/Customers_uidata.4gl" t="F"/>
+<Call c="25" l="1594" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1596" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1569" l="1544" n="Customers_service_Accounts_delete()" t="F">
+<Call c="17" l="1551" n="libdbapp_begin_work" t="F"/>
+<Call c="35" i="Customers_uidata" l="1556" n="Customers_uidata_Accounts_deleteRow" p="services/Customers_uidata.4gl" t="F"/>
+<Call c="25" l="1563" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1565" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1538" l="1502" n="Customers_service_LineItems_update()" t="F">
+<Call c="17" l="1509" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="1532" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1534" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1496" l="1460" n="Customers_service_Orders_update()" t="F">
+<Call c="17" l="1467" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="1490" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1492" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1454" l="1419" n="Customers_service_Accounts_update()" t="F">
+<Call c="17" l="1426" n="libdbapp_begin_work" t="F"/>
+<Call c="25" l="1448" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1450" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1413" l="1377" n="Customers_service_LineItems_read()" t="F"/>
+<Fct c="17" el="1371" l="1332" n="Customers_service_Orders_read()" t="F"/>
+<Fct c="17" el="1326" l="1289" n="Customers_service_Accounts_read()" t="F"/>
+<Fct c="17" el="1283" l="1068" n="Customers_service_readAll()" t="F">
+<Call c="47" l="1094" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1097" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1100" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1103" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1106" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1109" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1123" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1126" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1129" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1132" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1135" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1138" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1141" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1144" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1158" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1161" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1164" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1167" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1170" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1173" n="libdbapp_fgl_construct" t="F"/>
+<Call c="47" l="1176" n="libdbapp_fgl_construct" t="F"/>
+</Fct>
+<Fct c="17" el="1062" l="1023" n="Customers_service_LineItems_create()" t="F">
+<Call c="17" l="1033" n="libdbapp_begin_work" t="F"/>
+<Call c="38" i="officestore_dbxdata" l="1038" n="officestore_dbxdata_lineitem_setDefaultValuesFromDBSchema" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+<Call c="35" i="Customers_uidata" l="1048" n="Customers_uidata_LineItems_insertRow" p="services/Customers_uidata.4gl" t="F"/>
+<Call c="25" l="1055" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1058" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="1017" l="976" n="Customers_service_Orders_create()" t="F">
+<Call c="17" l="986" n="libdbapp_begin_work" t="F"/>
+<Call c="38" i="officestore_dbxdata" l="991" n="officestore_dbxdata_orders_setDefaultValuesFromDBSchema" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+<Call c="35" i="Customers_uidata" l="1003" n="Customers_uidata_Orders_insertRow" p="services/Customers_uidata.4gl" t="F"/>
+<Call c="25" l="1010" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="1013" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="970" l="930" n="Customers_service_Accounts_create()" t="F">
+<Call c="17" l="940" n="libdbapp_begin_work" t="F"/>
+<Call c="38" i="officestore_dbxdata" l="945" n="officestore_dbxdata_account_setDefaultValuesFromDBSchema" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+<Call c="35" i="Customers_uidata" l="956" n="Customers_uidata_Accounts_insertRow" p="services/Customers_uidata.4gl" t="F"/>
+<Call c="25" l="963" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="966" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="17" el="924" l="829" n="Customers_service_createAll()" t="F">
+<Call c="17" l="846" n="libdbapp_begin_work" t="F"/>
+<Call c="38" i="officestore_dbxdata" l="851" n="officestore_dbxdata_account_setDefaultValuesFromDBSchema" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+<Call c="35" i="Customers_uidata" l="862" n="Customers_uidata_Accounts_insertRow" p="services/Customers_uidata.4gl" t="F"/>
+<Call c="42" i="officestore_dbxdata" l="870" n="officestore_dbxdata_orders_setDefaultValuesFromDBSchema" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+<Call c="39" i="Customers_uidata" l="882" n="Customers_uidata_Orders_insertRow" p="services/Customers_uidata.4gl" t="F"/>
+<Call c="46" i="officestore_dbxdata" l="890" n="officestore_dbxdata_lineitem_setDefaultValuesFromDBSchema" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+<Call c="43" i="Customers_uidata" l="900" n="Customers_uidata_LineItems_insertRow" p="services/Customers_uidata.4gl" t="F"/>
+<Call c="25" l="917" n="libdbapp_commit_work" t="F"/>
+<Call c="18" l="920" n="libdbapp_rollback_work" t="F"/>
+</Fct>
+<Fct c="18" el="823" l="684" n="Customers_service_LineItems_process(dbappHttpRequest unknown)" t="F">
+<Call c="21" i="libdbappWS" l="692" n="initializeRestHttpResponse" t="F"/>
+<Call c="21" i="libdbappWS" l="696" n="getRestHttpCRUDOperation" t="F"/>
+<Call c="18" l="707" n="Customers_service_LineItems_create" t="F"/>
+<Call c="37" i="libdbappWSCore" l="721" n="decodeParams" t="F"/>
+<Call c="18" l="728" n="Customers_service_LineItems_read" t="F"/>
+<Call c="37" i="libdbappWSCore" l="742" n="decodeParams" t="F"/>
+<Call c="18" l="762" n="Customers_service_LineItems_update" t="F"/>
+<Call c="18" l="778" n="Customers_service_LineItems_update" t="F"/>
+<Call c="37" i="libdbappWSCore" l="788" n="decodeParams" t="F"/>
+<Call c="18" l="795" n="Customers_service_LineItems_delete" t="F"/>
+<Call c="18" l="811" n="Customers_service_LineItems_delete" t="F"/>
+</Fct>
+<Fct c="18" el="671" l="533" n="Customers_service_Orders_process(dbappHttpRequest unknown)" t="F">
+<Call c="21" i="libdbappWS" l="541" n="initializeRestHttpResponse" t="F"/>
+<Call c="21" i="libdbappWS" l="545" n="getRestHttpCRUDOperation" t="F"/>
+<Call c="18" l="556" n="Customers_service_Orders_create" t="F"/>
+<Call c="37" i="libdbappWSCore" l="570" n="decodeParams" t="F"/>
+<Call c="18" l="576" n="Customers_service_Orders_read" t="F"/>
+<Call c="37" i="libdbappWSCore" l="590" n="decodeParams" t="F"/>
+<Call c="18" l="611" n="Customers_service_Orders_update" t="F"/>
+<Call c="18" l="627" n="Customers_service_Orders_update" t="F"/>
+<Call c="37" i="libdbappWSCore" l="637" n="decodeParams" t="F"/>
+<Call c="18" l="643" n="Customers_service_Orders_delete" t="F"/>
+<Call c="18" l="659" n="Customers_service_Orders_delete" t="F"/>
+</Fct>
+<Fct c="18" el="520" l="383" n="Customers_service_Accounts_process(dbappHttpRequest unknown)" t="F">
+<Call c="21" i="libdbappWS" l="391" n="initializeRestHttpResponse" t="F"/>
+<Call c="21" i="libdbappWS" l="395" n="getRestHttpCRUDOperation" t="F"/>
+<Call c="18" l="406" n="Customers_service_Accounts_create" t="F"/>
+<Call c="37" i="libdbappWSCore" l="420" n="decodeParams" t="F"/>
+<Call c="18" l="426" n="Customers_service_Accounts_read" t="F"/>
+<Call c="37" i="libdbappWSCore" l="440" n="decodeParams" t="F"/>
+<Call c="18" l="460" n="Customers_service_Accounts_update" t="F"/>
+<Call c="18" l="476" n="Customers_service_Accounts_update" t="F"/>
+<Call c="37" i="libdbappWSCore" l="486" n="decodeParams" t="F"/>
+<Call c="18" l="492" n="Customers_service_Accounts_delete" t="F"/>
+<Call c="18" l="508" n="Customers_service_Accounts_delete" t="F"/>
+</Fct>
+<Fct c="18" el="370" l="319" n="Customers_service_processAll(dbappHttpRequest unknown)" t="F">
+<Call c="21" i="libdbappWS" l="324" n="initializeRestHttpResponse" t="F"/>
+<Call c="21" i="libdbappWS" l="327" n="getRestHttpCRUDOperation" t="F"/>
+<Call c="18" l="338" n="Customers_service_createAll" t="F"/>
+<Call c="18" l="357" n="Customers_service_readAll" t="F"/>
+</Fct>
+<Fct c="17" el="306" l="272" n="Customers_service_process(dbappHttpRequest unknown)" t="F">
+<Call c="21" i="libdbappWS" l="279" n="initializeRestHttpResponse" t="F"/>
+<Call c="18" l="294" n="Customers_service_processAll" t="F"/>
+<Call c="18" l="296" n="Customers_service_Accounts_process" t="F"/>
+<Call c="18" l="298" n="Customers_service_Orders_process" t="F"/>
+<Call c="18" l="300" n="Customers_service_LineItems_process" t="F"/>
+</Fct>
+</File>
+<File m="Customers_serviceclient" n="services/Customers_serviceclient.4gl" ts="20171115151707311">
+<Fct c="10" el="1241" l="1202" n="Customers_client_LineItems_deleteRow(key RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="1222" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="1189" l="1155" n="Customers_client_LineItems_delete(keys DYNAMIC ARRAY OF RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="1169" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="1142" l="1105" n="Customers_client_Orders_deleteRow(key RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="1123" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="1092" l="1058" n="Customers_client_Orders_delete(keys DYNAMIC ARRAY OF RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="1072" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="1045" l="1008" n="Customers_client_Accounts_deleteRow(key RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="1026" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="995" l="961" n="Customers_client_Accounts_delete(keys DYNAMIC ARRAY OF RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="975" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="948" l="908" n="Customers_client_LineItems_updateRow(key RECORD,data RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="929" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="894" l="860" n="Customers_client_LineItems_update(keysAndData DYNAMIC ARRAY OF RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="874" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="847" l="809" n="Customers_client_Orders_updateRow(key RECORD,data RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="828" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="795" l="761" n="Customers_client_Orders_update(keysAndData DYNAMIC ARRAY OF RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="775" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="748" l="710" n="Customers_client_Accounts_updateRow(key RECORD,data RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="729" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="696" l="662" n="Customers_client_Accounts_update(keysAndData DYNAMIC ARRAY OF RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="676" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="649" l="610" n="Customers_client_LineItems_readRow(key RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="630" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="596" l="559" n="Customers_client_Orders_readRow(key RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="577" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="545" l="508" n="Customers_client_Accounts_readRow(key RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="526" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="494" l="461" n="Customers_client_LineItems_create(rows DYNAMIC ARRAY OF RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="475" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="447" l="414" n="Customers_client_Orders_create(rows DYNAMIC ARRAY OF RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="428" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="400" l="367" n="Customers_client_Accounts_create(rows DYNAMIC ARRAY OF RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="381" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="353" l="319" n="Customers_client_readAll(qbe RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="333" n="createURL" t="F"/>
+</Fct>
+<Fct c="10" el="304" l="271" n="Customers_client_createAll(documents DYNAMIC ARRAY OF RECORD)" t="F">
+<Call c="42" i="libdbappWSClient" l="285" n="createURL" t="F"/>
+</Fct>
+</File>
+<File m="Customers_uidata" n="services/Customers_uidata.4gl" ts="20171115151707213">
+<Dep t="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl"/>
+<Fct c="17" el="408" l="389" n="Customers_uidata_LineItems_deleteRow(p_rec_br_uk RECORD)" t="F">
+<Call c="30" i="officestore_dbxdata" l="396" n="officestore_dbxdata_lineitem_pk_lineitem_deleteRowByKey" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+</Fct>
+<Fct c="17" el="380" l="361" n="Customers_uidata_Orders_deleteRow(p_rec_br_uk RECORD)" t="F">
+<Call c="30" i="officestore_dbxdata" l="368" n="officestore_dbxdata_orders_pk_orders_deleteRowByKey" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+</Fct>
+<Fct c="17" el="352" l="333" n="Customers_uidata_Accounts_deleteRow(p_rec_br_uk RECORD)" t="F">
+<Call c="30" i="officestore_dbxdata" l="340" n="officestore_dbxdata_account_pk_account_deleteRowByKey" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+</Fct>
+<Fct c="17" el="323" l="287" n="Customers_uidata_LineItems_updateRow(p_rec_br RECORD,p_dataT0 RECORD)" t="F">
+<Call c="30" i="officestore_dbxdata" l="309" n="officestore_dbxdata_lineitem_pk_lineitem_updateRowByKey" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+</Fct>
+<Fct c="17" el="277" l="241" n="Customers_uidata_Orders_updateRow(p_rec_br RECORD,p_dataT0 RECORD)" t="F">
+<Call c="30" i="officestore_dbxdata" l="263" n="officestore_dbxdata_orders_pk_orders_updateRowByKey" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+</Fct>
+<Fct c="17" el="231" l="196" n="Customers_uidata_Accounts_updateRow(p_rec_br RECORD,p_dataT0 RECORD)" t="F">
+<Call c="30" i="officestore_dbxdata" l="217" n="officestore_dbxdata_account_pk_account_updateRowByKey" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+</Fct>
+<Fct c="17" el="185" l="161" n="Customers_uidata_LineItems_insertRow(p_rec_br RECORD)" t="F">
+<Call c="30" i="officestore_dbxdata" l="170" n="officestore_dbxdata_lineitem_setDefaultValuesFromDBSchema" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+<Call c="30" i="officestore_dbxdata" l="180" n="officestore_dbxdata_lineitem_pk_lineitem_insertRowByKey" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+</Fct>
+<Fct c="17" el="152" l="127" n="Customers_uidata_Orders_insertRow(p_rec_br RECORD)" t="F">
+<Call c="30" i="officestore_dbxdata" l="136" n="officestore_dbxdata_orders_setDefaultValuesFromDBSchema" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+<Call c="30" i="officestore_dbxdata" l="147" n="officestore_dbxdata_orders_pk_orders_insertRowByKey" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+</Fct>
+<Fct c="17" el="118" l="94" n="Customers_uidata_Accounts_insertRow(p_rec_br RECORD)" t="F">
+<Call c="30" i="officestore_dbxdata" l="103" n="officestore_dbxdata_account_setDefaultValuesFromDBSchema" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+<Call c="30" i="officestore_dbxdata" l="113" n="officestore_dbxdata_account_pk_account_insertRowByKey" p="../OfficeStoreRes/schema-4dbx/officestore_dbxdata.4gl" t="F"/>
+</Fct>
+</File>
+</WorkspaceDatabase>

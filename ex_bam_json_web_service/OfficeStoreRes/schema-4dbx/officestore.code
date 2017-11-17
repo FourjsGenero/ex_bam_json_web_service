@@ -1,0 +1,28 @@
+{<CODEFILE version="1.0" encoding="CP1252">}
+{<SOURCEFILE name="officestore_dbxconstraints.4gl" hash="1B2M2Y8AsgTpgAmY7PhCfg==">}
+{<USERCODE>}
+
+{</USERCODE>}
+{<LOSTCODE>}
+
+{</LOSTCODE>}
+{</SOURCEFILE>}
+{<SOURCEFILE name="officestore_dbxdata.4gl" hash="I8m3aGrSGKizhnuFc+N0sQ==">}
+{<USERCODE>}
+{<POINT Name="fct.lineitem_insertRowByKey.init" Status="MODIFIED">}
+        --Automatically calculates the number of the line
+        -- SQLite does not support the FOR UPDATE close in SELECT syntax
+        IF p_data.linenum IS NULL THEN
+            IF (UPSHIFT(fgl_db_driver_type()) != "SQT") THEN
+                SELECT MAX(linenum) + 1 INTO p_data.linenum FROM lineitem WHERE orderid = p_data.orderid FOR UPDATE
+            ELSE
+                SELECT MAX(linenum) + 1 INTO p_data.linenum FROM lineitem WHERE orderid = p_data.orderid
+            END IF
+        END IF
+        {</POINT>}
+{</USERCODE>}
+{<LOSTCODE>}
+
+{</LOSTCODE>}
+{</SOURCEFILE>}
+{</CODEFILE>}

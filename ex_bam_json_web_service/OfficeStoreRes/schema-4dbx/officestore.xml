@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<AG version="7" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.4js.com/ns/gst/3.10/agmodel.xsd">
+  <Database name="officestore" schemaFile="C:\Users\Scott Barney\Documents\My Genero Files\sample_jsonbamwebservice\OfficeStoreRes\schema-4dbx\officestore.4dbx">
+    <Table name="supplier">
+      <DBColumn datatype="SERIAL" defaultValue="" fglDatatype="SERIAL" fglLength="4" length="11" name="suppid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Supplier Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="name" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Name"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(2)" defaultValue="" fglDatatype="CHAR(2)" fglLength="2" length="2" name="sustatus" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Status"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="addr1" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Address"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="addr2" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Address"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="city" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="City"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="state" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="State"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(5)" defaultValue="" fglDatatype="CHAR(5)" fglLength="5" length="5" name="zip" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Zip Code"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="phone" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Phone"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBConstraint constraint="primaryKey" name="pk_supplier">
+        <Column name="suppid"/>
+      </DBConstraint>
+      <DBIndex name="pk_supplier" primary="1" unique="0">
+        <Column name="suppid"/>
+      </DBIndex>
+    </Table>
+    <Table name="signon">
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="userid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="User Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(25)" defaultValue="" fglDatatype="CHAR(25)" fglLength="25" length="25" name="password" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Password"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBConstraint constraint="primaryKey" name="pk_signon">
+        <Column name="userid"/>
+      </DBConstraint>
+      <DBIndex name="pk_signon" primary="1" unique="0">
+        <Column name="userid"/>
+      </DBIndex>
+      <ForeignKey cascadeDelete="true" name="fk_signon_account" ref_table="account" table="signon">
+        <Column name="userid" ref_name="userid"/>
+      </ForeignKey>
+    </Table>
+    <Table name="seqreg">
+      <DBColumn datatype="VARCHAR(30)" defaultValue="" fglDatatype="VARCHAR2(30)" fglLength="30" length="30" name="sr_name" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Table Name"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="INTEGER" defaultValue="" fglDatatype="INTEGER" fglLength="4" length="11" name="sr_last" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Last Serial"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBConstraint constraint="primaryKey" name="pk_seqreg">
+        <Column name="sr_name"/>
+      </DBConstraint>
+      <DBIndex name="pk_seqreg" primary="1" unique="0">
+        <Column name="sr_name"/>
+      </DBIndex>
+    </Table>
+    <Table name="product">
+      <DBColumn datatype="CHAR(10)" defaultValue="" fglDatatype="CHAR(10)" fglLength="10" length="10" name="productid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Product Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(10)" defaultValue="" fglDatatype="CHAR(10)" fglLength="10" length="10" name="catid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Category Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="prodname" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Product Name"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(255)" defaultValue="" fglDatatype="CHAR(255)" fglLength="255" length="255" name="proddesc" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Product Description"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(255)" defaultValue="" fglDatatype="CHAR(255)" fglLength="255" length="255" name="prodpic" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Product Picture"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBConstraint constraint="primaryKey" name="pk_product">
+        <Column name="productid"/>
+      </DBConstraint>
+      <DBIndex name="pk_product" primary="1" unique="0">
+        <Column name="productid"/>
+      </DBIndex>
+      <ForeignKey name="fk_product_category" ref_table="category" table="product">
+        <Column name="catid" ref_name="catid"/>
+      </ForeignKey>
+    </Table>
+    <Table name="orderstatus">
+      <DBColumn datatype="INTEGER" defaultValue="" fglDatatype="INTEGER" fglLength="4" length="11" name="orderid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Order Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="INTEGER" defaultValue="" fglDatatype="INTEGER" fglLength="4" length="11" name="linenum" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="#Line"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="DATE" defaultValue="" fglDatatype="DATE" fglLength="4" length="10" name="mdate" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="DateEdit"/>
+          <DynamicProperty name="label" value="Modification date"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(2)" defaultValue="" fglDatatype="CHAR(2)" fglLength="2" length="2" name="orstatus" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Status"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBConstraint constraint="primaryKey" name="pk_orderstatus">
+        <Column name="orderid"/>
+        <Column name="linenum"/>
+      </DBConstraint>
+      <DBIndex name="pk_orderstatus" primary="1" unique="0">
+        <Column name="orderid"/>
+        <Column name="linenum"/>
+      </DBIndex>
+      <ForeignKey name="fk_orderstatus_orders" ref_table="orders" table="orderstatus">
+        <Column name="orderid" ref_name="orderid"/>
+      </ForeignKey>
+    </Table>
+    <Table name="orders">
+      <DBColumn datatype="SERIAL" defaultValue="" fglDatatype="SERIAL" fglLength="4" length="11" name="orderid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Order No"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="userid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="User Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="DATE" defaultValue="" fglDatatype="DATE" fglLength="4" length="10" name="orderdate" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="DateEdit"/>
+          <DynamicProperty name="label" value="Order Date"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="shipfirstname" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="First Name"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="shiplastname" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Last Name"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="shipaddr1" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Address"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="shipaddr2" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Address"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="shipcity" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="City"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="shipstate" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="State"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(20)" defaultValue="" fglDatatype="CHAR(20)" fglLength="20" length="20" name="shipzip" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Zip Code"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(3)" defaultValue="" fglDatatype="CHAR(3)" fglLength="3" length="3" name="shipcountry" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Country"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="billfirstname" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="First Name"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="billlastname" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Last Name"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="billaddr1" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Address"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="billaddr2" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Address"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="billcity" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="City"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="billstate" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="State"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(20)" defaultValue="" fglDatatype="CHAR(20)" fglLength="20" length="20" name="billzip" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Zip Code"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(3)" defaultValue="" fglDatatype="CHAR(3)" fglLength="3" length="3" name="billcountry" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Country"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="DECIMAL(10,2)" defaultValue="" fglDatatype="DECIMAL(10,2)" fglLength="2562" length="12" name="totalprice" notNull="1" precision="10" scale="2">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Total Price"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="creditcard" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Credit Card Number"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(7)" defaultValue="" fglDatatype="CHAR(7)" fglLength="7" length="7" name="exprdate" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Expiry Date"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="cardtype" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Card Type"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(3)" defaultValue="" fglDatatype="CHAR(3)" fglLength="3" length="3" name="sourceapp" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Origin Application"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBConstraint constraint="primaryKey" name="pk_orders">
+        <Column name="orderid"/>
+      </DBConstraint>
+      <DBIndex name="pk_orders" primary="1" unique="0">
+        <Column name="orderid"/>
+      </DBIndex>
+      <ForeignKey name="fk_orders_account" ref_table="account" table="orders">
+        <Column name="userid" ref_name="userid"/>
+      </ForeignKey>
+      <ForeignKey name="fk_orders_country_b" ref_table="country" table="orders">
+        <Column name="billcountry" ref_name="code"/>
+      </ForeignKey>
+      <ForeignKey name="fk_orders_country_s" ref_table="country" table="orders">
+        <Column name="shipcountry" ref_name="code"/>
+      </ForeignKey>
+    </Table>
+    <Table name="lineitem">
+      <DBColumn datatype="INTEGER" defaultValue="" fglDatatype="INTEGER" fglLength="4" length="11" name="orderid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Order Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="INTEGER" defaultValue="" fglDatatype="INTEGER" fglLength="4" length="11" name="linenum" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="#Line"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(10)" defaultValue="" fglDatatype="CHAR(10)" fglLength="10" length="10" name="itemid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Item Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="INTEGER" defaultValue="" fglDatatype="INTEGER" fglLength="4" length="11" name="quantity" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Quantity"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="DECIMAL(10,2)" defaultValue="" fglDatatype="DECIMAL(10,2)" fglLength="2562" length="12" name="unitprice" notNull="1" precision="10" scale="2">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Unit Price"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBConstraint constraint="primaryKey" name="pk_lineitem">
+        <Column name="orderid"/>
+        <Column name="linenum"/>
+      </DBConstraint>
+      <DBIndex name="pk_lineitem" primary="1" unique="0">
+        <Column name="orderid"/>
+        <Column name="linenum"/>
+      </DBIndex>
+      <ForeignKey name="fk_lineitem_item" ref_table="item" table="lineitem">
+        <Column name="itemid" ref_name="itemid"/>
+      </ForeignKey>
+      <ForeignKey cascadeDelete="true" name="fk_lineitem_orders" ref_table="orders" table="lineitem">
+        <Column name="orderid" ref_name="orderid"/>
+      </ForeignKey>
+    </Table>
+    <Table name="item">
+      <DBColumn datatype="CHAR(10)" defaultValue="" fglDatatype="CHAR(10)" fglLength="10" length="10" name="itemid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Item Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(10)" defaultValue="" fglDatatype="CHAR(10)" fglLength="10" length="10" name="productid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Product Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="DECIMAL(10,2)" defaultValue="" fglDatatype="DECIMAL(10,2)" fglLength="2562" length="12" name="listprice" notNull="0" precision="10" scale="2">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="List Price"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="DECIMAL(10,2)" defaultValue="" fglDatatype="DECIMAL(10,2)" fglLength="2562" length="12" name="unitcost" notNull="0" precision="10" scale="2">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Unit Cost"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="INTEGER" defaultValue="" fglDatatype="INTEGER" fglLength="4" length="11" name="supplier" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Supplier"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(2)" defaultValue="" fglDatatype="CHAR(2)" fglLength="2" length="2" name="itstatus" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Status"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="attr1" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Attributes"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="attr2" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Attributes"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="attr3" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Attributes"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="attr4" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Attributes"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="attr5" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Attributes"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBConstraint constraint="primaryKey" name="pk_item">
+        <Column name="itemid"/>
+      </DBConstraint>
+      <DBIndex name="pk_item" primary="1" unique="0">
+        <Column name="itemid"/>
+      </DBIndex>
+      <ForeignKey name="fk_item_product" ref_table="product" table="item">
+        <Column name="productid" ref_name="productid"/>
+      </ForeignKey>
+      <ForeignKey name="fk_item_supplier" ref_table="supplier" table="item">
+        <Column name="supplier" ref_name="suppid"/>
+      </ForeignKey>
+    </Table>
+    <Table name="inventory">
+      <DBColumn datatype="CHAR(10)" defaultValue="" fglDatatype="CHAR(10)" fglLength="10" length="10" name="itemid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Item Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="INTEGER" defaultValue="" fglDatatype="INTEGER" fglLength="4" length="11" name="qty" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Stock quantity"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBConstraint constraint="primaryKey" name="pk_inventory">
+        <Column name="itemid"/>
+      </DBConstraint>
+      <DBIndex name="pk_inventory" primary="1" unique="0">
+        <Column name="itemid"/>
+      </DBIndex>
+      <ForeignKey name="fk_inventory_item" ref_table="item" table="inventory">
+        <Column name="itemid" ref_name="itemid"/>
+      </ForeignKey>
+    </Table>
+    <Table name="country">
+      <DBColumn datatype="CHAR(3)" defaultValue="" fglDatatype="CHAR(3)" fglLength="3" length="3" name="code" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Country code"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(50)" defaultValue="" fglDatatype="CHAR(50)" fglLength="50" length="50" name="codedesc" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Country"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBConstraint constraint="primaryKey" name="pk_country">
+        <Column name="code"/>
+      </DBConstraint>
+      <DBIndex name="pk_country" primary="1" unique="0">
+        <Column name="code"/>
+      </DBIndex>
+    </Table>
+    <Table name="category">
+      <DBColumn datatype="CHAR(10)" defaultValue="" fglDatatype="CHAR(10)" fglLength="10" length="10" name="catid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Category Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="SMALLINT" defaultValue="" fglDatatype="SMALLINT" fglLength="2" length="6" name="catorder" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Category order"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="catname" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Category Name"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(255)" defaultValue="" fglDatatype="CHAR(255)" fglLength="255" length="255" name="catdesc" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Category Description"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(255)" defaultValue="" fglDatatype="CHAR(255)" fglLength="255" length="255" name="catpic" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Category Picture"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBConstraint constraint="primaryKey" name="pk_category">
+        <Column name="catid"/>
+      </DBConstraint>
+      <DBIndex name="pk_category" primary="1" unique="0">
+        <Column name="catid"/>
+      </DBIndex>
+    </Table>
+    <Table name="account">
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="userid" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="User Id"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="email" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="E-mail"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="firstname" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="First Name"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="lastname" notNull="1">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Last Name"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(2)" defaultValue="" fglDatatype="CHAR(2)" fglLength="2" length="2" name="acstatus" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Status"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="addr1" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Address"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(40)" defaultValue="" fglDatatype="CHAR(40)" fglLength="40" length="40" name="addr2" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Address"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="city" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="City"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="state" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="State"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(20)" defaultValue="" fglDatatype="CHAR(20)" fglLength="20" length="20" name="zip" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Zip code"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(3)" defaultValue="" fglDatatype="CHAR(3)" fglLength="3" length="3" name="country" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Country"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="phone" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Phone"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(80)" defaultValue="" fglDatatype="CHAR(80)" fglLength="80" length="80" name="langpref" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Preferred language"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(10)" defaultValue="" fglDatatype="CHAR(10)" fglLength="10" length="10" name="favcategory" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Favorite category"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="INTEGER" defaultValue="" fglDatatype="INTEGER" fglLength="4" length="11" name="mylistopt" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Account list option"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="INTEGER" defaultValue="" fglDatatype="INTEGER" fglLength="4" length="11" name="banneropt" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Banner option"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBColumn datatype="CHAR(3)" defaultValue="" fglDatatype="CHAR(3)" fglLength="3" length="3" name="sourceapp" notNull="0">
+        <DynamicProperties>
+          <DynamicProperty name="widget" value="Edit"/>
+          <DynamicProperty name="label" value="Origin Application"/>
+        </DynamicProperties>
+      </DBColumn>
+      <DBConstraint constraint="primaryKey" name="pk_account">
+        <Column name="userid"/>
+      </DBConstraint>
+      <DBIndex name="pk_account" primary="1" unique="0">
+        <Column name="userid"/>
+      </DBIndex>
+      <ForeignKey name="fk_account_category" ref_table="category" table="account">
+        <Column name="favcategory" ref_name="catid"/>
+      </ForeignKey>
+      <ForeignKey name="fk_account_country" ref_table="country" table="account">
+        <Column name="country" ref_name="code"/>
+      </ForeignKey>
+    </Table>
+  </Database>
+</AG>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Root databaseName="officestore" fileVersion="23200" gstVersion="30a07" name="Root" uid="{eadcfc6a-b624-4bcd-bebb-8c2b726ca14b}">
+  <AGSettings>
+    <DynamicProperties version="2">
+      <DynamicProperty description="Allow adding items" initialValue="true" isDefaultInherited="false" isHidden="false" label="canAdd" name="canAdd" readOnly="false" type="BOOLEAN"/>
+      <DynamicProperty description="Allow deleting items" initialValue="true" isDefaultInherited="false" isHidden="false" label="canDelete" name="canDelete" readOnly="false" type="BOOLEAN"/>
+      <DynamicProperty description="Allow displaying items" initialValue="true" isDefaultInherited="false" isHidden="false" label="canDisplay" name="canDisplay" readOnly="false" type="BOOLEAN"/>
+      <DynamicProperty description="Allow modifying existing items" initialValue="true" isDefaultInherited="false" isHidden="false" label="canModify" name="canModify" readOnly="false" type="BOOLEAN"/>
+      <DynamicProperty description="Allow search using Query By Example" initialValue="true" isDefaultInherited="false" isHidden="false" label="canSearch" name="canSearch" readOnly="false" type="BOOLEAN"/>
+      <DynamicProperty dynamicContent="srcFieldsContent" editorInfo="isDynamic:true" initialValue="" isDefaultInherited="false" isHidden="false" label="foreignFields" name="foreignFields" readOnly="false" type="FIELDS"/>
+      <DynamicProperty dynamicContent="dstFieldsContent" editorInfo="isDynamic:true" initialValue="" isDefaultInherited="false" isHidden="false" label="primaryFields" name="primaryFields" readOnly="false" type="FIELDS"/>
+      <DynamicProperty description="Publish this field for the web service" initialValue="true" isDefaultInherited="false" isHidden="false" label="public" name="public" readOnly="false" type="BOOLEAN"/>
+      <DynamicPropertyGroup collapsed="false" description="Functionality properties group" label="Functionality" name="functionality" properties="canDisplay;canAdd;canModify;canDelete;canSearch"/>
+      <DynamicPropertyGroup collapsed="false" description="Relation properties group" label="Relation" name="relations" properties="foreignFields;primaryFields"/>
+      <DynamicPropertyGroup collapsed="false" description="Web service properties group" label="Web Service" name="webService" properties="public"/>
+    </DynamicProperties>
+    <NodeInfos version="1">
+      <NodeInfo mimeType="BR/Record" properties="canDisplay;canAdd;canModify;canDelete;canSearch"/>
+      <NodeInfo mimeType="BR/RecordField" properties="public"/>
+      <NodeInfo mimeType="BR/Relation" properties="primaryFields;foreignFields"/>
+    </NodeInfos>
+  </AGSettings>
+  <Record active="true" joinLeft="account.country,account.favcategory" joinOperator="INNER,INNER" joinRight="country.code,category.catid" masterTable="account" name="Accounts" uid="{515f814b-64fe-4f3b-b723-22e4ae82ad0b}">
+    <RecordField colName="userid" fieldIdRef="" fieldType="TABLE_COLUMN" name="account.userid" sqlTabName="account" uid="{c4e5f891-19c7-41f3-9bf9-7910ef2ea17e}"/>
+    <RecordField colName="firstname" fieldIdRef="" fieldType="TABLE_COLUMN" name="account.firstname" sqlTabName="account" uid="{67d00ec3-a415-4efc-a419-a887c4b84d02}"/>
+    <RecordField colName="lastname" fieldIdRef="" fieldType="TABLE_COLUMN" name="account.lastname" sqlTabName="account" uid="{643ec187-2661-48da-b81c-a4cc7ceedec5}"/>
+    <RecordField colName="codedesc" fieldIdRef="" fieldType="TABLE_COLUMN" name="country.codedesc" sqlTabName="country" uid="{8858a8f4-fc58-44c8-bd15-a1f347054b3c}"/>
+    <RecordField colName="phone" fieldIdRef="" fieldType="TABLE_COLUMN" name="account.phone" sqlTabName="account" uid="{64bac3cd-1c3f-4e76-a6c1-dcbea2ce2c63}"/>
+    <RecordField colName="email" fieldIdRef="" fieldType="TABLE_COLUMN" name="account.email" sqlTabName="account" uid="{0494a480-147f-424a-9d39-cbc130c6d60f}"/>
+    <RecordField colName="catpic" fieldIdRef="" fieldType="TABLE_COLUMN" name="category.catpic" sqlTabName="category" uid="{26895c09-a70c-4429-baad-f7dd075bc9a5}"/>
+  </Record>
+  <Record active="true" joinLeft="orders.billcountry,orders.shipcountry" joinOperator="INNER,INNER" joinRight="bill_country.code,ship_country.code" masterTable="orders" name="Orders" uid="{8992d491-02db-48d2-8888-2abbe8c1f885}">
+    <RecordField colName="orderid" fieldIdRef="" fieldType="TABLE_COLUMN" name="orders.orderid" sqlTabName="orders" uid="{0bb9cb2c-fe88-4c1f-97a6-394f02272622}"/>
+    <RecordField colName="userid" fieldIdRef="" fieldType="TABLE_COLUMN" name="orders.userid" sqlTabName="orders" uid="{e13f8197-3776-46c4-b9f6-c4fe270bf849}"/>
+    <RecordField colName="orderdate" fieldIdRef="" fieldType="TABLE_COLUMN" name="orders.orderdate" sqlTabName="orders" uid="{e21ceeaf-03b4-4043-a83d-2eea156a505e}"/>
+    <RecordField colName="shipcountry" fieldIdRef="" fieldType="TABLE_COLUMN" name="orders.shipcountry" sqlTabName="orders" uid="{f938deb5-a6d8-48bd-bae3-6aa30738df8d}"/>
+    <RecordField colName="codedesc" fieldIdRef="" fieldType="TABLE_ALIAS" name="ship_country.codedesc" sqlTabName="country" table_alias_name="ship_country" uid="{fc546557-c188-4608-93dc-209f37b1b34d}"/>
+    <RecordField colName="billcountry" fieldIdRef="" fieldType="TABLE_COLUMN" name="orders.billcountry" sqlTabName="orders" uid="{c0d84c44-793e-45d4-8efe-42951c389935}"/>
+    <RecordField colName="codedesc" fieldIdRef="" fieldType="TABLE_ALIAS" name="bill_country.codedesc" sqlTabName="country" table_alias_name="bill_country" uid="{a3603a85-7220-4cee-bda7-4473217fede8}"/>
+    <RecordField colName="totalprice" fieldIdRef="" fieldType="TABLE_COLUMN" name="orders.totalprice" sqlTabName="orders" uid="{d7c107c7-4781-4602-8fe7-3ec8f78570ce}"/>
+    <Relation targetRecordUid="{515f814b-64fe-4f3b-b723-22e4ae82ad0b}" uid="{f098b942-543f-416f-9673-2d28cf2b3e27}">
+      <DynamicProperty name="foreignFields" value="orders.userid"/>
+      <DynamicProperty name="primaryFields" value="account.userid"/>
+    </Relation>
+  </Record>
+  <Record active="true" additionalTables="item" joinLeft="lineitem.itemid,item.productid" joinOperator="INNER,INNER" joinRight="item.itemid,product.productid" masterTable="lineitem" name="LineItems" uid="{e577bb28-c5a2-4f78-a9e4-803ed6d0ad0d}">
+    <RecordField colName="orderid" fieldIdRef="" fieldType="TABLE_COLUMN" name="lineitem.orderid" sqlTabName="lineitem" uid="{ce369ae9-af9b-4ae3-8d1b-24ab4ce9a11d}"/>
+    <RecordField colName="linenum" fieldIdRef="" fieldType="TABLE_COLUMN" name="lineitem.linenum" sqlTabName="lineitem" uid="{c36e3b7b-e090-4e89-a2dc-9cae8df8b8bb}"/>
+    <RecordField colName="itemid" fieldIdRef="" fieldType="TABLE_COLUMN" name="lineitem.itemid" sqlTabName="lineitem" uid="{12bfebc1-7d40-4861-9557-b643500f7afd}"/>
+    <RecordField colName="prodname" fieldIdRef="" fieldType="TABLE_COLUMN" name="product.prodname" sqlTabName="product" uid="{975fffd4-723f-4e1e-ab2a-250cb7effdeb}"/>
+    <RecordField colName="quantity" fieldIdRef="" fieldType="TABLE_COLUMN" name="lineitem.quantity" sqlTabName="lineitem" uid="{927421d9-0a24-444d-a397-b26fe21443eb}"/>
+    <RecordField colName="unitprice" fieldIdRef="" fieldType="TABLE_COLUMN" name="lineitem.unitprice" sqlTabName="lineitem" uid="{1b87aa0e-d358-4cfe-996b-c6501add9b3f}"/>
+    <Relation targetRecordUid="{8992d491-02db-48d2-8888-2abbe8c1f885}" uid="{55494ce0-0960-42b2-b91a-214e62efedc9}">
+      <DynamicProperty name="foreignFields" value="lineitem.orderid"/>
+      <DynamicProperty name="primaryFields" value="orders.orderid"/>
+    </Relation>
+  </Record>
+  <DiagramLayout>
+    <![CDATA[AAAAAgAAAEwAewBlADUANwA3AGIAYgAyADgALQBjADUAYQAyAC0ANABmADcAOAAtAGEAOQBlADQALQA4ADAAMwBlAGQANgBkADAAYQBkADAAZAB9wDJmZm+ZmZtAKzMzQMzMzj+bpeNT987eAQAAAEwAewA4ADkAOQAyAGQANAA5ADEALQAwADIAZABiAC0ANAA4AGQAMgAtADgAOAA4ADgALQAyAGEAYgBiAGUAOABjADEAZgA4ADgANQB9wGVMzNdzMzXAXJmZp+ZmaD+haHKwIMSfAQAAAEwAewA1ADEANQBmADgAMQA0AGIALQA2ADQAZgBlAC0ANABmADMAYgAtAGIANwAyADMALQAyADIAZQA0AGEAZQA4ADIAYQBkADAAYgB9wHUMzNdTMzXAbOZmdNmZmz+UeuFHrhR+AQ==]]>
+  </DiagramLayout>
+</Root>
