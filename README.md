@@ -12,7 +12,8 @@ Open the Web service object and the .4wsj file opens. It shows three records: Ac
 
 ## Specify the default client interaction for the Web server
 
-In the Projects view, select the WebServer configuration node: JSONWebServiceBAM > Officestore Model > WebServer > WebServer
+In the Projects view, select the WebServer configuration node: JSONWebServiceBAM > Officestore Model > WebServer > WebServer.
+
 In the Properties view, note the Application Server entries. The Web service property is set to true and the Web service URL suffix is set to "REST/Customers/Accounts('dupont')". This setting will send this URL to the Web service server when the application is run, displaying the results for a single account in a browser.
 
 Before testing this application, ensure you have configured GST to use the Web client.
