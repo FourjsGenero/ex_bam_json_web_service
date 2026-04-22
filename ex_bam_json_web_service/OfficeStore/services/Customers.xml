@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<AG businessApplicationFile="C:\Users\sbarney\Downloads\ex_bam_json_web_service-master\ex_bam_json_web_service-master\ex_bam_json_web_service\OfficeStore\appflow\OfficestoreAppFlow.4ba" version="12" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://4js.com/ns/gst/5.00/agmodel.xsd">
-  <File dir="C:\Users\sbarney\Downloads\ex_bam_json_web_service-master\ex_bam_json_web_service-master\ex_bam_json_web_service\OfficeStore\services" filename="Customers.4wsj" locator="/Item/WebServiceJSON1" name="WebServiceJSON1" type="WebServiceJSON">
+<AG businessApplicationFile="C:\Users\sbarney\Downloads\gh_staging\ex_bam_json_web_service\ex_bam_json_web_service\OfficeStore\appflow\OfficestoreAppFlow.4ba" version="12" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://4js.com/ns/gst/5.00/agmodel.xsd">
+  <File dir="C:\Users\sbarney\Downloads\gh_staging\ex_bam_json_web_service\ex_bam_json_web_service\OfficeStore\services" filename="Customers.4wsj" locator="/Item/WebServiceJSON1" name="WebServiceJSON1" type="WebServiceJSON">
     <DynamicProperties>
       <DynamicProperty name="wsComment" value=""/>
       <DynamicProperty name="wsName" value="Customers"/>
@@ -184,7 +184,7 @@
       <Alias alias="ship_country" table="country"/>
     </Module>
   </File>
-  <Database name="officestore" schemaFile="C:\Users\sbarney\Downloads\ex_bam_json_web_service-master\ex_bam_json_web_service-master\ex_bam_json_web_service\OfficeStoreRes\schema-4dbx\officestore.4dbx">
+  <Database name="officestore" schemaFile="C:\Users\sbarney\Downloads\gh_staging\ex_bam_json_web_service\ex_bam_json_web_service\OfficeStoreRes\schema-4dbx\officestore.4dbx">
     <Table name="item">
       <DBColumn datatype="CHAR(10)" defaultValue="" fglDatatype="CHAR(10)" fglLength="10" length="10" name="itemid" notNull="1">
         <DynamicProperties>
