@@ -2,7 +2,7 @@
 #+ User Interface - Data Management
 
 --------------------------------------------------------------------------------
---This code is generated with the template dbapp4.1
+--This code is generated with the template dbapp5.0
 --Warning: Enter your changes within a <BLOCK> or <POINT> section, otherwise they will be lost.
 {<POINT Name="user.comments">} {</POINT>}
 
@@ -12,62 +12,15 @@ IMPORT FGL libdbappCore
 IMPORT FGL libdbappSql
 
 IMPORT FGL officestore_dbxdata
+IMPORT FGL Customers_common
+IMPORT FGL Customers_events
 {<POINT Name="import">} {</POINT>}
 
---------------------------------------------------------------------------------
---Database schema
+-- Database schema
 SCHEMA officestore
 
 --------------------------------------------------------------------------------
 --Definition of constants, user-types, variables
-PUBLIC TYPE Accounts_br_type
-    RECORD
-        account_userid LIKE account.userid,
-        account_firstname LIKE account.firstname,
-        account_lastname LIKE account.lastname,
-        country_codedesc LIKE country.codedesc,
-        account_phone LIKE account.phone,
-        account_email LIKE account.email,
-        category_catpic LIKE category.catpic
-    END RECORD
-
-PUBLIC TYPE Orders_br_type
-    RECORD
-        orders_orderid LIKE orders.orderid,
-        orders_userid LIKE orders.userid,
-        orders_orderdate LIKE orders.orderdate,
-        orders_shipcountry LIKE orders.shipcountry,
-        ship_country_codedesc LIKE country.codedesc,
-        orders_billcountry LIKE orders.billcountry,
-        bill_country_codedesc LIKE country.codedesc,
-        orders_totalprice LIKE orders.totalprice
-    END RECORD
-
-PUBLIC TYPE LineItems_br_type
-    RECORD
-        lineitem_orderid LIKE lineitem.orderid,
-        lineitem_linenum LIKE lineitem.linenum,
-        lineitem_itemid LIKE lineitem.itemid,
-        product_prodname LIKE product.prodname,
-        lineitem_quantity LIKE lineitem.quantity,
-        lineitem_unitprice LIKE lineitem.unitprice
-    END RECORD
-
-PUBLIC TYPE Accounts_br_uk_type
-    RECORD
-        account_userid LIKE account.userid
-    END RECORD
-
-PUBLIC TYPE Orders_br_uk_type
-    RECORD
-        orders_orderid LIKE orders.orderid
-    END RECORD
-
-PUBLIC TYPE LineItems_br_uk_type
-    RECORD
-        lineitem_orderid LIKE lineitem.orderid,
-        lineitem_linenum LIKE lineitem.linenum
-    END RECORD
 
 PUBLIC TYPE Accounts_Orders_br_rel_type
     RECORD
@@ -109,8 +62,21 @@ PUBLIC FUNCTION Customers_uidata_Accounts_insertRow(p_rec_br)
     LET dataInsert.email = p_rec_br.account_email
     {<POINT Name="fct.Accounts_insertRow.init">} {</POINT>}
 
-    --Call the database insert row
-    CALL officestore_dbxdata.officestore_dbxdata_account_pk_account_insertRowByKey(dataInsert.*) RETURNING errNo, errMsg, ret.account_userid
+    IF Customers_events.m_DataEvent_Accounts_BeforeInsertRow IS NOT NULL THEN
+        CALL Customers_events.m_DataEvent_Accounts_BeforeInsertRow(dataInsert.*)
+            RETURNING errNo, errMsg, dataInsert.*
+    END IF
+    IF errNo == ERROR_SUCCESS THEN
+        --Call the database insert row
+        CALL officestore_dbxdata.officestore_dbxdata_account_pk_account_insertRowByKey(dataInsert.*) RETURNING errNo, errMsg, ret.account_userid
+        IF errNo == ERROR_SUCCESS THEN
+            IF Customers_events.m_DataEvent_Accounts_AfterInsertRow IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_Accounts_AfterInsertRow(errNo, errMsg, ret.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
+    END IF
+
     LET errMsg = IIF(errNo = ERROR_SUCCESS, C_TXT_INSERT_SUCCESS_MSG, C_TXT_INSERT_FAIL_MSG), errMsg
 
     {<POINT Name="fct.Accounts_insertRow.user">} {</POINT>}
@@ -143,8 +109,21 @@ PUBLIC FUNCTION Customers_uidata_Orders_insertRow(p_rec_br)
     LET dataInsert.totalprice = p_rec_br.orders_totalprice
     {<POINT Name="fct.Orders_insertRow.init">} {</POINT>}
 
-    --Call the database insert row
-    CALL officestore_dbxdata.officestore_dbxdata_orders_pk_orders_insertRowByKey(dataInsert.*) RETURNING errNo, errMsg, ret.orders_orderid
+    IF Customers_events.m_DataEvent_Orders_BeforeInsertRow IS NOT NULL THEN
+        CALL Customers_events.m_DataEvent_Orders_BeforeInsertRow(dataInsert.*)
+            RETURNING errNo, errMsg, dataInsert.*
+    END IF
+    IF errNo == ERROR_SUCCESS THEN
+        --Call the database insert row
+        CALL officestore_dbxdata.officestore_dbxdata_orders_pk_orders_insertRowByKey(dataInsert.*) RETURNING errNo, errMsg, ret.orders_orderid
+        IF errNo == ERROR_SUCCESS THEN
+            IF Customers_events.m_DataEvent_Orders_AfterInsertRow IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_Orders_AfterInsertRow(errNo, errMsg, ret.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
+    END IF
+
     LET errMsg = IIF(errNo = ERROR_SUCCESS, C_TXT_INSERT_SUCCESS_MSG, C_TXT_INSERT_FAIL_MSG), errMsg
 
     {<POINT Name="fct.Orders_insertRow.user">} {</POINT>}
@@ -176,8 +155,21 @@ PUBLIC FUNCTION Customers_uidata_LineItems_insertRow(p_rec_br)
     LET dataInsert.unitprice = p_rec_br.lineitem_unitprice
     {<POINT Name="fct.LineItems_insertRow.init">} {</POINT>}
 
-    --Call the database insert row
-    CALL officestore_dbxdata.officestore_dbxdata_lineitem_pk_lineitem_insertRowByKey(dataInsert.*) RETURNING errNo, errMsg, ret.lineitem_orderid, ret.lineitem_linenum
+    IF Customers_events.m_DataEvent_LineItems_BeforeInsertRow IS NOT NULL THEN
+        CALL Customers_events.m_DataEvent_LineItems_BeforeInsertRow(dataInsert.*)
+            RETURNING errNo, errMsg, dataInsert.*
+    END IF
+    IF errNo == ERROR_SUCCESS THEN
+        --Call the database insert row
+        CALL officestore_dbxdata.officestore_dbxdata_lineitem_pk_lineitem_insertRowByKey(dataInsert.*) RETURNING errNo, errMsg, ret.lineitem_orderid, ret.lineitem_linenum
+        IF errNo == ERROR_SUCCESS THEN
+            IF Customers_events.m_DataEvent_LineItems_AfterInsertRow IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_LineItems_AfterInsertRow(errNo, errMsg, ret.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
+    END IF
+
     LET errMsg = IIF(errNo = ERROR_SUCCESS, C_TXT_INSERT_SUCCESS_MSG, C_TXT_INSERT_FAIL_MSG), errMsg
 
     {<POINT Name="fct.LineItems_insertRow.user">} {</POINT>}
@@ -201,6 +193,7 @@ PUBLIC FUNCTION Customers_uidata_Accounts_updateRow(p_rec_br, p_dataT0)
     DEFINE errNo INTEGER
     DEFINE errMsg STRING
     {<POINT Name="fct.Accounts_updateRow.define">} {</POINT>}
+
     --Init local data with values from the DB array
     LET l_dataT1.* = p_dataT0.*
     --Set local data with form field values
@@ -213,8 +206,21 @@ PUBLIC FUNCTION Customers_uidata_Accounts_updateRow(p_rec_br, p_dataT0)
     LET l_rec_br_uk.account_userid = p_dataT0.userid
     {<POINT Name="fct.Accounts_updateRow.init">} {</POINT>}
 
-    --Call the database update row
-    CALL officestore_dbxdata.officestore_dbxdata_account_pk_account_updateRowByKey(p_dataT0.*, l_dataT1.*) RETURNING errNo, errMsg
+    IF Customers_events.m_DataEvent_Accounts_BeforeUpdateRow IS NOT NULL THEN
+        CALL Customers_events.m_DataEvent_Accounts_BeforeUpdateRow(p_dataT0.*, l_dataT1.*)
+            RETURNING errNo, errMsg, p_dataT0.*, l_dataT1.*
+    END IF
+    IF errNo == ERROR_SUCCESS THEN
+        --Call the database update row
+        CALL officestore_dbxdata.officestore_dbxdata_account_pk_account_updateRowByKey(p_dataT0.*, l_dataT1.*) RETURNING errNo, errMsg
+        IF errNo == ERROR_SUCCESS THEN
+            IF Customers_events.m_DataEvent_Accounts_AfterUpdateRow IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_Accounts_AfterUpdateRow(errNo, errMsg, l_rec_br_uk.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
+    END IF
+
     CASE errNo
         WHEN ERROR_SUCCESS
             LET errMsg = C_TXT_UPDATE_SUCCESS_MSG
@@ -223,7 +229,7 @@ PUBLIC FUNCTION Customers_uidata_Accounts_updateRow(p_rec_br, p_dataT0)
         WHEN ERROR_CONCURRENT_ACCESS_NOTFOUND
             LET errMsg = C_TXT_UPDATE_DATA_MISSING
         OTHERWISE
-            LET errMsg = C_TXT_UPDATE_FAIL_MSG, errMsg
+            LET errMsg = NVL(errMsg, C_TXT_UPDATE_FAIL_MSG)
     END CASE
 
     {<POINT Name="fct.Accounts_updateRow.user">} {</POINT>}
@@ -246,6 +252,7 @@ PUBLIC FUNCTION Customers_uidata_Orders_updateRow(p_rec_br, p_dataT0)
     DEFINE errNo INTEGER
     DEFINE errMsg STRING
     {<POINT Name="fct.Orders_updateRow.define">} {</POINT>}
+
     --Init local data with values from the DB array
     LET l_dataT1.* = p_dataT0.*
     --Set local data with form field values
@@ -259,8 +266,21 @@ PUBLIC FUNCTION Customers_uidata_Orders_updateRow(p_rec_br, p_dataT0)
     LET l_rec_br_uk.orders_orderid = p_dataT0.orderid
     {<POINT Name="fct.Orders_updateRow.init">} {</POINT>}
 
-    --Call the database update row
-    CALL officestore_dbxdata.officestore_dbxdata_orders_pk_orders_updateRowByKey(p_dataT0.*, l_dataT1.*) RETURNING errNo, errMsg
+    IF Customers_events.m_DataEvent_Orders_BeforeUpdateRow IS NOT NULL THEN
+        CALL Customers_events.m_DataEvent_Orders_BeforeUpdateRow(p_dataT0.*, l_dataT1.*)
+            RETURNING errNo, errMsg, p_dataT0.*, l_dataT1.*
+    END IF
+    IF errNo == ERROR_SUCCESS THEN
+        --Call the database update row
+        CALL officestore_dbxdata.officestore_dbxdata_orders_pk_orders_updateRowByKey(p_dataT0.*, l_dataT1.*) RETURNING errNo, errMsg
+        IF errNo == ERROR_SUCCESS THEN
+            IF Customers_events.m_DataEvent_Orders_AfterUpdateRow IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_Orders_AfterUpdateRow(errNo, errMsg, l_rec_br_uk.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
+    END IF
+
     CASE errNo
         WHEN ERROR_SUCCESS
             LET errMsg = C_TXT_UPDATE_SUCCESS_MSG
@@ -269,7 +289,7 @@ PUBLIC FUNCTION Customers_uidata_Orders_updateRow(p_rec_br, p_dataT0)
         WHEN ERROR_CONCURRENT_ACCESS_NOTFOUND
             LET errMsg = C_TXT_UPDATE_DATA_MISSING
         OTHERWISE
-            LET errMsg = C_TXT_UPDATE_FAIL_MSG, errMsg
+            LET errMsg = NVL(errMsg, C_TXT_UPDATE_FAIL_MSG)
     END CASE
 
     {<POINT Name="fct.Orders_updateRow.user">} {</POINT>}
@@ -292,6 +312,7 @@ PUBLIC FUNCTION Customers_uidata_LineItems_updateRow(p_rec_br, p_dataT0)
     DEFINE errNo INTEGER
     DEFINE errMsg STRING
     {<POINT Name="fct.LineItems_updateRow.define">} {</POINT>}
+
     --Init local data with values from the DB array
     LET l_dataT1.* = p_dataT0.*
     --Set local data with form field values
@@ -305,8 +326,21 @@ PUBLIC FUNCTION Customers_uidata_LineItems_updateRow(p_rec_br, p_dataT0)
     LET l_rec_br_uk.lineitem_linenum = p_dataT0.linenum
     {<POINT Name="fct.LineItems_updateRow.init">} {</POINT>}
 
-    --Call the database update row
-    CALL officestore_dbxdata.officestore_dbxdata_lineitem_pk_lineitem_updateRowByKey(p_dataT0.*, l_dataT1.*) RETURNING errNo, errMsg
+    IF Customers_events.m_DataEvent_LineItems_BeforeUpdateRow IS NOT NULL THEN
+        CALL Customers_events.m_DataEvent_LineItems_BeforeUpdateRow(p_dataT0.*, l_dataT1.*)
+            RETURNING errNo, errMsg, p_dataT0.*, l_dataT1.*
+    END IF
+    IF errNo == ERROR_SUCCESS THEN
+        --Call the database update row
+        CALL officestore_dbxdata.officestore_dbxdata_lineitem_pk_lineitem_updateRowByKey(p_dataT0.*, l_dataT1.*) RETURNING errNo, errMsg
+        IF errNo == ERROR_SUCCESS THEN
+            IF Customers_events.m_DataEvent_LineItems_AfterUpdateRow IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_LineItems_AfterUpdateRow(errNo, errMsg, l_rec_br_uk.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
+    END IF
+
     CASE errNo
         WHEN ERROR_SUCCESS
             LET errMsg = C_TXT_UPDATE_SUCCESS_MSG
@@ -315,7 +349,7 @@ PUBLIC FUNCTION Customers_uidata_LineItems_updateRow(p_rec_br, p_dataT0)
         WHEN ERROR_CONCURRENT_ACCESS_NOTFOUND
             LET errMsg = C_TXT_UPDATE_DATA_MISSING
         OTHERWISE
-            LET errMsg = C_TXT_UPDATE_FAIL_MSG, errMsg
+            LET errMsg = NVL(errMsg, C_TXT_UPDATE_FAIL_MSG)
     END CASE
 
     {<POINT Name="fct.LineItems_updateRow.user">} {</POINT>}
@@ -337,14 +371,28 @@ PUBLIC FUNCTION Customers_uidata_Accounts_deleteRow(p_rec_br_uk)
     {<POINT Name="fct.Accounts_deleteRow.define">} {</POINT>}
     {<POINT Name="fct.Accounts_deleteRow.init">} {</POINT>}
 
-    CALL officestore_dbxdata.officestore_dbxdata_account_pk_account_deleteRowByKey(p_rec_br_uk.account_userid) RETURNING errNo
+    IF Customers_events.m_DataEvent_Accounts_BeforeDeleteRow IS NOT NULL THEN
+        CALL Customers_events.m_DataEvent_Accounts_BeforeDeleteRow(p_rec_br_uk.*)
+            RETURNING errNo, errMsg, p_rec_br_uk.*
+    END IF
+    IF errNo == ERROR_SUCCESS THEN
+        --Call the database update row
+            CALL officestore_dbxdata.officestore_dbxdata_account_pk_account_deleteRowByKey(p_rec_br_uk.account_userid) RETURNING errNo
+        IF errNo == ERROR_SUCCESS THEN
+            IF Customers_events.m_DataEvent_Accounts_AfterDeleteRow IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_Accounts_AfterDeleteRow(errNo, errMsg, p_rec_br_uk.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
+    END IF
+
     CASE errNo
         WHEN ERROR_SUCCESS
             LET errMsg = C_TXT_DELETE_SUCCESS_MSG
         WHEN ERROR_DELETE_CASCADE_ROW_USED
             LET errMsg = C_TXT_DELETE_FAIL_ROW_USED_MSG
         OTHERWISE
-            LET errMsg = C_TXT_DELETE_FAIL_MSG
+            LET errMsg = NVL(errMsg, C_TXT_DELETE_FAIL_MSG)
     END CASE
 
     {<POINT Name="fct.Accounts_deleteRow.user">} {</POINT>}
@@ -365,14 +413,28 @@ PUBLIC FUNCTION Customers_uidata_Orders_deleteRow(p_rec_br_uk)
     {<POINT Name="fct.Orders_deleteRow.define">} {</POINT>}
     {<POINT Name="fct.Orders_deleteRow.init">} {</POINT>}
 
-    CALL officestore_dbxdata.officestore_dbxdata_orders_pk_orders_deleteRowByKey(p_rec_br_uk.orders_orderid) RETURNING errNo
+    IF Customers_events.m_DataEvent_Orders_BeforeDeleteRow IS NOT NULL THEN
+        CALL Customers_events.m_DataEvent_Orders_BeforeDeleteRow(p_rec_br_uk.*)
+            RETURNING errNo, errMsg, p_rec_br_uk.*
+    END IF
+    IF errNo == ERROR_SUCCESS THEN
+        --Call the database update row
+            CALL officestore_dbxdata.officestore_dbxdata_orders_pk_orders_deleteRowByKey(p_rec_br_uk.orders_orderid) RETURNING errNo
+        IF errNo == ERROR_SUCCESS THEN
+            IF Customers_events.m_DataEvent_Orders_AfterDeleteRow IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_Orders_AfterDeleteRow(errNo, errMsg, p_rec_br_uk.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
+    END IF
+
     CASE errNo
         WHEN ERROR_SUCCESS
             LET errMsg = C_TXT_DELETE_SUCCESS_MSG
         WHEN ERROR_DELETE_CASCADE_ROW_USED
             LET errMsg = C_TXT_DELETE_FAIL_ROW_USED_MSG
         OTHERWISE
-            LET errMsg = C_TXT_DELETE_FAIL_MSG
+            LET errMsg = NVL(errMsg, C_TXT_DELETE_FAIL_MSG)
     END CASE
 
     {<POINT Name="fct.Orders_deleteRow.user">} {</POINT>}
@@ -393,14 +455,28 @@ PUBLIC FUNCTION Customers_uidata_LineItems_deleteRow(p_rec_br_uk)
     {<POINT Name="fct.LineItems_deleteRow.define">} {</POINT>}
     {<POINT Name="fct.LineItems_deleteRow.init">} {</POINT>}
 
-    CALL officestore_dbxdata.officestore_dbxdata_lineitem_pk_lineitem_deleteRowByKey(p_rec_br_uk.lineitem_orderid, p_rec_br_uk.lineitem_linenum) RETURNING errNo
+    IF Customers_events.m_DataEvent_LineItems_BeforeDeleteRow IS NOT NULL THEN
+        CALL Customers_events.m_DataEvent_LineItems_BeforeDeleteRow(p_rec_br_uk.*)
+            RETURNING errNo, errMsg, p_rec_br_uk.*
+    END IF
+    IF errNo == ERROR_SUCCESS THEN
+        --Call the database update row
+            CALL officestore_dbxdata.officestore_dbxdata_lineitem_pk_lineitem_deleteRowByKey(p_rec_br_uk.lineitem_orderid, p_rec_br_uk.lineitem_linenum) RETURNING errNo
+        IF errNo == ERROR_SUCCESS THEN
+            IF Customers_events.m_DataEvent_LineItems_AfterDeleteRow IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_LineItems_AfterDeleteRow(errNo, errMsg, p_rec_br_uk.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
+    END IF
+
     CASE errNo
         WHEN ERROR_SUCCESS
             LET errMsg = C_TXT_DELETE_SUCCESS_MSG
         WHEN ERROR_DELETE_CASCADE_ROW_USED
             LET errMsg = C_TXT_DELETE_FAIL_ROW_USED_MSG
         OTHERWISE
-            LET errMsg = C_TXT_DELETE_FAIL_MSG
+            LET errMsg = NVL(errMsg, C_TXT_DELETE_FAIL_MSG)
     END CASE
 
     {<POINT Name="fct.LineItems_deleteRow.user">} {</POINT>}

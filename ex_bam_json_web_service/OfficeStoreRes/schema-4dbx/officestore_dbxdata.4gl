@@ -2,7 +2,7 @@
 #+ DB schema - Data Management (officestore)
 
 --------------------------------------------------------------------------------
---This code is generated with the template dbapp4.1
+--This code is generated with the template dbapp5.0
 --Warning: Enter your changes within a <BLOCK> or <POINT> section, otherwise they will be lost.
 {<POINT Name="user.comments">} {</POINT>}
 
@@ -11,11 +11,11 @@
 IMPORT FGL libdbappCore
 IMPORT FGL libdbappSql
 
+IMPORT FGL officestore_events
 IMPORT FGL officestore_dbxconstraints
 {<POINT Name="import">} {</POINT>}
 
---------------------------------------------------------------------------------
---Database schema
+-- Database schema
 SCHEMA officestore
 
 --------------------------------------------------------------------------------
@@ -42,18 +42,18 @@ PUBLIC FUNCTION officestore_dbxdata_supplier_pk_supplier_selectRowByKey(p_key, p
 
     LET errNo = ERROR_SUCCESS
     -- SQLite does not support the FOR UPDATE close in SELECT syntax
-    LET l_supportLock = (UPSHIFT(fgl_db_driver_type()) != "SQT")
+    LET l_supportLock = (upshift(fgl_db_driver_type()) != "SQT")
     {<POINT Name="fct.supplier_pk_supplier_selectRowByKey.init">} {</POINT>}
     TRY
         IF p_lock AND l_supportLock THEN
             SELECT * INTO l_data.* FROM supplier
-                WHERE supplier.suppid = p_key.supplier_suppid
+                WHERE @supplier.suppid = p_key.supplier_suppid
             FOR UPDATE
         ELSE
             SELECT * INTO l_data.* FROM supplier
-                WHERE supplier.suppid = p_key.supplier_suppid
+                WHERE @supplier.suppid = p_key.supplier_suppid
         END IF
-        IF SQLCA.SQLCODE == NOTFOUND THEN
+        IF sqlca.sqlcode == NOTFOUND THEN
             LET errNo = ERROR_NOTFOUND
         END IF
     CATCH
@@ -83,7 +83,13 @@ PRIVATE FUNCTION officestore_dbxdata_supplier_insertRowByKey(p_data)
         CALL libdbapp_get_sequence("supplier") RETURNING errNo, p_data.suppid
         {<POINT Name="fct.supplier_insertRowByKey.init">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
-            CALL officestore_dbxconstraints.officestore_dbxconstraints_supplier_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+            IF officestore_events.m_DbxDataEvent_supplier_BeforeInsertRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_supplier_BeforeInsertRowByKey(p_data.*)
+                    RETURNING errNo, errMsg, p_data.*
+            END IF
+            IF errNo == ERROR_SUCCESS THEN
+                CALL officestore_dbxconstraints.officestore_dbxconstraints_supplier_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+            END IF
             {<POINT Name="fct.supplier_insertRowByKey.beforeInsert">} {</POINT>}
             IF errNo == ERROR_SUCCESS THEN
                 TRY
@@ -92,6 +98,12 @@ PRIVATE FUNCTION officestore_dbxdata_supplier_insertRowByKey(p_data)
                 CATCH
                     LET errNo = ERROR_FAILURE
                 END TRY
+                IF errNo == ERROR_SUCCESS THEN
+                    IF officestore_events.m_DbxDataEvent_supplier_AfterInsertRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_supplier_AfterInsertRowByKey(p_data.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                END IF
                 {<POINT Name="fct.supplier_insertRowByKey.afterInsert">} {</POINT>}
             END IF
         END IF
@@ -154,14 +166,26 @@ PUBLIC FUNCTION officestore_dbxdata_supplier_pk_supplier_updateRowByKey(p_dataT0
                 CALL officestore_dbxconstraints.officestore_dbxconstraints_supplier_checkTableConstraints(TRUE, p_dataT1.*) RETURNING errNo, errMsg
                 {<POINT Name="fct.supplier_pk_supplier_updateRowByKey.beforeUpdate">} {</POINT>}
                 IF errNo == ERROR_SUCCESS THEN
-                    UPDATE supplier
-                        SET supplier.* = p_dataT1.*
-                        WHERE supplier.suppid = l_key.supplier_suppid
+                    IF officestore_events.m_DbxDataEvent_supplier_BeforeUpdateRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_supplier_BeforeUpdateRowByKey(p_dataT1.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                    IF errNo == ERROR_SUCCESS THEN
+                        UPDATE supplier
+                            SET supplier.* = p_dataT1.*
+                            WHERE @supplier.suppid = l_key.supplier_suppid
+                    END IF
                 END IF
             END IF
         CATCH
             LET errNo = ERROR_FAILURE
         END TRY
+        IF errNo == ERROR_SUCCESS THEN
+            IF officestore_events.m_DbxDataEvent_supplier_AfterUpdateRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_supplier_AfterUpdateRowByKey(p_dataT1.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
         {<POINT Name="fct.supplier_pk_supplier_updateRowByKey.afterUpdate">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -191,15 +215,27 @@ PUBLIC FUNCTION officestore_dbxdata_supplier_pk_supplier_deleteRowByKey(p_key)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.supplier_pk_supplier_deleteRowByKey.init">} {</POINT>}
-        TRY
-            CALL officestore_dbxdata_supplier_pk_supplier_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+        IF officestore_events.m_DbxDataEvent_supplier_BeforeDeleteRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_supplier_BeforeDeleteRowByKey(p_key.*)
+                RETURNING errNo
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            TRY
+                CALL officestore_dbxdata_supplier_pk_supplier_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+                IF errNo == ERROR_SUCCESS THEN
+                    DELETE FROM supplier
+                        WHERE @supplier.suppid = p_key.supplier_suppid
+                END IF
+            CATCH
+                LET errNo = ERROR_FAILURE
+            END TRY
             IF errNo == ERROR_SUCCESS THEN
-                DELETE FROM supplier
-                    WHERE supplier.suppid = p_key.supplier_suppid
+                IF officestore_events.m_DbxDataEvent_supplier_AfterDeleteRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_supplier_AfterDeleteRowByKey(p_key.*)
+                        RETURNING errNo
+                END IF
             END IF
-        CATCH
-            LET errNo = ERROR_FAILURE
-        END TRY
+        END IF
         {<POINT Name="fct.supplier_pk_supplier_deleteRowByKey.afterDelete">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -324,7 +360,7 @@ PUBLIC FUNCTION officestore_dbxdata_supplier_pk_supplier_deleteReferencingRowsBy
                     USING l_data.suppid
                 FETCH officestore_dbxdata_supplier_pk_supplier_deleteReferencingRowsByKey_fk_item_supplier
                     INTO l_key_fk_item_supplier.*
-                IF SQLCA.SQLCODE = 0 THEN
+                IF sqlca.sqlcode = 0 THEN
                     LET errNo = ERROR_DELETE_CASCADE_ROW_USED
                 END IF
                 CLOSE officestore_dbxdata_supplier_pk_supplier_deleteReferencingRowsByKey_fk_item_supplier
@@ -349,6 +385,10 @@ PUBLIC FUNCTION officestore_dbxdata_supplier_setDefaultValuesFromDBSchema()
 
     INITIALIZE l_data.* TO NULL
     {<POINT Name="fct.supplier_setDefaultValuesFromDBSchema.init">} {</POINT>}
+    IF officestore_events.m_DbxDataEvent_supplier_SetDefaultValues IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_supplier_SetDefaultValues(l_data.*)
+            RETURNING l_data.*
+    END IF
     RETURN l_data.*
 END FUNCTION
 {</BLOCK>} --fct.supplier_setDefaultValuesFromDBSchema
@@ -374,18 +414,18 @@ PUBLIC FUNCTION officestore_dbxdata_signon_pk_signon_selectRowByKey(p_key, p_loc
 
     LET errNo = ERROR_SUCCESS
     -- SQLite does not support the FOR UPDATE close in SELECT syntax
-    LET l_supportLock = (UPSHIFT(fgl_db_driver_type()) != "SQT")
+    LET l_supportLock = (upshift(fgl_db_driver_type()) != "SQT")
     {<POINT Name="fct.signon_pk_signon_selectRowByKey.init">} {</POINT>}
     TRY
         IF p_lock AND l_supportLock THEN
             SELECT * INTO l_data.* FROM signon
-                WHERE signon.userid = p_key.signon_userid
+                WHERE @signon.userid = p_key.signon_userid
             FOR UPDATE
         ELSE
             SELECT * INTO l_data.* FROM signon
-                WHERE signon.userid = p_key.signon_userid
+                WHERE @signon.userid = p_key.signon_userid
         END IF
-        IF SQLCA.SQLCODE == NOTFOUND THEN
+        IF sqlca.sqlcode == NOTFOUND THEN
             LET errNo = ERROR_NOTFOUND
         END IF
     CATCH
@@ -413,7 +453,14 @@ PRIVATE FUNCTION officestore_dbxdata_signon_insertRowByKey(p_data)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.signon_insertRowByKey.init">} {</POINT>}
-        CALL officestore_dbxconstraints.officestore_dbxconstraints_signon_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+
+        IF officestore_events.m_DbxDataEvent_signon_BeforeInsertRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_signon_BeforeInsertRowByKey(p_data.*)
+                RETURNING errNo, errMsg, p_data.*
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            CALL officestore_dbxconstraints.officestore_dbxconstraints_signon_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+        END IF
         {<POINT Name="fct.signon_insertRowByKey.beforeInsert">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             TRY
@@ -421,6 +468,12 @@ PRIVATE FUNCTION officestore_dbxdata_signon_insertRowByKey(p_data)
             CATCH
                 LET errNo = ERROR_FAILURE
             END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_signon_AfterInsertRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_signon_AfterInsertRowByKey(p_data.*)
+                        RETURNING errNo, errMsg
+                END IF
+            END IF
             {<POINT Name="fct.signon_insertRowByKey.afterInsert">} {</POINT>}
         END IF
         IF errNo == ERROR_SUCCESS THEN
@@ -482,14 +535,26 @@ PUBLIC FUNCTION officestore_dbxdata_signon_pk_signon_updateRowByKey(p_dataT0, p_
                 CALL officestore_dbxconstraints.officestore_dbxconstraints_signon_checkTableConstraints(TRUE, p_dataT1.*) RETURNING errNo, errMsg
                 {<POINT Name="fct.signon_pk_signon_updateRowByKey.beforeUpdate">} {</POINT>}
                 IF errNo == ERROR_SUCCESS THEN
-                    UPDATE signon
-                        SET signon.* = p_dataT1.*
-                        WHERE signon.userid = l_key.signon_userid
+                    IF officestore_events.m_DbxDataEvent_signon_BeforeUpdateRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_signon_BeforeUpdateRowByKey(p_dataT1.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                    IF errNo == ERROR_SUCCESS THEN
+                        UPDATE signon
+                            SET signon.* = p_dataT1.*
+                            WHERE @signon.userid = l_key.signon_userid
+                    END IF
                 END IF
             END IF
         CATCH
             LET errNo = ERROR_FAILURE
         END TRY
+        IF errNo == ERROR_SUCCESS THEN
+            IF officestore_events.m_DbxDataEvent_signon_AfterUpdateRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_signon_AfterUpdateRowByKey(p_dataT1.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
         {<POINT Name="fct.signon_pk_signon_updateRowByKey.afterUpdate">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -519,12 +584,24 @@ PUBLIC FUNCTION officestore_dbxdata_signon_pk_signon_deleteRowByKey(p_key)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.signon_pk_signon_deleteRowByKey.init">} {</POINT>}
-        TRY
-            DELETE FROM signon
-                WHERE signon.userid = p_key.signon_userid
-        CATCH
-            LET errNo = ERROR_FAILURE
-        END TRY
+        IF officestore_events.m_DbxDataEvent_signon_BeforeDeleteRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_signon_BeforeDeleteRowByKey(p_key.*)
+                RETURNING errNo
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            TRY
+                DELETE FROM signon
+                    WHERE @signon.userid = p_key.signon_userid
+            CATCH
+                LET errNo = ERROR_FAILURE
+            END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_signon_AfterDeleteRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_signon_AfterDeleteRowByKey(p_key.*)
+                        RETURNING errNo
+                END IF
+            END IF
+        END IF
         {<POINT Name="fct.signon_pk_signon_deleteRowByKey.afterDelete">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -623,6 +700,10 @@ PUBLIC FUNCTION officestore_dbxdata_signon_setDefaultValuesFromDBSchema()
 
     INITIALIZE l_data.* TO NULL
     {<POINT Name="fct.signon_setDefaultValuesFromDBSchema.init">} {</POINT>}
+    IF officestore_events.m_DbxDataEvent_signon_SetDefaultValues IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_signon_SetDefaultValues(l_data.*)
+            RETURNING l_data.*
+    END IF
     RETURN l_data.*
 END FUNCTION
 {</BLOCK>} --fct.signon_setDefaultValuesFromDBSchema
@@ -648,18 +729,18 @@ PUBLIC FUNCTION officestore_dbxdata_seqreg_pk_seqreg_selectRowByKey(p_key, p_loc
 
     LET errNo = ERROR_SUCCESS
     -- SQLite does not support the FOR UPDATE close in SELECT syntax
-    LET l_supportLock = (UPSHIFT(fgl_db_driver_type()) != "SQT")
+    LET l_supportLock = (upshift(fgl_db_driver_type()) != "SQT")
     {<POINT Name="fct.seqreg_pk_seqreg_selectRowByKey.init">} {</POINT>}
     TRY
         IF p_lock AND l_supportLock THEN
             SELECT * INTO l_data.* FROM seqreg
-                WHERE seqreg.sr_name = p_key.seqreg_sr_name
+                WHERE @seqreg.sr_name = p_key.seqreg_sr_name
             FOR UPDATE
         ELSE
             SELECT * INTO l_data.* FROM seqreg
-                WHERE seqreg.sr_name = p_key.seqreg_sr_name
+                WHERE @seqreg.sr_name = p_key.seqreg_sr_name
         END IF
-        IF SQLCA.SQLCODE == NOTFOUND THEN
+        IF sqlca.sqlcode == NOTFOUND THEN
             LET errNo = ERROR_NOTFOUND
         END IF
     CATCH
@@ -687,7 +768,14 @@ PRIVATE FUNCTION officestore_dbxdata_seqreg_insertRowByKey(p_data)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.seqreg_insertRowByKey.init">} {</POINT>}
-        CALL officestore_dbxconstraints.officestore_dbxconstraints_seqreg_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+
+        IF officestore_events.m_DbxDataEvent_seqreg_BeforeInsertRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_seqreg_BeforeInsertRowByKey(p_data.*)
+                RETURNING errNo, errMsg, p_data.*
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            CALL officestore_dbxconstraints.officestore_dbxconstraints_seqreg_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+        END IF
         {<POINT Name="fct.seqreg_insertRowByKey.beforeInsert">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             TRY
@@ -695,6 +783,12 @@ PRIVATE FUNCTION officestore_dbxdata_seqreg_insertRowByKey(p_data)
             CATCH
                 LET errNo = ERROR_FAILURE
             END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_seqreg_AfterInsertRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_seqreg_AfterInsertRowByKey(p_data.*)
+                        RETURNING errNo, errMsg
+                END IF
+            END IF
             {<POINT Name="fct.seqreg_insertRowByKey.afterInsert">} {</POINT>}
         END IF
         IF errNo == ERROR_SUCCESS THEN
@@ -756,14 +850,26 @@ PUBLIC FUNCTION officestore_dbxdata_seqreg_pk_seqreg_updateRowByKey(p_dataT0, p_
                 CALL officestore_dbxconstraints.officestore_dbxconstraints_seqreg_checkTableConstraints(TRUE, p_dataT1.*) RETURNING errNo, errMsg
                 {<POINT Name="fct.seqreg_pk_seqreg_updateRowByKey.beforeUpdate">} {</POINT>}
                 IF errNo == ERROR_SUCCESS THEN
-                    UPDATE seqreg
-                        SET seqreg.* = p_dataT1.*
-                        WHERE seqreg.sr_name = l_key.seqreg_sr_name
+                    IF officestore_events.m_DbxDataEvent_seqreg_BeforeUpdateRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_seqreg_BeforeUpdateRowByKey(p_dataT1.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                    IF errNo == ERROR_SUCCESS THEN
+                        UPDATE seqreg
+                            SET seqreg.* = p_dataT1.*
+                            WHERE @seqreg.sr_name = l_key.seqreg_sr_name
+                    END IF
                 END IF
             END IF
         CATCH
             LET errNo = ERROR_FAILURE
         END TRY
+        IF errNo == ERROR_SUCCESS THEN
+            IF officestore_events.m_DbxDataEvent_seqreg_AfterUpdateRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_seqreg_AfterUpdateRowByKey(p_dataT1.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
         {<POINT Name="fct.seqreg_pk_seqreg_updateRowByKey.afterUpdate">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -793,12 +899,24 @@ PUBLIC FUNCTION officestore_dbxdata_seqreg_pk_seqreg_deleteRowByKey(p_key)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.seqreg_pk_seqreg_deleteRowByKey.init">} {</POINT>}
-        TRY
-            DELETE FROM seqreg
-                WHERE seqreg.sr_name = p_key.seqreg_sr_name
-        CATCH
-            LET errNo = ERROR_FAILURE
-        END TRY
+        IF officestore_events.m_DbxDataEvent_seqreg_BeforeDeleteRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_seqreg_BeforeDeleteRowByKey(p_key.*)
+                RETURNING errNo
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            TRY
+                DELETE FROM seqreg
+                    WHERE @seqreg.sr_name = p_key.seqreg_sr_name
+            CATCH
+                LET errNo = ERROR_FAILURE
+            END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_seqreg_AfterDeleteRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_seqreg_AfterDeleteRowByKey(p_key.*)
+                        RETURNING errNo
+                END IF
+            END IF
+        END IF
         {<POINT Name="fct.seqreg_pk_seqreg_deleteRowByKey.afterDelete">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -897,6 +1015,10 @@ PUBLIC FUNCTION officestore_dbxdata_seqreg_setDefaultValuesFromDBSchema()
 
     INITIALIZE l_data.* TO NULL
     {<POINT Name="fct.seqreg_setDefaultValuesFromDBSchema.init">} {</POINT>}
+    IF officestore_events.m_DbxDataEvent_seqreg_SetDefaultValues IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_seqreg_SetDefaultValues(l_data.*)
+            RETURNING l_data.*
+    END IF
     RETURN l_data.*
 END FUNCTION
 {</BLOCK>} --fct.seqreg_setDefaultValuesFromDBSchema
@@ -922,18 +1044,18 @@ PUBLIC FUNCTION officestore_dbxdata_product_pk_product_selectRowByKey(p_key, p_l
 
     LET errNo = ERROR_SUCCESS
     -- SQLite does not support the FOR UPDATE close in SELECT syntax
-    LET l_supportLock = (UPSHIFT(fgl_db_driver_type()) != "SQT")
+    LET l_supportLock = (upshift(fgl_db_driver_type()) != "SQT")
     {<POINT Name="fct.product_pk_product_selectRowByKey.init">} {</POINT>}
     TRY
         IF p_lock AND l_supportLock THEN
             SELECT * INTO l_data.* FROM product
-                WHERE product.productid = p_key.product_productid
+                WHERE @product.productid = p_key.product_productid
             FOR UPDATE
         ELSE
             SELECT * INTO l_data.* FROM product
-                WHERE product.productid = p_key.product_productid
+                WHERE @product.productid = p_key.product_productid
         END IF
-        IF SQLCA.SQLCODE == NOTFOUND THEN
+        IF sqlca.sqlcode == NOTFOUND THEN
             LET errNo = ERROR_NOTFOUND
         END IF
     CATCH
@@ -961,7 +1083,14 @@ PRIVATE FUNCTION officestore_dbxdata_product_insertRowByKey(p_data)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.product_insertRowByKey.init">} {</POINT>}
-        CALL officestore_dbxconstraints.officestore_dbxconstraints_product_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+
+        IF officestore_events.m_DbxDataEvent_product_BeforeInsertRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_product_BeforeInsertRowByKey(p_data.*)
+                RETURNING errNo, errMsg, p_data.*
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            CALL officestore_dbxconstraints.officestore_dbxconstraints_product_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+        END IF
         {<POINT Name="fct.product_insertRowByKey.beforeInsert">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             TRY
@@ -969,6 +1098,12 @@ PRIVATE FUNCTION officestore_dbxdata_product_insertRowByKey(p_data)
             CATCH
                 LET errNo = ERROR_FAILURE
             END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_product_AfterInsertRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_product_AfterInsertRowByKey(p_data.*)
+                        RETURNING errNo, errMsg
+                END IF
+            END IF
             {<POINT Name="fct.product_insertRowByKey.afterInsert">} {</POINT>}
         END IF
         IF errNo == ERROR_SUCCESS THEN
@@ -1030,14 +1165,26 @@ PUBLIC FUNCTION officestore_dbxdata_product_pk_product_updateRowByKey(p_dataT0, 
                 CALL officestore_dbxconstraints.officestore_dbxconstraints_product_checkTableConstraints(TRUE, p_dataT1.*) RETURNING errNo, errMsg
                 {<POINT Name="fct.product_pk_product_updateRowByKey.beforeUpdate">} {</POINT>}
                 IF errNo == ERROR_SUCCESS THEN
-                    UPDATE product
-                        SET product.* = p_dataT1.*
-                        WHERE product.productid = l_key.product_productid
+                    IF officestore_events.m_DbxDataEvent_product_BeforeUpdateRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_product_BeforeUpdateRowByKey(p_dataT1.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                    IF errNo == ERROR_SUCCESS THEN
+                        UPDATE product
+                            SET product.* = p_dataT1.*
+                            WHERE @product.productid = l_key.product_productid
+                    END IF
                 END IF
             END IF
         CATCH
             LET errNo = ERROR_FAILURE
         END TRY
+        IF errNo == ERROR_SUCCESS THEN
+            IF officestore_events.m_DbxDataEvent_product_AfterUpdateRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_product_AfterUpdateRowByKey(p_dataT1.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
         {<POINT Name="fct.product_pk_product_updateRowByKey.afterUpdate">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -1067,15 +1214,27 @@ PUBLIC FUNCTION officestore_dbxdata_product_pk_product_deleteRowByKey(p_key)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.product_pk_product_deleteRowByKey.init">} {</POINT>}
-        TRY
-            CALL officestore_dbxdata_product_pk_product_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+        IF officestore_events.m_DbxDataEvent_product_BeforeDeleteRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_product_BeforeDeleteRowByKey(p_key.*)
+                RETURNING errNo
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            TRY
+                CALL officestore_dbxdata_product_pk_product_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+                IF errNo == ERROR_SUCCESS THEN
+                    DELETE FROM product
+                        WHERE @product.productid = p_key.product_productid
+                END IF
+            CATCH
+                LET errNo = ERROR_FAILURE
+            END TRY
             IF errNo == ERROR_SUCCESS THEN
-                DELETE FROM product
-                    WHERE product.productid = p_key.product_productid
+                IF officestore_events.m_DbxDataEvent_product_AfterDeleteRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_product_AfterDeleteRowByKey(p_key.*)
+                        RETURNING errNo
+                END IF
             END IF
-        CATCH
-            LET errNo = ERROR_FAILURE
-        END TRY
+        END IF
         {<POINT Name="fct.product_pk_product_deleteRowByKey.afterDelete">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -1200,7 +1359,7 @@ PUBLIC FUNCTION officestore_dbxdata_product_pk_product_deleteReferencingRowsByKe
                     USING l_data.productid
                 FETCH officestore_dbxdata_product_pk_product_deleteReferencingRowsByKey_fk_item_product
                     INTO l_key_fk_item_product.*
-                IF SQLCA.SQLCODE = 0 THEN
+                IF sqlca.sqlcode = 0 THEN
                     LET errNo = ERROR_DELETE_CASCADE_ROW_USED
                 END IF
                 CLOSE officestore_dbxdata_product_pk_product_deleteReferencingRowsByKey_fk_item_product
@@ -1225,6 +1384,10 @@ PUBLIC FUNCTION officestore_dbxdata_product_setDefaultValuesFromDBSchema()
 
     INITIALIZE l_data.* TO NULL
     {<POINT Name="fct.product_setDefaultValuesFromDBSchema.init">} {</POINT>}
+    IF officestore_events.m_DbxDataEvent_product_SetDefaultValues IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_product_SetDefaultValues(l_data.*)
+            RETURNING l_data.*
+    END IF
     RETURN l_data.*
 END FUNCTION
 {</BLOCK>} --fct.product_setDefaultValuesFromDBSchema
@@ -1251,20 +1414,20 @@ PUBLIC FUNCTION officestore_dbxdata_orderstatus_pk_orderstatus_selectRowByKey(p_
 
     LET errNo = ERROR_SUCCESS
     -- SQLite does not support the FOR UPDATE close in SELECT syntax
-    LET l_supportLock = (UPSHIFT(fgl_db_driver_type()) != "SQT")
+    LET l_supportLock = (upshift(fgl_db_driver_type()) != "SQT")
     {<POINT Name="fct.orderstatus_pk_orderstatus_selectRowByKey.init">} {</POINT>}
     TRY
         IF p_lock AND l_supportLock THEN
             SELECT * INTO l_data.* FROM orderstatus
-                WHERE orderstatus.orderid = p_key.orderstatus_orderid
-                    AND orderstatus.linenum = p_key.orderstatus_linenum
+                WHERE @orderstatus.orderid = p_key.orderstatus_orderid
+                    AND @orderstatus.linenum = p_key.orderstatus_linenum
             FOR UPDATE
         ELSE
             SELECT * INTO l_data.* FROM orderstatus
-                WHERE orderstatus.orderid = p_key.orderstatus_orderid
-                AND orderstatus.linenum = p_key.orderstatus_linenum
+                WHERE @orderstatus.orderid = p_key.orderstatus_orderid
+                AND @orderstatus.linenum = p_key.orderstatus_linenum
         END IF
-        IF SQLCA.SQLCODE == NOTFOUND THEN
+        IF sqlca.sqlcode == NOTFOUND THEN
             LET errNo = ERROR_NOTFOUND
         END IF
     CATCH
@@ -1292,7 +1455,14 @@ PRIVATE FUNCTION officestore_dbxdata_orderstatus_insertRowByKey(p_data)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.orderstatus_insertRowByKey.init">} {</POINT>}
-        CALL officestore_dbxconstraints.officestore_dbxconstraints_orderstatus_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+
+        IF officestore_events.m_DbxDataEvent_orderstatus_BeforeInsertRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_orderstatus_BeforeInsertRowByKey(p_data.*)
+                RETURNING errNo, errMsg, p_data.*
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            CALL officestore_dbxconstraints.officestore_dbxconstraints_orderstatus_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+        END IF
         {<POINT Name="fct.orderstatus_insertRowByKey.beforeInsert">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             TRY
@@ -1300,6 +1470,12 @@ PRIVATE FUNCTION officestore_dbxdata_orderstatus_insertRowByKey(p_data)
             CATCH
                 LET errNo = ERROR_FAILURE
             END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_orderstatus_AfterInsertRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_orderstatus_AfterInsertRowByKey(p_data.*)
+                        RETURNING errNo, errMsg
+                END IF
+            END IF
             {<POINT Name="fct.orderstatus_insertRowByKey.afterInsert">} {</POINT>}
         END IF
         IF errNo == ERROR_SUCCESS THEN
@@ -1363,15 +1539,27 @@ PUBLIC FUNCTION officestore_dbxdata_orderstatus_pk_orderstatus_updateRowByKey(p_
                 CALL officestore_dbxconstraints.officestore_dbxconstraints_orderstatus_checkTableConstraints(TRUE, p_dataT1.*) RETURNING errNo, errMsg
                 {<POINT Name="fct.orderstatus_pk_orderstatus_updateRowByKey.beforeUpdate">} {</POINT>}
                 IF errNo == ERROR_SUCCESS THEN
-                    UPDATE orderstatus
-                        SET orderstatus.* = p_dataT1.*
-                        WHERE orderstatus.orderid = l_key.orderstatus_orderid
-                        AND orderstatus.linenum = l_key.orderstatus_linenum
+                    IF officestore_events.m_DbxDataEvent_orderstatus_BeforeUpdateRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_orderstatus_BeforeUpdateRowByKey(p_dataT1.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                    IF errNo == ERROR_SUCCESS THEN
+                        UPDATE orderstatus
+                            SET orderstatus.* = p_dataT1.*
+                            WHERE @orderstatus.orderid = l_key.orderstatus_orderid
+                            AND @orderstatus.linenum = l_key.orderstatus_linenum
+                    END IF
                 END IF
             END IF
         CATCH
             LET errNo = ERROR_FAILURE
         END TRY
+        IF errNo == ERROR_SUCCESS THEN
+            IF officestore_events.m_DbxDataEvent_orderstatus_AfterUpdateRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_orderstatus_AfterUpdateRowByKey(p_dataT1.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
         {<POINT Name="fct.orderstatus_pk_orderstatus_updateRowByKey.afterUpdate">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -1402,13 +1590,25 @@ PUBLIC FUNCTION officestore_dbxdata_orderstatus_pk_orderstatus_deleteRowByKey(p_
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.orderstatus_pk_orderstatus_deleteRowByKey.init">} {</POINT>}
-        TRY
-            DELETE FROM orderstatus
-                WHERE orderstatus.orderid = p_key.orderstatus_orderid
-                AND orderstatus.linenum = p_key.orderstatus_linenum
-        CATCH
-            LET errNo = ERROR_FAILURE
-        END TRY
+        IF officestore_events.m_DbxDataEvent_orderstatus_BeforeDeleteRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_orderstatus_BeforeDeleteRowByKey(p_key.*)
+                RETURNING errNo
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            TRY
+                DELETE FROM orderstatus
+                    WHERE @orderstatus.orderid = p_key.orderstatus_orderid
+                    AND @orderstatus.linenum = p_key.orderstatus_linenum
+            CATCH
+                LET errNo = ERROR_FAILURE
+            END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_orderstatus_AfterDeleteRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_orderstatus_AfterDeleteRowByKey(p_key.*)
+                        RETURNING errNo
+                END IF
+            END IF
+        END IF
         {<POINT Name="fct.orderstatus_pk_orderstatus_deleteRowByKey.afterDelete">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -1511,6 +1711,10 @@ PUBLIC FUNCTION officestore_dbxdata_orderstatus_setDefaultValuesFromDBSchema()
 
     INITIALIZE l_data.* TO NULL
     {<POINT Name="fct.orderstatus_setDefaultValuesFromDBSchema.init">} {</POINT>}
+    IF officestore_events.m_DbxDataEvent_orderstatus_SetDefaultValues IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_orderstatus_SetDefaultValues(l_data.*)
+            RETURNING l_data.*
+    END IF
     RETURN l_data.*
 END FUNCTION
 {</BLOCK>} --fct.orderstatus_setDefaultValuesFromDBSchema
@@ -1536,18 +1740,18 @@ PUBLIC FUNCTION officestore_dbxdata_orders_pk_orders_selectRowByKey(p_key, p_loc
 
     LET errNo = ERROR_SUCCESS
     -- SQLite does not support the FOR UPDATE close in SELECT syntax
-    LET l_supportLock = (UPSHIFT(fgl_db_driver_type()) != "SQT")
+    LET l_supportLock = (upshift(fgl_db_driver_type()) != "SQT")
     {<POINT Name="fct.orders_pk_orders_selectRowByKey.init">} {</POINT>}
     TRY
         IF p_lock AND l_supportLock THEN
             SELECT * INTO l_data.* FROM orders
-                WHERE orders.orderid = p_key.orders_orderid
+                WHERE @orders.orderid = p_key.orders_orderid
             FOR UPDATE
         ELSE
             SELECT * INTO l_data.* FROM orders
-                WHERE orders.orderid = p_key.orders_orderid
+                WHERE @orders.orderid = p_key.orders_orderid
         END IF
-        IF SQLCA.SQLCODE == NOTFOUND THEN
+        IF sqlca.sqlcode == NOTFOUND THEN
             LET errNo = ERROR_NOTFOUND
         END IF
     CATCH
@@ -1577,7 +1781,13 @@ PRIVATE FUNCTION officestore_dbxdata_orders_insertRowByKey(p_data)
         CALL libdbapp_get_sequence("orders") RETURNING errNo, p_data.orderid
         {<POINT Name="fct.orders_insertRowByKey.init">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
-            CALL officestore_dbxconstraints.officestore_dbxconstraints_orders_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+            IF officestore_events.m_DbxDataEvent_orders_BeforeInsertRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_orders_BeforeInsertRowByKey(p_data.*)
+                    RETURNING errNo, errMsg, p_data.*
+            END IF
+            IF errNo == ERROR_SUCCESS THEN
+                CALL officestore_dbxconstraints.officestore_dbxconstraints_orders_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+            END IF
             {<POINT Name="fct.orders_insertRowByKey.beforeInsert">} {</POINT>}
             IF errNo == ERROR_SUCCESS THEN
                 TRY
@@ -1586,6 +1796,12 @@ PRIVATE FUNCTION officestore_dbxdata_orders_insertRowByKey(p_data)
                 CATCH
                     LET errNo = ERROR_FAILURE
                 END TRY
+                IF errNo == ERROR_SUCCESS THEN
+                    IF officestore_events.m_DbxDataEvent_orders_AfterInsertRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_orders_AfterInsertRowByKey(p_data.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                END IF
                 {<POINT Name="fct.orders_insertRowByKey.afterInsert">} {</POINT>}
             END IF
         END IF
@@ -1648,14 +1864,26 @@ PUBLIC FUNCTION officestore_dbxdata_orders_pk_orders_updateRowByKey(p_dataT0, p_
                 CALL officestore_dbxconstraints.officestore_dbxconstraints_orders_checkTableConstraints(TRUE, p_dataT1.*) RETURNING errNo, errMsg
                 {<POINT Name="fct.orders_pk_orders_updateRowByKey.beforeUpdate">} {</POINT>}
                 IF errNo == ERROR_SUCCESS THEN
-                    UPDATE orders
-                        SET orders.* = p_dataT1.*
-                        WHERE orders.orderid = l_key.orders_orderid
+                    IF officestore_events.m_DbxDataEvent_orders_BeforeUpdateRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_orders_BeforeUpdateRowByKey(p_dataT1.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                    IF errNo == ERROR_SUCCESS THEN
+                        UPDATE orders
+                            SET orders.* = p_dataT1.*
+                            WHERE @orders.orderid = l_key.orders_orderid
+                    END IF
                 END IF
             END IF
         CATCH
             LET errNo = ERROR_FAILURE
         END TRY
+        IF errNo == ERROR_SUCCESS THEN
+            IF officestore_events.m_DbxDataEvent_orders_AfterUpdateRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_orders_AfterUpdateRowByKey(p_dataT1.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
         {<POINT Name="fct.orders_pk_orders_updateRowByKey.afterUpdate">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -1685,15 +1913,27 @@ PUBLIC FUNCTION officestore_dbxdata_orders_pk_orders_deleteRowByKey(p_key)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.orders_pk_orders_deleteRowByKey.init">} {</POINT>}
-        TRY
-            CALL officestore_dbxdata_orders_pk_orders_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+        IF officestore_events.m_DbxDataEvent_orders_BeforeDeleteRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_orders_BeforeDeleteRowByKey(p_key.*)
+                RETURNING errNo
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            TRY
+                CALL officestore_dbxdata_orders_pk_orders_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+                IF errNo == ERROR_SUCCESS THEN
+                    DELETE FROM orders
+                        WHERE @orders.orderid = p_key.orders_orderid
+                END IF
+            CATCH
+                LET errNo = ERROR_FAILURE
+            END TRY
             IF errNo == ERROR_SUCCESS THEN
-                DELETE FROM orders
-                    WHERE orders.orderid = p_key.orders_orderid
+                IF officestore_events.m_DbxDataEvent_orders_AfterDeleteRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_orders_AfterDeleteRowByKey(p_key.*)
+                        RETURNING errNo
+                END IF
             END IF
-        CATCH
-            LET errNo = ERROR_FAILURE
-        END TRY
+        END IF
         {<POINT Name="fct.orders_pk_orders_deleteRowByKey.afterDelete">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -1831,7 +2071,7 @@ PUBLIC FUNCTION officestore_dbxdata_orders_pk_orders_deleteReferencingRowsByKey(
                     USING l_data.orderid
                 FETCH officestore_dbxdata_orders_pk_orders_deleteReferencingRowsByKey_fk_orderstatus_orders
                     INTO l_key_fk_orderstatus_orders.*
-                IF SQLCA.SQLCODE = 0 THEN
+                IF sqlca.sqlcode = 0 THEN
                     LET errNo = ERROR_DELETE_CASCADE_ROW_USED
                 END IF
                 CLOSE officestore_dbxdata_orders_pk_orders_deleteReferencingRowsByKey_fk_orderstatus_orders
@@ -1881,6 +2121,10 @@ PUBLIC FUNCTION officestore_dbxdata_orders_setDefaultValuesFromDBSchema()
 
     INITIALIZE l_data.* TO NULL
     {<POINT Name="fct.orders_setDefaultValuesFromDBSchema.init">} {</POINT>}
+    IF officestore_events.m_DbxDataEvent_orders_SetDefaultValues IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_orders_SetDefaultValues(l_data.*)
+            RETURNING l_data.*
+    END IF
     RETURN l_data.*
 END FUNCTION
 {</BLOCK>} --fct.orders_setDefaultValuesFromDBSchema
@@ -1907,20 +2151,20 @@ PUBLIC FUNCTION officestore_dbxdata_lineitem_pk_lineitem_selectRowByKey(p_key, p
 
     LET errNo = ERROR_SUCCESS
     -- SQLite does not support the FOR UPDATE close in SELECT syntax
-    LET l_supportLock = (UPSHIFT(fgl_db_driver_type()) != "SQT")
+    LET l_supportLock = (upshift(fgl_db_driver_type()) != "SQT")
     {<POINT Name="fct.lineitem_pk_lineitem_selectRowByKey.init">} {</POINT>}
     TRY
         IF p_lock AND l_supportLock THEN
             SELECT * INTO l_data.* FROM lineitem
-                WHERE lineitem.orderid = p_key.lineitem_orderid
-                    AND lineitem.linenum = p_key.lineitem_linenum
+                WHERE @lineitem.orderid = p_key.lineitem_orderid
+                    AND @lineitem.linenum = p_key.lineitem_linenum
             FOR UPDATE
         ELSE
             SELECT * INTO l_data.* FROM lineitem
-                WHERE lineitem.orderid = p_key.lineitem_orderid
-                AND lineitem.linenum = p_key.lineitem_linenum
+                WHERE @lineitem.orderid = p_key.lineitem_orderid
+                AND @lineitem.linenum = p_key.lineitem_linenum
         END IF
-        IF SQLCA.SQLCODE == NOTFOUND THEN
+        IF sqlca.sqlcode == NOTFOUND THEN
             LET errNo = ERROR_NOTFOUND
         END IF
     CATCH
@@ -1958,7 +2202,14 @@ PRIVATE FUNCTION officestore_dbxdata_lineitem_insertRowByKey(p_data)
             END IF
         END IF
         {</POINT>}
-        CALL officestore_dbxconstraints.officestore_dbxconstraints_lineitem_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+
+        IF officestore_events.m_DbxDataEvent_lineitem_BeforeInsertRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_lineitem_BeforeInsertRowByKey(p_data.*)
+                RETURNING errNo, errMsg, p_data.*
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            CALL officestore_dbxconstraints.officestore_dbxconstraints_lineitem_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+        END IF
         {<POINT Name="fct.lineitem_insertRowByKey.beforeInsert">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             TRY
@@ -1966,6 +2217,12 @@ PRIVATE FUNCTION officestore_dbxdata_lineitem_insertRowByKey(p_data)
             CATCH
                 LET errNo = ERROR_FAILURE
             END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_lineitem_AfterInsertRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_lineitem_AfterInsertRowByKey(p_data.*)
+                        RETURNING errNo, errMsg
+                END IF
+            END IF
             {<POINT Name="fct.lineitem_insertRowByKey.afterInsert">} {</POINT>}
         END IF
         IF errNo == ERROR_SUCCESS THEN
@@ -2029,15 +2286,27 @@ PUBLIC FUNCTION officestore_dbxdata_lineitem_pk_lineitem_updateRowByKey(p_dataT0
                 CALL officestore_dbxconstraints.officestore_dbxconstraints_lineitem_checkTableConstraints(TRUE, p_dataT1.*) RETURNING errNo, errMsg
                 {<POINT Name="fct.lineitem_pk_lineitem_updateRowByKey.beforeUpdate">} {</POINT>}
                 IF errNo == ERROR_SUCCESS THEN
-                    UPDATE lineitem
-                        SET lineitem.* = p_dataT1.*
-                        WHERE lineitem.orderid = l_key.lineitem_orderid
-                        AND lineitem.linenum = l_key.lineitem_linenum
+                    IF officestore_events.m_DbxDataEvent_lineitem_BeforeUpdateRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_lineitem_BeforeUpdateRowByKey(p_dataT1.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                    IF errNo == ERROR_SUCCESS THEN
+                        UPDATE lineitem
+                            SET lineitem.* = p_dataT1.*
+                            WHERE @lineitem.orderid = l_key.lineitem_orderid
+                            AND @lineitem.linenum = l_key.lineitem_linenum
+                    END IF
                 END IF
             END IF
         CATCH
             LET errNo = ERROR_FAILURE
         END TRY
+        IF errNo == ERROR_SUCCESS THEN
+            IF officestore_events.m_DbxDataEvent_lineitem_AfterUpdateRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_lineitem_AfterUpdateRowByKey(p_dataT1.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
         {<POINT Name="fct.lineitem_pk_lineitem_updateRowByKey.afterUpdate">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -2068,13 +2337,25 @@ PUBLIC FUNCTION officestore_dbxdata_lineitem_pk_lineitem_deleteRowByKey(p_key)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.lineitem_pk_lineitem_deleteRowByKey.init">} {</POINT>}
-        TRY
-            DELETE FROM lineitem
-                WHERE lineitem.orderid = p_key.lineitem_orderid
-                AND lineitem.linenum = p_key.lineitem_linenum
-        CATCH
-            LET errNo = ERROR_FAILURE
-        END TRY
+        IF officestore_events.m_DbxDataEvent_lineitem_BeforeDeleteRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_lineitem_BeforeDeleteRowByKey(p_key.*)
+                RETURNING errNo
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            TRY
+                DELETE FROM lineitem
+                    WHERE @lineitem.orderid = p_key.lineitem_orderid
+                    AND @lineitem.linenum = p_key.lineitem_linenum
+            CATCH
+                LET errNo = ERROR_FAILURE
+            END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_lineitem_AfterDeleteRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_lineitem_AfterDeleteRowByKey(p_key.*)
+                        RETURNING errNo
+                END IF
+            END IF
+        END IF
         {<POINT Name="fct.lineitem_pk_lineitem_deleteRowByKey.afterDelete">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -2177,6 +2458,10 @@ PUBLIC FUNCTION officestore_dbxdata_lineitem_setDefaultValuesFromDBSchema()
 
     INITIALIZE l_data.* TO NULL
     {<POINT Name="fct.lineitem_setDefaultValuesFromDBSchema.init">} {</POINT>}
+    IF officestore_events.m_DbxDataEvent_lineitem_SetDefaultValues IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_lineitem_SetDefaultValues(l_data.*)
+            RETURNING l_data.*
+    END IF
     RETURN l_data.*
 END FUNCTION
 {</BLOCK>} --fct.lineitem_setDefaultValuesFromDBSchema
@@ -2202,18 +2487,18 @@ PUBLIC FUNCTION officestore_dbxdata_item_pk_item_selectRowByKey(p_key, p_lock)
 
     LET errNo = ERROR_SUCCESS
     -- SQLite does not support the FOR UPDATE close in SELECT syntax
-    LET l_supportLock = (UPSHIFT(fgl_db_driver_type()) != "SQT")
+    LET l_supportLock = (upshift(fgl_db_driver_type()) != "SQT")
     {<POINT Name="fct.item_pk_item_selectRowByKey.init">} {</POINT>}
     TRY
         IF p_lock AND l_supportLock THEN
             SELECT * INTO l_data.* FROM item
-                WHERE item.itemid = p_key.item_itemid
+                WHERE @item.itemid = p_key.item_itemid
             FOR UPDATE
         ELSE
             SELECT * INTO l_data.* FROM item
-                WHERE item.itemid = p_key.item_itemid
+                WHERE @item.itemid = p_key.item_itemid
         END IF
-        IF SQLCA.SQLCODE == NOTFOUND THEN
+        IF sqlca.sqlcode == NOTFOUND THEN
             LET errNo = ERROR_NOTFOUND
         END IF
     CATCH
@@ -2241,7 +2526,14 @@ PRIVATE FUNCTION officestore_dbxdata_item_insertRowByKey(p_data)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.item_insertRowByKey.init">} {</POINT>}
-        CALL officestore_dbxconstraints.officestore_dbxconstraints_item_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+
+        IF officestore_events.m_DbxDataEvent_item_BeforeInsertRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_item_BeforeInsertRowByKey(p_data.*)
+                RETURNING errNo, errMsg, p_data.*
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            CALL officestore_dbxconstraints.officestore_dbxconstraints_item_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+        END IF
         {<POINT Name="fct.item_insertRowByKey.beforeInsert">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             TRY
@@ -2249,6 +2541,12 @@ PRIVATE FUNCTION officestore_dbxdata_item_insertRowByKey(p_data)
             CATCH
                 LET errNo = ERROR_FAILURE
             END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_item_AfterInsertRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_item_AfterInsertRowByKey(p_data.*)
+                        RETURNING errNo, errMsg
+                END IF
+            END IF
             {<POINT Name="fct.item_insertRowByKey.afterInsert">} {</POINT>}
         END IF
         IF errNo == ERROR_SUCCESS THEN
@@ -2310,14 +2608,26 @@ PUBLIC FUNCTION officestore_dbxdata_item_pk_item_updateRowByKey(p_dataT0, p_data
                 CALL officestore_dbxconstraints.officestore_dbxconstraints_item_checkTableConstraints(TRUE, p_dataT1.*) RETURNING errNo, errMsg
                 {<POINT Name="fct.item_pk_item_updateRowByKey.beforeUpdate">} {</POINT>}
                 IF errNo == ERROR_SUCCESS THEN
-                    UPDATE item
-                        SET item.* = p_dataT1.*
-                        WHERE item.itemid = l_key.item_itemid
+                    IF officestore_events.m_DbxDataEvent_item_BeforeUpdateRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_item_BeforeUpdateRowByKey(p_dataT1.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                    IF errNo == ERROR_SUCCESS THEN
+                        UPDATE item
+                            SET item.* = p_dataT1.*
+                            WHERE @item.itemid = l_key.item_itemid
+                    END IF
                 END IF
             END IF
         CATCH
             LET errNo = ERROR_FAILURE
         END TRY
+        IF errNo == ERROR_SUCCESS THEN
+            IF officestore_events.m_DbxDataEvent_item_AfterUpdateRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_item_AfterUpdateRowByKey(p_dataT1.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
         {<POINT Name="fct.item_pk_item_updateRowByKey.afterUpdate">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -2347,15 +2657,27 @@ PUBLIC FUNCTION officestore_dbxdata_item_pk_item_deleteRowByKey(p_key)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.item_pk_item_deleteRowByKey.init">} {</POINT>}
-        TRY
-            CALL officestore_dbxdata_item_pk_item_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+        IF officestore_events.m_DbxDataEvent_item_BeforeDeleteRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_item_BeforeDeleteRowByKey(p_key.*)
+                RETURNING errNo
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            TRY
+                CALL officestore_dbxdata_item_pk_item_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+                IF errNo == ERROR_SUCCESS THEN
+                    DELETE FROM item
+                        WHERE @item.itemid = p_key.item_itemid
+                END IF
+            CATCH
+                LET errNo = ERROR_FAILURE
+            END TRY
             IF errNo == ERROR_SUCCESS THEN
-                DELETE FROM item
-                    WHERE item.itemid = p_key.item_itemid
+                IF officestore_events.m_DbxDataEvent_item_AfterDeleteRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_item_AfterDeleteRowByKey(p_key.*)
+                        RETURNING errNo
+                END IF
             END IF
-        CATCH
-            LET errNo = ERROR_FAILURE
-        END TRY
+        END IF
         {<POINT Name="fct.item_pk_item_deleteRowByKey.afterDelete">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -2485,7 +2807,7 @@ PUBLIC FUNCTION officestore_dbxdata_item_pk_item_deleteReferencingRowsByKey(p_ke
                     USING l_data.itemid
                 FETCH officestore_dbxdata_item_pk_item_deleteReferencingRowsByKey_fk_lineitem_item
                     INTO l_key_fk_lineitem_item.*
-                IF SQLCA.SQLCODE = 0 THEN
+                IF sqlca.sqlcode = 0 THEN
                     LET errNo = ERROR_DELETE_CASCADE_ROW_USED
                 END IF
                 CLOSE officestore_dbxdata_item_pk_item_deleteReferencingRowsByKey_fk_lineitem_item
@@ -2502,7 +2824,7 @@ PUBLIC FUNCTION officestore_dbxdata_item_pk_item_deleteReferencingRowsByKey(p_ke
                         USING l_data.itemid
                     FETCH officestore_dbxdata_item_pk_item_deleteReferencingRowsByKey_fk_inventory_item
                         INTO l_key_fk_inventory_item.*
-                    IF SQLCA.SQLCODE = 0 THEN
+                    IF sqlca.sqlcode = 0 THEN
                         LET errNo = ERROR_DELETE_CASCADE_ROW_USED
                     END IF
                     CLOSE officestore_dbxdata_item_pk_item_deleteReferencingRowsByKey_fk_inventory_item
@@ -2528,6 +2850,10 @@ PUBLIC FUNCTION officestore_dbxdata_item_setDefaultValuesFromDBSchema()
 
     INITIALIZE l_data.* TO NULL
     {<POINT Name="fct.item_setDefaultValuesFromDBSchema.init">} {</POINT>}
+    IF officestore_events.m_DbxDataEvent_item_SetDefaultValues IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_item_SetDefaultValues(l_data.*)
+            RETURNING l_data.*
+    END IF
     RETURN l_data.*
 END FUNCTION
 {</BLOCK>} --fct.item_setDefaultValuesFromDBSchema
@@ -2553,18 +2879,18 @@ PUBLIC FUNCTION officestore_dbxdata_inventory_pk_inventory_selectRowByKey(p_key,
 
     LET errNo = ERROR_SUCCESS
     -- SQLite does not support the FOR UPDATE close in SELECT syntax
-    LET l_supportLock = (UPSHIFT(fgl_db_driver_type()) != "SQT")
+    LET l_supportLock = (upshift(fgl_db_driver_type()) != "SQT")
     {<POINT Name="fct.inventory_pk_inventory_selectRowByKey.init">} {</POINT>}
     TRY
         IF p_lock AND l_supportLock THEN
             SELECT * INTO l_data.* FROM inventory
-                WHERE inventory.itemid = p_key.inventory_itemid
+                WHERE @inventory.itemid = p_key.inventory_itemid
             FOR UPDATE
         ELSE
             SELECT * INTO l_data.* FROM inventory
-                WHERE inventory.itemid = p_key.inventory_itemid
+                WHERE @inventory.itemid = p_key.inventory_itemid
         END IF
-        IF SQLCA.SQLCODE == NOTFOUND THEN
+        IF sqlca.sqlcode == NOTFOUND THEN
             LET errNo = ERROR_NOTFOUND
         END IF
     CATCH
@@ -2592,7 +2918,14 @@ PRIVATE FUNCTION officestore_dbxdata_inventory_insertRowByKey(p_data)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.inventory_insertRowByKey.init">} {</POINT>}
-        CALL officestore_dbxconstraints.officestore_dbxconstraints_inventory_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+
+        IF officestore_events.m_DbxDataEvent_inventory_BeforeInsertRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_inventory_BeforeInsertRowByKey(p_data.*)
+                RETURNING errNo, errMsg, p_data.*
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            CALL officestore_dbxconstraints.officestore_dbxconstraints_inventory_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+        END IF
         {<POINT Name="fct.inventory_insertRowByKey.beforeInsert">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             TRY
@@ -2600,6 +2933,12 @@ PRIVATE FUNCTION officestore_dbxdata_inventory_insertRowByKey(p_data)
             CATCH
                 LET errNo = ERROR_FAILURE
             END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_inventory_AfterInsertRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_inventory_AfterInsertRowByKey(p_data.*)
+                        RETURNING errNo, errMsg
+                END IF
+            END IF
             {<POINT Name="fct.inventory_insertRowByKey.afterInsert">} {</POINT>}
         END IF
         IF errNo == ERROR_SUCCESS THEN
@@ -2661,14 +3000,26 @@ PUBLIC FUNCTION officestore_dbxdata_inventory_pk_inventory_updateRowByKey(p_data
                 CALL officestore_dbxconstraints.officestore_dbxconstraints_inventory_checkTableConstraints(TRUE, p_dataT1.*) RETURNING errNo, errMsg
                 {<POINT Name="fct.inventory_pk_inventory_updateRowByKey.beforeUpdate">} {</POINT>}
                 IF errNo == ERROR_SUCCESS THEN
-                    UPDATE inventory
-                        SET inventory.* = p_dataT1.*
-                        WHERE inventory.itemid = l_key.inventory_itemid
+                    IF officestore_events.m_DbxDataEvent_inventory_BeforeUpdateRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_inventory_BeforeUpdateRowByKey(p_dataT1.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                    IF errNo == ERROR_SUCCESS THEN
+                        UPDATE inventory
+                            SET inventory.* = p_dataT1.*
+                            WHERE @inventory.itemid = l_key.inventory_itemid
+                    END IF
                 END IF
             END IF
         CATCH
             LET errNo = ERROR_FAILURE
         END TRY
+        IF errNo == ERROR_SUCCESS THEN
+            IF officestore_events.m_DbxDataEvent_inventory_AfterUpdateRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_inventory_AfterUpdateRowByKey(p_dataT1.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
         {<POINT Name="fct.inventory_pk_inventory_updateRowByKey.afterUpdate">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -2698,12 +3049,24 @@ PUBLIC FUNCTION officestore_dbxdata_inventory_pk_inventory_deleteRowByKey(p_key)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.inventory_pk_inventory_deleteRowByKey.init">} {</POINT>}
-        TRY
-            DELETE FROM inventory
-                WHERE inventory.itemid = p_key.inventory_itemid
-        CATCH
-            LET errNo = ERROR_FAILURE
-        END TRY
+        IF officestore_events.m_DbxDataEvent_inventory_BeforeDeleteRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_inventory_BeforeDeleteRowByKey(p_key.*)
+                RETURNING errNo
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            TRY
+                DELETE FROM inventory
+                    WHERE @inventory.itemid = p_key.inventory_itemid
+            CATCH
+                LET errNo = ERROR_FAILURE
+            END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_inventory_AfterDeleteRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_inventory_AfterDeleteRowByKey(p_key.*)
+                        RETURNING errNo
+                END IF
+            END IF
+        END IF
         {<POINT Name="fct.inventory_pk_inventory_deleteRowByKey.afterDelete">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -2802,6 +3165,10 @@ PUBLIC FUNCTION officestore_dbxdata_inventory_setDefaultValuesFromDBSchema()
 
     INITIALIZE l_data.* TO NULL
     {<POINT Name="fct.inventory_setDefaultValuesFromDBSchema.init">} {</POINT>}
+    IF officestore_events.m_DbxDataEvent_inventory_SetDefaultValues IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_inventory_SetDefaultValues(l_data.*)
+            RETURNING l_data.*
+    END IF
     RETURN l_data.*
 END FUNCTION
 {</BLOCK>} --fct.inventory_setDefaultValuesFromDBSchema
@@ -2827,18 +3194,18 @@ PUBLIC FUNCTION officestore_dbxdata_country_pk_country_selectRowByKey(p_key, p_l
 
     LET errNo = ERROR_SUCCESS
     -- SQLite does not support the FOR UPDATE close in SELECT syntax
-    LET l_supportLock = (UPSHIFT(fgl_db_driver_type()) != "SQT")
+    LET l_supportLock = (upshift(fgl_db_driver_type()) != "SQT")
     {<POINT Name="fct.country_pk_country_selectRowByKey.init">} {</POINT>}
     TRY
         IF p_lock AND l_supportLock THEN
             SELECT * INTO l_data.* FROM country
-                WHERE country.code = p_key.country_code
+                WHERE @country.code = p_key.country_code
             FOR UPDATE
         ELSE
             SELECT * INTO l_data.* FROM country
-                WHERE country.code = p_key.country_code
+                WHERE @country.code = p_key.country_code
         END IF
-        IF SQLCA.SQLCODE == NOTFOUND THEN
+        IF sqlca.sqlcode == NOTFOUND THEN
             LET errNo = ERROR_NOTFOUND
         END IF
     CATCH
@@ -2866,7 +3233,14 @@ PRIVATE FUNCTION officestore_dbxdata_country_insertRowByKey(p_data)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.country_insertRowByKey.init">} {</POINT>}
-        CALL officestore_dbxconstraints.officestore_dbxconstraints_country_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+
+        IF officestore_events.m_DbxDataEvent_country_BeforeInsertRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_country_BeforeInsertRowByKey(p_data.*)
+                RETURNING errNo, errMsg, p_data.*
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            CALL officestore_dbxconstraints.officestore_dbxconstraints_country_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+        END IF
         {<POINT Name="fct.country_insertRowByKey.beforeInsert">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             TRY
@@ -2874,6 +3248,12 @@ PRIVATE FUNCTION officestore_dbxdata_country_insertRowByKey(p_data)
             CATCH
                 LET errNo = ERROR_FAILURE
             END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_country_AfterInsertRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_country_AfterInsertRowByKey(p_data.*)
+                        RETURNING errNo, errMsg
+                END IF
+            END IF
             {<POINT Name="fct.country_insertRowByKey.afterInsert">} {</POINT>}
         END IF
         IF errNo == ERROR_SUCCESS THEN
@@ -2935,14 +3315,26 @@ PUBLIC FUNCTION officestore_dbxdata_country_pk_country_updateRowByKey(p_dataT0, 
                 CALL officestore_dbxconstraints.officestore_dbxconstraints_country_checkTableConstraints(TRUE, p_dataT1.*) RETURNING errNo, errMsg
                 {<POINT Name="fct.country_pk_country_updateRowByKey.beforeUpdate">} {</POINT>}
                 IF errNo == ERROR_SUCCESS THEN
-                    UPDATE country
-                        SET country.* = p_dataT1.*
-                        WHERE country.code = l_key.country_code
+                    IF officestore_events.m_DbxDataEvent_country_BeforeUpdateRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_country_BeforeUpdateRowByKey(p_dataT1.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                    IF errNo == ERROR_SUCCESS THEN
+                        UPDATE country
+                            SET country.* = p_dataT1.*
+                            WHERE @country.code = l_key.country_code
+                    END IF
                 END IF
             END IF
         CATCH
             LET errNo = ERROR_FAILURE
         END TRY
+        IF errNo == ERROR_SUCCESS THEN
+            IF officestore_events.m_DbxDataEvent_country_AfterUpdateRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_country_AfterUpdateRowByKey(p_dataT1.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
         {<POINT Name="fct.country_pk_country_updateRowByKey.afterUpdate">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -2972,15 +3364,27 @@ PUBLIC FUNCTION officestore_dbxdata_country_pk_country_deleteRowByKey(p_key)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.country_pk_country_deleteRowByKey.init">} {</POINT>}
-        TRY
-            CALL officestore_dbxdata_country_pk_country_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+        IF officestore_events.m_DbxDataEvent_country_BeforeDeleteRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_country_BeforeDeleteRowByKey(p_key.*)
+                RETURNING errNo
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            TRY
+                CALL officestore_dbxdata_country_pk_country_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+                IF errNo == ERROR_SUCCESS THEN
+                    DELETE FROM country
+                        WHERE @country.code = p_key.country_code
+                END IF
+            CATCH
+                LET errNo = ERROR_FAILURE
+            END TRY
             IF errNo == ERROR_SUCCESS THEN
-                DELETE FROM country
-                    WHERE country.code = p_key.country_code
+                IF officestore_events.m_DbxDataEvent_country_AfterDeleteRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_country_AfterDeleteRowByKey(p_key.*)
+                        RETURNING errNo
+                END IF
             END IF
-        CATCH
-            LET errNo = ERROR_FAILURE
-        END TRY
+        END IF
         {<POINT Name="fct.country_pk_country_deleteRowByKey.afterDelete">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -3113,7 +3517,7 @@ PUBLIC FUNCTION officestore_dbxdata_country_pk_country_deleteReferencingRowsByKe
                     USING l_data.code
                 FETCH officestore_dbxdata_country_pk_country_deleteReferencingRowsByKey_fk_orders_country_b
                     INTO l_key_fk_orders_country_b.*
-                IF SQLCA.SQLCODE = 0 THEN
+                IF sqlca.sqlcode = 0 THEN
                     LET errNo = ERROR_DELETE_CASCADE_ROW_USED
                 END IF
                 CLOSE officestore_dbxdata_country_pk_country_deleteReferencingRowsByKey_fk_orders_country_b
@@ -3130,7 +3534,7 @@ PUBLIC FUNCTION officestore_dbxdata_country_pk_country_deleteReferencingRowsByKe
                         USING l_data.code
                     FETCH officestore_dbxdata_country_pk_country_deleteReferencingRowsByKey_fk_orders_country_s
                         INTO l_key_fk_orders_country_s.*
-                    IF SQLCA.SQLCODE = 0 THEN
+                    IF sqlca.sqlcode = 0 THEN
                         LET errNo = ERROR_DELETE_CASCADE_ROW_USED
                     END IF
                     CLOSE officestore_dbxdata_country_pk_country_deleteReferencingRowsByKey_fk_orders_country_s
@@ -3149,7 +3553,7 @@ PUBLIC FUNCTION officestore_dbxdata_country_pk_country_deleteReferencingRowsByKe
                         USING l_data.code
                     FETCH officestore_dbxdata_country_pk_country_deleteReferencingRowsByKey_fk_account_country
                         INTO l_key_fk_account_country.*
-                    IF SQLCA.SQLCODE = 0 THEN
+                    IF sqlca.sqlcode = 0 THEN
                         LET errNo = ERROR_DELETE_CASCADE_ROW_USED
                     END IF
                     CLOSE officestore_dbxdata_country_pk_country_deleteReferencingRowsByKey_fk_account_country
@@ -3175,6 +3579,10 @@ PUBLIC FUNCTION officestore_dbxdata_country_setDefaultValuesFromDBSchema()
 
     INITIALIZE l_data.* TO NULL
     {<POINT Name="fct.country_setDefaultValuesFromDBSchema.init">} {</POINT>}
+    IF officestore_events.m_DbxDataEvent_country_SetDefaultValues IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_country_SetDefaultValues(l_data.*)
+            RETURNING l_data.*
+    END IF
     RETURN l_data.*
 END FUNCTION
 {</BLOCK>} --fct.country_setDefaultValuesFromDBSchema
@@ -3200,18 +3608,18 @@ PUBLIC FUNCTION officestore_dbxdata_category_pk_category_selectRowByKey(p_key, p
 
     LET errNo = ERROR_SUCCESS
     -- SQLite does not support the FOR UPDATE close in SELECT syntax
-    LET l_supportLock = (UPSHIFT(fgl_db_driver_type()) != "SQT")
+    LET l_supportLock = (upshift(fgl_db_driver_type()) != "SQT")
     {<POINT Name="fct.category_pk_category_selectRowByKey.init">} {</POINT>}
     TRY
         IF p_lock AND l_supportLock THEN
             SELECT * INTO l_data.* FROM category
-                WHERE category.catid = p_key.category_catid
+                WHERE @category.catid = p_key.category_catid
             FOR UPDATE
         ELSE
             SELECT * INTO l_data.* FROM category
-                WHERE category.catid = p_key.category_catid
+                WHERE @category.catid = p_key.category_catid
         END IF
-        IF SQLCA.SQLCODE == NOTFOUND THEN
+        IF sqlca.sqlcode == NOTFOUND THEN
             LET errNo = ERROR_NOTFOUND
         END IF
     CATCH
@@ -3239,7 +3647,14 @@ PRIVATE FUNCTION officestore_dbxdata_category_insertRowByKey(p_data)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.category_insertRowByKey.init">} {</POINT>}
-        CALL officestore_dbxconstraints.officestore_dbxconstraints_category_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+
+        IF officestore_events.m_DbxDataEvent_category_BeforeInsertRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_category_BeforeInsertRowByKey(p_data.*)
+                RETURNING errNo, errMsg, p_data.*
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            CALL officestore_dbxconstraints.officestore_dbxconstraints_category_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+        END IF
         {<POINT Name="fct.category_insertRowByKey.beforeInsert">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             TRY
@@ -3247,6 +3662,12 @@ PRIVATE FUNCTION officestore_dbxdata_category_insertRowByKey(p_data)
             CATCH
                 LET errNo = ERROR_FAILURE
             END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_category_AfterInsertRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_category_AfterInsertRowByKey(p_data.*)
+                        RETURNING errNo, errMsg
+                END IF
+            END IF
             {<POINT Name="fct.category_insertRowByKey.afterInsert">} {</POINT>}
         END IF
         IF errNo == ERROR_SUCCESS THEN
@@ -3308,14 +3729,26 @@ PUBLIC FUNCTION officestore_dbxdata_category_pk_category_updateRowByKey(p_dataT0
                 CALL officestore_dbxconstraints.officestore_dbxconstraints_category_checkTableConstraints(TRUE, p_dataT1.*) RETURNING errNo, errMsg
                 {<POINT Name="fct.category_pk_category_updateRowByKey.beforeUpdate">} {</POINT>}
                 IF errNo == ERROR_SUCCESS THEN
-                    UPDATE category
-                        SET category.* = p_dataT1.*
-                        WHERE category.catid = l_key.category_catid
+                    IF officestore_events.m_DbxDataEvent_category_BeforeUpdateRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_category_BeforeUpdateRowByKey(p_dataT1.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                    IF errNo == ERROR_SUCCESS THEN
+                        UPDATE category
+                            SET category.* = p_dataT1.*
+                            WHERE @category.catid = l_key.category_catid
+                    END IF
                 END IF
             END IF
         CATCH
             LET errNo = ERROR_FAILURE
         END TRY
+        IF errNo == ERROR_SUCCESS THEN
+            IF officestore_events.m_DbxDataEvent_category_AfterUpdateRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_category_AfterUpdateRowByKey(p_dataT1.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
         {<POINT Name="fct.category_pk_category_updateRowByKey.afterUpdate">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -3345,15 +3778,27 @@ PUBLIC FUNCTION officestore_dbxdata_category_pk_category_deleteRowByKey(p_key)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.category_pk_category_deleteRowByKey.init">} {</POINT>}
-        TRY
-            CALL officestore_dbxdata_category_pk_category_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+        IF officestore_events.m_DbxDataEvent_category_BeforeDeleteRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_category_BeforeDeleteRowByKey(p_key.*)
+                RETURNING errNo
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            TRY
+                CALL officestore_dbxdata_category_pk_category_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+                IF errNo == ERROR_SUCCESS THEN
+                    DELETE FROM category
+                        WHERE @category.catid = p_key.category_catid
+                END IF
+            CATCH
+                LET errNo = ERROR_FAILURE
+            END TRY
             IF errNo == ERROR_SUCCESS THEN
-                DELETE FROM category
-                    WHERE category.catid = p_key.category_catid
+                IF officestore_events.m_DbxDataEvent_category_AfterDeleteRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_category_AfterDeleteRowByKey(p_key.*)
+                        RETURNING errNo
+                END IF
             END IF
-        CATCH
-            LET errNo = ERROR_FAILURE
-        END TRY
+        END IF
         {<POINT Name="fct.category_pk_category_deleteRowByKey.afterDelete">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -3482,7 +3927,7 @@ PUBLIC FUNCTION officestore_dbxdata_category_pk_category_deleteReferencingRowsBy
                     USING l_data.catid
                 FETCH officestore_dbxdata_category_pk_category_deleteReferencingRowsByKey_fk_product_category
                     INTO l_key_fk_product_category.*
-                IF SQLCA.SQLCODE = 0 THEN
+                IF sqlca.sqlcode = 0 THEN
                     LET errNo = ERROR_DELETE_CASCADE_ROW_USED
                 END IF
                 CLOSE officestore_dbxdata_category_pk_category_deleteReferencingRowsByKey_fk_product_category
@@ -3499,7 +3944,7 @@ PUBLIC FUNCTION officestore_dbxdata_category_pk_category_deleteReferencingRowsBy
                         USING l_data.catid
                     FETCH officestore_dbxdata_category_pk_category_deleteReferencingRowsByKey_fk_account_category
                         INTO l_key_fk_account_category.*
-                    IF SQLCA.SQLCODE = 0 THEN
+                    IF sqlca.sqlcode = 0 THEN
                         LET errNo = ERROR_DELETE_CASCADE_ROW_USED
                     END IF
                     CLOSE officestore_dbxdata_category_pk_category_deleteReferencingRowsByKey_fk_account_category
@@ -3525,6 +3970,10 @@ PUBLIC FUNCTION officestore_dbxdata_category_setDefaultValuesFromDBSchema()
 
     INITIALIZE l_data.* TO NULL
     {<POINT Name="fct.category_setDefaultValuesFromDBSchema.init">} {</POINT>}
+    IF officestore_events.m_DbxDataEvent_category_SetDefaultValues IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_category_SetDefaultValues(l_data.*)
+            RETURNING l_data.*
+    END IF
     RETURN l_data.*
 END FUNCTION
 {</BLOCK>} --fct.category_setDefaultValuesFromDBSchema
@@ -3550,18 +3999,18 @@ PUBLIC FUNCTION officestore_dbxdata_account_pk_account_selectRowByKey(p_key, p_l
 
     LET errNo = ERROR_SUCCESS
     -- SQLite does not support the FOR UPDATE close in SELECT syntax
-    LET l_supportLock = (UPSHIFT(fgl_db_driver_type()) != "SQT")
+    LET l_supportLock = (upshift(fgl_db_driver_type()) != "SQT")
     {<POINT Name="fct.account_pk_account_selectRowByKey.init">} {</POINT>}
     TRY
         IF p_lock AND l_supportLock THEN
             SELECT * INTO l_data.* FROM account
-                WHERE account.userid = p_key.account_userid
+                WHERE @account.userid = p_key.account_userid
             FOR UPDATE
         ELSE
             SELECT * INTO l_data.* FROM account
-                WHERE account.userid = p_key.account_userid
+                WHERE @account.userid = p_key.account_userid
         END IF
-        IF SQLCA.SQLCODE == NOTFOUND THEN
+        IF sqlca.sqlcode == NOTFOUND THEN
             LET errNo = ERROR_NOTFOUND
         END IF
     CATCH
@@ -3589,7 +4038,14 @@ PRIVATE FUNCTION officestore_dbxdata_account_insertRowByKey(p_data)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.account_insertRowByKey.init">} {</POINT>}
-        CALL officestore_dbxconstraints.officestore_dbxconstraints_account_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+
+        IF officestore_events.m_DbxDataEvent_account_BeforeInsertRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_account_BeforeInsertRowByKey(p_data.*)
+                RETURNING errNo, errMsg, p_data.*
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            CALL officestore_dbxconstraints.officestore_dbxconstraints_account_checkTableConstraints(FALSE, p_data.*) RETURNING errNo, errMsg
+        END IF
         {<POINT Name="fct.account_insertRowByKey.beforeInsert">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             TRY
@@ -3597,6 +4053,12 @@ PRIVATE FUNCTION officestore_dbxdata_account_insertRowByKey(p_data)
             CATCH
                 LET errNo = ERROR_FAILURE
             END TRY
+            IF errNo == ERROR_SUCCESS THEN
+                IF officestore_events.m_DbxDataEvent_account_AfterInsertRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_account_AfterInsertRowByKey(p_data.*)
+                        RETURNING errNo, errMsg
+                END IF
+            END IF
             {<POINT Name="fct.account_insertRowByKey.afterInsert">} {</POINT>}
         END IF
         IF errNo == ERROR_SUCCESS THEN
@@ -3658,14 +4120,26 @@ PUBLIC FUNCTION officestore_dbxdata_account_pk_account_updateRowByKey(p_dataT0, 
                 CALL officestore_dbxconstraints.officestore_dbxconstraints_account_checkTableConstraints(TRUE, p_dataT1.*) RETURNING errNo, errMsg
                 {<POINT Name="fct.account_pk_account_updateRowByKey.beforeUpdate">} {</POINT>}
                 IF errNo == ERROR_SUCCESS THEN
-                    UPDATE account
-                        SET account.* = p_dataT1.*
-                        WHERE account.userid = l_key.account_userid
+                    IF officestore_events.m_DbxDataEvent_account_BeforeUpdateRowByKey IS NOT NULL THEN
+                        CALL officestore_events.m_DbxDataEvent_account_BeforeUpdateRowByKey(p_dataT1.*)
+                            RETURNING errNo, errMsg
+                    END IF
+                    IF errNo == ERROR_SUCCESS THEN
+                        UPDATE account
+                            SET account.* = p_dataT1.*
+                            WHERE @account.userid = l_key.account_userid
+                    END IF
                 END IF
             END IF
         CATCH
             LET errNo = ERROR_FAILURE
         END TRY
+        IF errNo == ERROR_SUCCESS THEN
+            IF officestore_events.m_DbxDataEvent_account_AfterUpdateRowByKey IS NOT NULL THEN
+                CALL officestore_events.m_DbxDataEvent_account_AfterUpdateRowByKey(p_dataT1.*)
+                    RETURNING errNo, errMsg
+            END IF
+        END IF
         {<POINT Name="fct.account_pk_account_updateRowByKey.afterUpdate">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -3695,15 +4169,27 @@ PUBLIC FUNCTION officestore_dbxdata_account_pk_account_deleteRowByKey(p_key)
     LET errNo = libdbapp_begin_work()
     IF errNo == ERROR_SUCCESS THEN
         {<POINT Name="fct.account_pk_account_deleteRowByKey.init">} {</POINT>}
-        TRY
-            CALL officestore_dbxdata_account_pk_account_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+        IF officestore_events.m_DbxDataEvent_account_BeforeDeleteRowByKey IS NOT NULL THEN
+            CALL officestore_events.m_DbxDataEvent_account_BeforeDeleteRowByKey(p_key.*)
+                RETURNING errNo
+        END IF
+        IF errNo == ERROR_SUCCESS THEN
+            TRY
+                CALL officestore_dbxdata_account_pk_account_deleteReferencingRowsByKey(p_key.*) RETURNING errNo
+                IF errNo == ERROR_SUCCESS THEN
+                    DELETE FROM account
+                        WHERE @account.userid = p_key.account_userid
+                END IF
+            CATCH
+                LET errNo = ERROR_FAILURE
+            END TRY
             IF errNo == ERROR_SUCCESS THEN
-                DELETE FROM account
-                    WHERE account.userid = p_key.account_userid
+                IF officestore_events.m_DbxDataEvent_account_AfterDeleteRowByKey IS NOT NULL THEN
+                    CALL officestore_events.m_DbxDataEvent_account_AfterDeleteRowByKey(p_key.*)
+                        RETURNING errNo
+                END IF
             END IF
-        CATCH
-            LET errNo = ERROR_FAILURE
-        END TRY
+        END IF
         {<POINT Name="fct.account_pk_account_deleteRowByKey.afterDelete">} {</POINT>}
         IF errNo == ERROR_SUCCESS THEN
             LET errNo = libdbapp_commit_work()
@@ -3837,7 +4323,7 @@ PUBLIC FUNCTION officestore_dbxdata_account_pk_account_deleteReferencingRowsByKe
                     USING l_data.userid
                 FETCH officestore_dbxdata_account_pk_account_deleteReferencingRowsByKey_fk_orders_account
                     INTO l_key_fk_orders_account.*
-                IF SQLCA.SQLCODE = 0 THEN
+                IF sqlca.sqlcode = 0 THEN
                     LET errNo = ERROR_DELETE_CASCADE_ROW_USED
                 END IF
                 CLOSE officestore_dbxdata_account_pk_account_deleteReferencingRowsByKey_fk_orders_account
@@ -3887,6 +4373,10 @@ PUBLIC FUNCTION officestore_dbxdata_account_setDefaultValuesFromDBSchema()
 
     INITIALIZE l_data.* TO NULL
     {<POINT Name="fct.account_setDefaultValuesFromDBSchema.init">} {</POINT>}
+    IF officestore_events.m_DbxDataEvent_account_SetDefaultValues IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_account_SetDefaultValues(l_data.*)
+            RETURNING l_data.*
+    END IF
     RETURN l_data.*
 END FUNCTION
 {</BLOCK>} --fct.account_setDefaultValuesFromDBSchema

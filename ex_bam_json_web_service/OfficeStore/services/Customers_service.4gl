@@ -2,14 +2,13 @@
 #+ JSON Web service
 
 --------------------------------------------------------------------------------
---This code is generated with the template dbapp4.1
+--This code is generated with the template dbapp5.0
 --Warning: Enter your changes within a <BLOCK> or <POINT> section, otherwise they will be lost.
 {<POINT Name="user.comments">} {</POINT>}
 
 --------------------------------------------------------------------------------
 --Importing modules
 --Import Genero Web Service COM library
-IMPORT com
 IMPORT util
 IMPORT FGL libdbappCore
 IMPORT FGL libdbappSql
@@ -17,11 +16,13 @@ IMPORT FGL libdbappWSCore
 IMPORT FGL libdbappWS
 
 IMPORT FGL officestore_dbxdata
+IMPORT FGL Customers_common
+IMPORT FGL Customers_events
+IMPORT FGL officestore_events
 IMPORT FGL Customers_uidata
 {<POINT Name="import">} {</POINT>}
 
---------------------------------------------------------------------------------
---Database schema
+-- Database schema
 SCHEMA officestore
 
 --------------------------------------------------------------------------------
@@ -276,6 +277,8 @@ PUBLIC FUNCTION Customers_service_process(dbappHttpRequest)
     DEFINE targetResource STRING
     {<POINT Name="fct.process.define">} {</POINT>}
 
+    CALL Customers_events.Customers_registerDlgEvents()
+    CALL officestore_events.officestore_registerDbxEvents()
     CALL libdbappWS.initializeRestHttpResponse() RETURNING dbappHttpResponse.*
 
     # If there is no hierarchical structure, then the target resource is the
@@ -462,7 +465,7 @@ PRIVATE FUNCTION Customers_service_Accounts_process(dbappHttpRequest)
                 LET dbappHttpResponse.data = util.JSON.stringify(m_Accounts_update_OUT)
                 LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_200_code
             ELSE
-                LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_500_code
+                LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_400_code
             END IF
         WHEN "UPDATECollection"
             CALL m_Accounts_update_IN.clear()
@@ -478,7 +481,7 @@ PRIVATE FUNCTION Customers_service_Accounts_process(dbappHttpRequest)
                 LET dbappHttpResponse.data = util.JSON.stringify(m_Accounts_update_OUT)
                 LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_200_code
             ELSE
-                LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_500_code
+                LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_400_code
             END IF
         WHEN "DELETEItem"
             CALL m_Accounts_delete_IN.clear()
@@ -613,7 +616,7 @@ PRIVATE FUNCTION Customers_service_Orders_process(dbappHttpRequest)
                 LET dbappHttpResponse.data = util.JSON.stringify(m_Orders_update_OUT)
                 LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_200_code
             ELSE
-                LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_500_code
+                LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_400_code
             END IF
         WHEN "UPDATECollection"
             CALL m_Orders_update_IN.clear()
@@ -629,7 +632,7 @@ PRIVATE FUNCTION Customers_service_Orders_process(dbappHttpRequest)
                 LET dbappHttpResponse.data = util.JSON.stringify(m_Orders_update_OUT)
                 LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_200_code
             ELSE
-                LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_500_code
+                LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_400_code
             END IF
         WHEN "DELETEItem"
             CALL m_Orders_delete_IN.clear()
@@ -764,7 +767,7 @@ PRIVATE FUNCTION Customers_service_LineItems_process(dbappHttpRequest)
                 LET dbappHttpResponse.data = util.JSON.stringify(m_LineItems_update_OUT)
                 LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_200_code
             ELSE
-                LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_500_code
+                LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_400_code
             END IF
         WHEN "UPDATECollection"
             CALL m_LineItems_update_IN.clear()
@@ -780,7 +783,7 @@ PRIVATE FUNCTION Customers_service_LineItems_process(dbappHttpRequest)
                 LET dbappHttpResponse.data = util.JSON.stringify(m_LineItems_update_OUT)
                 LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_200_code
             ELSE
-                LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_500_code
+                LET dbappHttpResponse.statusCode = libdbappWSCore.HTTPStatus_400_code
             END IF
         WHEN "DELETEItem"
             CALL m_LineItems_delete_IN.clear()
@@ -1067,23 +1070,19 @@ END FUNCTION
 #+
 PUBLIC FUNCTION Customers_service_readAll()
     DEFINE errNo INTEGER
-    DEFINE errMsg STRING
+    DEFINE l_select, l_from, l_where, l_orderBy STRING
     DEFINE sqlQuery STRING
     DEFINE sqlDistinct STRING
     DEFINE sqlFrom STRING
     DEFINE sqlWhere STRING
     DEFINE sqlWhereTmp STRING
-    DEFINE br_Accounts Accounts_ws_br_type
     DEFINE i INTEGER
-    DEFINE sqlFrom_Accounts STRING
     DEFINE sqlFrom_Orders STRING
     DEFINE sqlFrom_LineItems STRING
     DEFINE sqlQuery_Orders STRING
     DEFINE i_Orders INTEGER
-    DEFINE br_Orders Orders_ws_br_type
     DEFINE sqlQuery_LineItems STRING
     DEFINE i_LineItems INTEGER
-    DEFINE br_LineItems LineItems_ws_br_type
     {<POINT Name="fct.readAll.define">} {</POINT>}
     {<POINT Name="fct.readAll.init">} {</POINT>}
 
@@ -1181,21 +1180,25 @@ PUBLIC FUNCTION Customers_service_readAll()
         LET sqlFrom = sqlFrom,sqlFrom_Orders
         {<POINT Name="fct.Accounts_readAll.fromClause">} {</POINT>}
     END IF
-    LET sqlQuery =
-        ' SELECT ', sqlDistinct, ' account.userid,
-                                account.firstname,
-                                account.lastname,
-                                country.codedesc,
-                                account.phone,
-                                account.email,
-                                category.catpic'
-     ,' FROM account
-            INNER JOIN country ON ( account.country = country.code )
-INNER JOIN category ON ( account.favcategory = category.catid )'
-     , sqlFrom
-     ,' WHERE 1=1'
-     , sqlWhere
 
+    LET l_select = 'SELECT ', sqlDistinct, ' account.userid,
+                                    account.firstname,
+                                    account.lastname,
+                                    country.codedesc,
+                                    account.phone,
+                                    account.email,
+                                    category.catpic'
+        LET l_from = ' FROM account
+                    INNER JOIN country ON ( account.country = country.code )
+        INNER JOIN category ON ( account.favcategory = category.catid )'
+        , sqlFrom
+        LET l_where = ' WHERE 1=1'
+        , sqlWhere
+        LET l_orderBy = ''
+        LET sqlQuery = l_select
+            , l_from
+            , l_where
+            , l_orderBy
     LET sqlQuery_Orders =
         ' SELECT orders.orderid,
                     orders.userid,
@@ -1229,51 +1232,67 @@ INNER JOIN category ON ( account.favcategory = category.catid )'
     {<POINT Name="fct.LineItems_readAll.query">} {</POINT>}
     LET errNo = ERROR_SUCCESS
     {<POINT Name="fct.readAll.beforeReadAll">} {</POINT>}
+    IF Customers_events.m_DataEvent_Accounts_OnSelectRows IS NOT NULL THEN
+        CALL Customers_events.m_DataEvent_Accounts_OnSelectRows(l_select, l_from, l_where, l_orderBy)
+            RETURNING sqlQuery
+    END IF
     TRY
         DECLARE Customers_service_readAll CURSOR FROM sqlQuery
         DECLARE Customers_service_readAll_Orders CURSOR FROM sqlQuery_Orders
         DECLARE Customers_service_readAll_LineItems CURSOR FROM sqlQuery_LineItems
-        LET i = 0
+        LET i = 1
         FOREACH Customers_service_readAll
-            INTO  br_Accounts.account_userid,
-                        br_Accounts.account_firstname,
-                        br_Accounts.account_lastname,
-                        br_Accounts.country_codedesc,
-                        br_Accounts.account_phone,
-                        br_Accounts.account_email,
-                        br_Accounts.category_catpic
-            LET i = i + 1
-            LET m_readAll_OUT.resultset[i].AccountsData.* = br_Accounts.*
+            INTO  m_readAll_OUT.resultset[i].AccountsData.account_userid,
+                        m_readAll_OUT.resultset[i].AccountsData.account_firstname,
+                        m_readAll_OUT.resultset[i].AccountsData.account_lastname,
+                        m_readAll_OUT.resultset[i].AccountsData.country_codedesc,
+                        m_readAll_OUT.resultset[i].AccountsData.account_phone,
+                        m_readAll_OUT.resultset[i].AccountsData.account_email,
+                        m_readAll_OUT.resultset[i].AccountsData.category_catpic
+            IF Customers_events.m_DataEvent_Accounts_OnComputedFields IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_Accounts_OnComputedFields(m_readAll_OUT.resultset[i].AccountsData)
+            END IF
+
             {<POINT Name="fct.readAll.result">} {</POINT>}
-            LET i_Orders = 0
+            LET i_Orders = 1
             FOREACH Customers_service_readAll_Orders
                 USING m_readAll_OUT.resultset[i].AccountsData.account_userid
-                INTO  br_Orders.orders_orderid,
-                            br_Orders.orders_userid,
-                            br_Orders.orders_orderdate,
-                            br_Orders.orders_shipcountry,
-                            br_Orders.ship_country_codedesc,
-                            br_Orders.orders_billcountry,
-                            br_Orders.bill_country_codedesc,
-                            br_Orders.orders_totalprice
-                LET i_Orders = i_Orders + 1
-                LET m_readAll_OUT.resultset[i].detail_Orders[i_Orders].OrdersData.* = br_Orders.*
+                INTO  m_readAll_OUT.resultset[i].detail_Orders[i_Orders].OrdersData.orders_orderid,
+                            m_readAll_OUT.resultset[i].detail_Orders[i_Orders].OrdersData.orders_userid,
+                            m_readAll_OUT.resultset[i].detail_Orders[i_Orders].OrdersData.orders_orderdate,
+                            m_readAll_OUT.resultset[i].detail_Orders[i_Orders].OrdersData.orders_shipcountry,
+                            m_readAll_OUT.resultset[i].detail_Orders[i_Orders].OrdersData.ship_country_codedesc,
+                            m_readAll_OUT.resultset[i].detail_Orders[i_Orders].OrdersData.orders_billcountry,
+                            m_readAll_OUT.resultset[i].detail_Orders[i_Orders].OrdersData.bill_country_codedesc,
+                            m_readAll_OUT.resultset[i].detail_Orders[i_Orders].OrdersData.orders_totalprice
+                IF Customers_events.m_DataEvent_Orders_OnComputedFields IS NOT NULL THEN
+                    CALL Customers_events.m_DataEvent_Orders_OnComputedFields(m_readAll_OUT.resultset[i].detail_Orders[i_Orders].OrdersData)
+                END IF
+
                 {<POINT Name="fct.Orders_readAll.result">} {</POINT>}
-                LET i_LineItems = 0
+                LET i_LineItems = 1
                 FOREACH Customers_service_readAll_LineItems
                     USING m_readAll_OUT.resultset[i].detail_Orders[i_Orders].OrdersData.orders_orderid
-                    INTO  br_LineItems.lineitem_orderid,
-                                br_LineItems.lineitem_linenum,
-                                br_LineItems.lineitem_itemid,
-                                br_LineItems.product_prodname,
-                                br_LineItems.lineitem_quantity,
-                                br_LineItems.lineitem_unitprice
-                    LET i_LineItems = i_LineItems + 1
-                    LET m_readAll_OUT.resultset[i].detail_Orders[i_Orders].detail_LineItems[i_LineItems].LineItemsData.* = br_LineItems.*
+                    INTO  m_readAll_OUT.resultset[i].detail_Orders[i_Orders].detail_LineItems[i_LineItems].LineItemsData.lineitem_orderid,
+                                m_readAll_OUT.resultset[i].detail_Orders[i_Orders].detail_LineItems[i_LineItems].LineItemsData.lineitem_linenum,
+                                m_readAll_OUT.resultset[i].detail_Orders[i_Orders].detail_LineItems[i_LineItems].LineItemsData.lineitem_itemid,
+                                m_readAll_OUT.resultset[i].detail_Orders[i_Orders].detail_LineItems[i_LineItems].LineItemsData.product_prodname,
+                                m_readAll_OUT.resultset[i].detail_Orders[i_Orders].detail_LineItems[i_LineItems].LineItemsData.lineitem_quantity,
+                                m_readAll_OUT.resultset[i].detail_Orders[i_Orders].detail_LineItems[i_LineItems].LineItemsData.lineitem_unitprice
+                    IF Customers_events.m_DataEvent_LineItems_OnComputedFields IS NOT NULL THEN
+                        CALL Customers_events.m_DataEvent_LineItems_OnComputedFields(m_readAll_OUT.resultset[i].detail_Orders[i_Orders].detail_LineItems[i_LineItems].LineItemsData)
+                    END IF
+
                     {<POINT Name="fct.LineItems_readAll.result">} {</POINT>}
+                    LET i_LineItems = i_LineItems + 1
                 END FOREACH
+                CALL m_readAll_OUT.resultset[i].detail_Orders[i_Orders].detail_LineItems.deleteElement(m_readAll_OUT.resultset[i].detail_Orders[i_Orders].detail_LineItems.getLength())
+                LET i_Orders = i_Orders + 1
             END FOREACH
+            CALL m_readAll_OUT.resultset[i].detail_Orders.deleteElement(m_readAll_OUT.resultset[i].detail_Orders.getLength())
+            LET i = i + 1
         END FOREACH
+        CALL m_readAll_OUT.resultset.deleteElement(m_readAll_OUT.resultset.getLength())
     CATCH
         INITIALIZE m_readAll_OUT.* TO NULL
         LET errNo = ERROR_FAILURE
@@ -1288,35 +1307,37 @@ END FUNCTION
 #+
 PUBLIC FUNCTION Customers_service_Accounts_read()
     DEFINE errNo INTEGER
-    DEFINE errMsg STRING
     {<POINT Name="fct.Accounts_read.define">} {</POINT>}
     {<POINT Name="fct.Accounts_read.init">} {</POINT>}
     INITIALIZE m_Accounts_read_OUT.resultset.* TO NULL
     LET errNo = ERROR_SUCCESS
     {<POINT Name="fct.Accounts_read.beforeRead">} {</POINT>}
     TRY
-        SELECT      account.userid,
-                                account.firstname,
-                                account.lastname,
-                                country.codedesc,
-                                account.phone,
-                                account.email,
-                                category.catpic
-        INTO        m_Accounts_read_OUT.resultset.account_userid,
-                                m_Accounts_read_OUT.resultset.account_firstname,
-                                m_Accounts_read_OUT.resultset.account_lastname,
-                                m_Accounts_read_OUT.resultset.country_codedesc,
-                                m_Accounts_read_OUT.resultset.account_phone,
-                                m_Accounts_read_OUT.resultset.account_email,
-                                m_Accounts_read_OUT.resultset.category_catpic
-        FROM        account
-            INNER JOIN country ON ( account.country = country.code )
-INNER JOIN category ON ( account.favcategory = category.catid )
-        WHERE       1=1
-        AND        account.userid = m_Accounts_read_IN.account_userid
-    IF SQLCA.SQLCODE == NOTFOUND THEN
-        LET errNo = ERROR_NOTFOUND
-    END IF
+        SELECT  account.userid,
+                account.firstname,
+                account.lastname,
+                country.codedesc,
+                account.phone,
+                account.email,
+                category.catpic
+        INTO    m_Accounts_read_OUT.resultset.account_userid,
+                m_Accounts_read_OUT.resultset.account_firstname,
+                m_Accounts_read_OUT.resultset.account_lastname,
+                m_Accounts_read_OUT.resultset.country_codedesc,
+                m_Accounts_read_OUT.resultset.account_phone,
+                m_Accounts_read_OUT.resultset.account_email,
+                m_Accounts_read_OUT.resultset.category_catpic
+        FROM account
+        INNER JOIN country ON ( @account.country = @country.code )
+        INNER JOIN category ON ( @account.favcategory = @category.catid )
+        WHERE 1=1
+        AND account.userid = m_Accounts_read_IN.account_userid
+        IF sqlca.sqlcode == NOTFOUND THEN
+            LET errNo = ERROR_NOTFOUND
+        END IF
+        IF Customers_events.m_DataEvent_Accounts_OnComputedFields IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_Accounts_OnComputedFields(m_Accounts_read_OUT.resultset)
+            END IF
     CATCH
         INITIALIZE m_Accounts_read_OUT.resultset.* TO NULL
         LET errNo = ERROR_FAILURE
@@ -1331,37 +1352,39 @@ END FUNCTION
 #+
 PUBLIC FUNCTION Customers_service_Orders_read()
     DEFINE errNo INTEGER
-    DEFINE errMsg STRING
     {<POINT Name="fct.Orders_read.define">} {</POINT>}
     {<POINT Name="fct.Orders_read.init">} {</POINT>}
     INITIALIZE m_Orders_read_OUT.resultset.* TO NULL
     LET errNo = ERROR_SUCCESS
     {<POINT Name="fct.Orders_read.beforeRead">} {</POINT>}
     TRY
-        SELECT      orders.orderid,
-                                orders.userid,
-                                orders.orderdate,
-                                orders.shipcountry,
-                                ship_country.codedesc,
-                                orders.billcountry,
-                                bill_country.codedesc,
-                                orders.totalprice
-        INTO        m_Orders_read_OUT.resultset.orders_orderid,
-                                m_Orders_read_OUT.resultset.orders_userid,
-                                m_Orders_read_OUT.resultset.orders_orderdate,
-                                m_Orders_read_OUT.resultset.orders_shipcountry,
-                                m_Orders_read_OUT.resultset.ship_country_codedesc,
-                                m_Orders_read_OUT.resultset.orders_billcountry,
-                                m_Orders_read_OUT.resultset.bill_country_codedesc,
-                                m_Orders_read_OUT.resultset.orders_totalprice
-        FROM        orders
-            INNER JOIN country bill_country ON ( orders.billcountry = bill_country.code )
-INNER JOIN country ship_country ON ( orders.shipcountry = ship_country.code )
-        WHERE       1=1
-        AND        orders.orderid = m_Orders_read_IN.orders_orderid
-    IF SQLCA.SQLCODE == NOTFOUND THEN
-        LET errNo = ERROR_NOTFOUND
-    END IF
+        SELECT  orders.orderid,
+                orders.userid,
+                orders.orderdate,
+                orders.shipcountry,
+                ship_country.codedesc,
+                orders.billcountry,
+                bill_country.codedesc,
+                orders.totalprice
+        INTO    m_Orders_read_OUT.resultset.orders_orderid,
+                m_Orders_read_OUT.resultset.orders_userid,
+                m_Orders_read_OUT.resultset.orders_orderdate,
+                m_Orders_read_OUT.resultset.orders_shipcountry,
+                m_Orders_read_OUT.resultset.ship_country_codedesc,
+                m_Orders_read_OUT.resultset.orders_billcountry,
+                m_Orders_read_OUT.resultset.bill_country_codedesc,
+                m_Orders_read_OUT.resultset.orders_totalprice
+        FROM orders
+        INNER JOIN country bill_country ON ( @orders.billcountry = @bill_country.code )
+        INNER JOIN country ship_country ON ( @orders.shipcountry = @ship_country.code )
+        WHERE 1=1
+        AND orders.orderid = m_Orders_read_IN.orders_orderid
+        IF sqlca.sqlcode == NOTFOUND THEN
+            LET errNo = ERROR_NOTFOUND
+        END IF
+        IF Customers_events.m_DataEvent_Orders_OnComputedFields IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_Orders_OnComputedFields(m_Orders_read_OUT.resultset)
+            END IF
     CATCH
         INITIALIZE m_Orders_read_OUT.resultset.* TO NULL
         LET errNo = ERROR_FAILURE
@@ -1376,34 +1399,36 @@ END FUNCTION
 #+
 PUBLIC FUNCTION Customers_service_LineItems_read()
     DEFINE errNo INTEGER
-    DEFINE errMsg STRING
     {<POINT Name="fct.LineItems_read.define">} {</POINT>}
     {<POINT Name="fct.LineItems_read.init">} {</POINT>}
     INITIALIZE m_LineItems_read_OUT.resultset.* TO NULL
     LET errNo = ERROR_SUCCESS
     {<POINT Name="fct.LineItems_read.beforeRead">} {</POINT>}
     TRY
-        SELECT      lineitem.orderid,
-                                lineitem.linenum,
-                                lineitem.itemid,
-                                product.prodname,
-                                lineitem.quantity,
-                                lineitem.unitprice
-        INTO        m_LineItems_read_OUT.resultset.lineitem_orderid,
-                                m_LineItems_read_OUT.resultset.lineitem_linenum,
-                                m_LineItems_read_OUT.resultset.lineitem_itemid,
-                                m_LineItems_read_OUT.resultset.product_prodname,
-                                m_LineItems_read_OUT.resultset.lineitem_quantity,
-                                m_LineItems_read_OUT.resultset.lineitem_unitprice
-        FROM        lineitem
-            INNER JOIN item ON ( lineitem.itemid = item.itemid )
-INNER JOIN product ON ( item.productid = product.productid )
-        WHERE       1=1
-        AND        lineitem.orderid = m_LineItems_read_IN.lineitem_orderid
-        AND        lineitem.linenum = m_LineItems_read_IN.lineitem_linenum
-    IF SQLCA.SQLCODE == NOTFOUND THEN
-        LET errNo = ERROR_NOTFOUND
-    END IF
+        SELECT  lineitem.orderid,
+                lineitem.linenum,
+                lineitem.itemid,
+                product.prodname,
+                lineitem.quantity,
+                lineitem.unitprice
+        INTO    m_LineItems_read_OUT.resultset.lineitem_orderid,
+                m_LineItems_read_OUT.resultset.lineitem_linenum,
+                m_LineItems_read_OUT.resultset.lineitem_itemid,
+                m_LineItems_read_OUT.resultset.product_prodname,
+                m_LineItems_read_OUT.resultset.lineitem_quantity,
+                m_LineItems_read_OUT.resultset.lineitem_unitprice
+        FROM lineitem
+        INNER JOIN item ON ( @lineitem.itemid = @item.itemid )
+        INNER JOIN product ON ( @item.productid = @product.productid )
+        WHERE 1=1
+        AND lineitem.orderid = m_LineItems_read_IN.lineitem_orderid
+        AND lineitem.linenum = m_LineItems_read_IN.lineitem_linenum
+        IF sqlca.sqlcode == NOTFOUND THEN
+            LET errNo = ERROR_NOTFOUND
+        END IF
+        IF Customers_events.m_DataEvent_LineItems_OnComputedFields IS NOT NULL THEN
+                CALL Customers_events.m_DataEvent_LineItems_OnComputedFields(m_LineItems_read_OUT.resultset)
+            END IF
     CATCH
         INITIALIZE m_LineItems_read_OUT.resultset.* TO NULL
         LET errNo = ERROR_FAILURE
@@ -1418,7 +1443,6 @@ END FUNCTION
 #+
 PUBLIC FUNCTION Customers_service_Accounts_update()
     DEFINE errNo INTEGER
-    DEFINE errMsg STRING
     DEFINE i INTEGER
     DEFINE size INTEGER
     {<POINT Name="fct.Accounts_update.define">} {</POINT>}
@@ -1459,7 +1483,6 @@ END FUNCTION
 #+
 PUBLIC FUNCTION Customers_service_Orders_update()
     DEFINE errNo INTEGER
-    DEFINE errMsg STRING
     DEFINE i INTEGER
     DEFINE size INTEGER
     {<POINT Name="fct.Orders_update.define">} {</POINT>}
@@ -1501,7 +1524,6 @@ END FUNCTION
 #+
 PUBLIC FUNCTION Customers_service_LineItems_update()
     DEFINE errNo INTEGER
-    DEFINE errMsg STRING
     DEFINE i INTEGER
     DEFINE size INTEGER
     {<POINT Name="fct.LineItems_update.define">} {</POINT>}

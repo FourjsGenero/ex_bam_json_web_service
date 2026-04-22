@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<AG version="7" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.4js.com/ns/gst/3.10/agmodel.xsd">
-  <Database name="officestore" schemaFile="C:\Users\Scott Barney\Documents\My Genero Files\sample_jsonbamwebservice\OfficeStoreRes\schema-4dbx\officestore.4dbx">
+<AG version="12" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://4js.com/ns/gst/5.00/agmodel.xsd">
+  <Database name="officestore" schemaFile="C:\Users\sbarney\Downloads\ex_bam_json_web_service-master\ex_bam_json_web_service-master\ex_bam_json_web_service\OfficeStoreRes\schema-4dbx\officestore.4dbx">
     <Table name="supplier">
       <DBColumn datatype="SERIAL" defaultValue="" fglDatatype="SERIAL" fglLength="4" length="11" name="suppid" notNull="1">
         <DynamicProperties>

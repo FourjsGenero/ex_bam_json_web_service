@@ -2,17 +2,18 @@
 #+ DB schema - Constraints Management (officestore)
 
 --------------------------------------------------------------------------------
---This code is generated with the template dbapp4.1
+--This code is generated with the template dbapp5.0
 --Warning: Enter your changes within a <BLOCK> or <POINT> section, otherwise they will be lost.
 {<POINT Name="user.comments">} {</POINT>}
 
 --------------------------------------------------------------------------------
 --Importing modules
 IMPORT FGL libdbappCore
+
+IMPORT FGL officestore_events
 {<POINT Name="import">} {</POINT>}
 
---------------------------------------------------------------------------------
---Database schema
+-- Database schema
 SCHEMA officestore
 
 --------------------------------------------------------------------------------
@@ -45,6 +46,12 @@ PUBLIC FUNCTION officestore_dbxconstraints_supplier_checkTableConstraints(p_forU
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
     CALL officestore_dbxconstraints_supplier_pk_supplier_checkUniqueConstraint(p_forUpdate, p_data.suppid) RETURNING l_errNo, l_errMsg
+    CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
+
+    IF officestore_events.m_DbxDataEvent_supplier_CheckTableConstraints IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_supplier_CheckTableConstraints(p_forUpdate, p_data.*)
+            RETURNING l_errNo, l_errMsg
+    END IF
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
     {<POINT Name="fct.supplier_checkTableConstraints.user">} {</POINT>}
@@ -219,6 +226,12 @@ PUBLIC FUNCTION officestore_dbxconstraints_signon_checkTableConstraints(p_forUpd
     CALL officestore_dbxconstraints_account_pk_account_checkFKConstraint(p_data.userid) RETURNING l_errNo, l_errMsg
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
+    IF officestore_events.m_DbxDataEvent_signon_CheckTableConstraints IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_signon_CheckTableConstraints(p_forUpdate, p_data.*)
+            RETURNING l_errNo, l_errMsg
+    END IF
+    CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
+
     {<POINT Name="fct.signon_checkTableConstraints.user">} {</POINT>}
     RETURN errNo, errMsg
 END FUNCTION
@@ -386,6 +399,12 @@ PUBLIC FUNCTION officestore_dbxconstraints_seqreg_checkTableConstraints(p_forUpd
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
     CALL officestore_dbxconstraints_seqreg_pk_seqreg_checkUniqueConstraint(p_forUpdate, p_data.sr_name) RETURNING l_errNo, l_errMsg
+    CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
+
+    IF officestore_events.m_DbxDataEvent_seqreg_CheckTableConstraints IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_seqreg_CheckTableConstraints(p_forUpdate, p_data.*)
+            RETURNING l_errNo, l_errMsg
+    END IF
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
     {<POINT Name="fct.seqreg_checkTableConstraints.user">} {</POINT>}
@@ -558,6 +577,12 @@ PUBLIC FUNCTION officestore_dbxconstraints_product_checkTableConstraints(p_forUp
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
     CALL officestore_dbxconstraints_category_pk_category_checkFKConstraint(p_data.catid) RETURNING l_errNo, l_errMsg
+    CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
+
+    IF officestore_events.m_DbxDataEvent_product_CheckTableConstraints IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_product_CheckTableConstraints(p_forUpdate, p_data.*)
+            RETURNING l_errNo, l_errMsg
+    END IF
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
     {<POINT Name="fct.product_checkTableConstraints.user">} {</POINT>}
@@ -734,6 +759,12 @@ PUBLIC FUNCTION officestore_dbxconstraints_orderstatus_checkTableConstraints(p_f
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
     CALL officestore_dbxconstraints_orders_pk_orders_checkFKConstraint(p_data.orderid) RETURNING l_errNo, l_errMsg
+    CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
+
+    IF officestore_events.m_DbxDataEvent_orderstatus_CheckTableConstraints IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_orderstatus_CheckTableConstraints(p_forUpdate, p_data.*)
+            RETURNING l_errNo, l_errMsg
+    END IF
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
     {<POINT Name="fct.orderstatus_checkTableConstraints.user">} {</POINT>}
@@ -969,6 +1000,12 @@ PUBLIC FUNCTION officestore_dbxconstraints_orders_checkTableConstraints(p_forUpd
     CALL officestore_dbxconstraints_country_pk_country_checkFKConstraint(p_data.billcountry) RETURNING l_errNo, l_errMsg
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
     CALL officestore_dbxconstraints_country_pk_country_checkFKConstraint(p_data.shipcountry) RETURNING l_errNo, l_errMsg
+    CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
+
+    IF officestore_events.m_DbxDataEvent_orders_CheckTableConstraints IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_orders_CheckTableConstraints(p_forUpdate, p_data.*)
+            RETURNING l_errNo, l_errMsg
+    END IF
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
     {<POINT Name="fct.orders_checkTableConstraints.user">} {</POINT>}
@@ -1223,6 +1260,12 @@ PUBLIC FUNCTION officestore_dbxconstraints_lineitem_checkTableConstraints(p_forU
     CALL officestore_dbxconstraints_orders_pk_orders_checkFKConstraint(p_data.orderid) RETURNING l_errNo, l_errMsg
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
+    IF officestore_events.m_DbxDataEvent_lineitem_CheckTableConstraints IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_lineitem_CheckTableConstraints(p_forUpdate, p_data.*)
+            RETURNING l_errNo, l_errMsg
+    END IF
+    CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
+
     {<POINT Name="fct.lineitem_checkTableConstraints.user">} {</POINT>}
     RETURN errNo, errMsg
 END FUNCTION
@@ -1474,6 +1517,12 @@ PUBLIC FUNCTION officestore_dbxconstraints_item_checkTableConstraints(p_forUpdat
     CALL officestore_dbxconstraints_supplier_pk_supplier_checkFKConstraint(p_data.supplier) RETURNING l_errNo, l_errMsg
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
+    IF officestore_events.m_DbxDataEvent_item_CheckTableConstraints IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_item_CheckTableConstraints(p_forUpdate, p_data.*)
+            RETURNING l_errNo, l_errMsg
+    END IF
+    CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
+
     {<POINT Name="fct.item_checkTableConstraints.user">} {</POINT>}
     RETURN errNo, errMsg
 END FUNCTION
@@ -1646,6 +1695,12 @@ PUBLIC FUNCTION officestore_dbxconstraints_inventory_checkTableConstraints(p_for
     CALL officestore_dbxconstraints_item_pk_item_checkFKConstraint(p_data.itemid) RETURNING l_errNo, l_errMsg
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
+    IF officestore_events.m_DbxDataEvent_inventory_CheckTableConstraints IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_inventory_CheckTableConstraints(p_forUpdate, p_data.*)
+            RETURNING l_errNo, l_errMsg
+    END IF
+    CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
+
     {<POINT Name="fct.inventory_checkTableConstraints.user">} {</POINT>}
     RETURN errNo, errMsg
 END FUNCTION
@@ -1813,6 +1868,12 @@ PUBLIC FUNCTION officestore_dbxconstraints_country_checkTableConstraints(p_forUp
     CALL officestore_dbxconstraints_country_pk_country_checkUniqueConstraint(p_forUpdate, p_data.code) RETURNING l_errNo, l_errMsg
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
+    IF officestore_events.m_DbxDataEvent_country_CheckTableConstraints IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_country_CheckTableConstraints(p_forUpdate, p_data.*)
+            RETURNING l_errNo, l_errMsg
+    END IF
+    CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
+
     {<POINT Name="fct.country_checkTableConstraints.user">} {</POINT>}
     RETURN errNo, errMsg
 END FUNCTION
@@ -1954,6 +2015,12 @@ PUBLIC FUNCTION officestore_dbxconstraints_category_checkTableConstraints(p_forU
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
     CALL officestore_dbxconstraints_category_pk_category_checkUniqueConstraint(p_forUpdate, p_data.catid) RETURNING l_errNo, l_errMsg
+    CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
+
+    IF officestore_events.m_DbxDataEvent_category_CheckTableConstraints IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_category_CheckTableConstraints(p_forUpdate, p_data.*)
+            RETURNING l_errNo, l_errMsg
+    END IF
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
     {<POINT Name="fct.category_checkTableConstraints.user">} {</POINT>}
@@ -2106,6 +2173,12 @@ PUBLIC FUNCTION officestore_dbxconstraints_account_checkTableConstraints(p_forUp
     CALL officestore_dbxconstraints_category_pk_category_checkFKConstraint(p_data.favcategory) RETURNING l_errNo, l_errMsg
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
     CALL officestore_dbxconstraints_country_pk_country_checkFKConstraint(p_data.country) RETURNING l_errNo, l_errMsg
+    CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
+
+    IF officestore_events.m_DbxDataEvent_account_CheckTableConstraints IS NOT NULL THEN
+        CALL officestore_events.m_DbxDataEvent_account_CheckTableConstraints(p_forUpdate, p_data.*)
+            RETURNING l_errNo, l_errMsg
+    END IF
     CALL libdbapp_utilBuildErrorNoAndErrorMsg(errNo, errMsg, l_errNo, l_errMsg) RETURNING errNo, errMsg
 
     {<POINT Name="fct.account_checkTableConstraints.user">} {</POINT>}

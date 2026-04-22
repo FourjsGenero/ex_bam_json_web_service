@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<AG businessApplicationFile="C:\Users\Scott Barney\Documents\My Genero Files\sample_jsonbamwebservice\OfficeStore\appflow\OfficestoreAppFlow.4ba" version="7" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.4js.com/ns/gst/3.10/agmodel.xsd">
-  <File dir="C:\Users\Scott Barney\Documents\My Genero Files\sample_jsonbamwebservice\OfficeStore\services" filename="Customers.4wsj" locator="/Item/WebServiceJSON1" name="WebServiceJSON1" type="WebServiceJSON">
+<AG businessApplicationFile="C:\Users\sbarney\Downloads\ex_bam_json_web_service-master\ex_bam_json_web_service-master\ex_bam_json_web_service\OfficeStore\appflow\OfficestoreAppFlow.4ba" version="12" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://4js.com/ns/gst/5.00/agmodel.xsd">
+  <File dir="C:\Users\sbarney\Downloads\ex_bam_json_web_service-master\ex_bam_json_web_service-master\ex_bam_json_web_service\OfficeStore\services" filename="Customers.4wsj" locator="/Item/WebServiceJSON1" name="WebServiceJSON1" type="WebServiceJSON">
     <DynamicProperties>
       <DynamicProperty name="wsComment" value=""/>
       <DynamicProperty name="wsName" value="Customers"/>
@@ -16,37 +16,37 @@
           <DynamicProperty name="canSearch" value="true"/>
         </DynamicProperties>
         <Fields>
-          <Field alias="account" column="userid" defaultValue="" isKey="1" locator="/Root/Accounts/account.userid" name="account.userid" table="account">
+          <Field alias="account" column="userid" defaultValue="" isKey="1" locator="/Root/Accounts/account.userid" name="account.userid" table="account" type="TABLE_COLUMN">
             <DynamicProperties>
               <DynamicProperty name="public" value="true"/>
             </DynamicProperties>
           </Field>
-          <Field alias="account" column="firstname" defaultValue="" locator="/Root/Accounts/account.firstname" name="account.firstname" table="account">
+          <Field alias="account" column="firstname" defaultValue="" locator="/Root/Accounts/account.firstname" name="account.firstname" table="account" type="TABLE_COLUMN">
             <DynamicProperties>
               <DynamicProperty name="public" value="true"/>
             </DynamicProperties>
           </Field>
-          <Field alias="account" column="lastname" defaultValue="" locator="/Root/Accounts/account.lastname" name="account.lastname" table="account">
+          <Field alias="account" column="lastname" defaultValue="" locator="/Root/Accounts/account.lastname" name="account.lastname" table="account" type="TABLE_COLUMN">
             <DynamicProperties>
               <DynamicProperty name="public" value="true"/>
             </DynamicProperties>
           </Field>
-          <Field alias="country" column="codedesc" defaultValue="" locator="/Root/Accounts/country.codedesc" name="country.codedesc" table="country">
+          <Field alias="country" column="codedesc" defaultValue="" locator="/Root/Accounts/country.codedesc" name="country.codedesc" table="country" type="TABLE_COLUMN">
             <DynamicProperties>
               <DynamicProperty name="public" value="true"/>
             </DynamicProperties>
           </Field>
-          <Field alias="account" column="phone" defaultValue="" locator="/Root/Accounts/account.phone" name="account.phone" table="account">
+          <Field alias="account" column="phone" defaultValue="" locator="/Root/Accounts/account.phone" name="account.phone" table="account" type="TABLE_COLUMN">
             <DynamicProperties>
               <DynamicProperty name="public" value="true"/>
             </DynamicProperties>
           </Field>
-          <Field alias="account" column="email" defaultValue="" locator="/Root/Accounts/account.email" name="account.email" table="account">
+          <Field alias="account" column="email" defaultValue="" locator="/Root/Accounts/account.email" name="account.email" table="account" type="TABLE_COLUMN">
             <DynamicProperties>
               <DynamicProperty name="public" value="true"/>
             </DynamicProperties>
           </Field>
-          <Field alias="category" column="catpic" defaultValue="" locator="/Root/Accounts/category.catpic" name="category.catpic" table="category">
+          <Field alias="category" column="catpic" defaultValue="" locator="/Root/Accounts/category.catpic" name="category.catpic" table="category" type="TABLE_COLUMN">
             <DynamicProperties>
               <DynamicProperty name="public" value="true"/>
             </DynamicProperties>
@@ -67,53 +67,48 @@
             <DynamicProperty name="canDelete" value="true"/>
             <DynamicProperty name="canSearch" value="true"/>
           </DynamicProperties>
-          <RecordRelation destination="Accounts" locator="/Root/Orders/Relation" source="Orders" type="masterDetail">
-            <DynamicProperties>
-              <DynamicProperty name="primaryFields">
-                <Field alias="account" column="userid" name="account.userid" table="account"/>
-              </DynamicProperty>
-              <DynamicProperty name="foreignFields">
-                <Field alias="orders" column="userid" name="orders.userid" table="orders"/>
-              </DynamicProperty>
-            </DynamicProperties>
+          <RecordRelation destination="Accounts" locator="/Root/Orders/Relation" run="ON EVERY ROW" source="Orders">
+            <Parameters>
+              <Parameter name="orders.userid" value="account.userid"/>
+            </Parameters>
           </RecordRelation>
           <Fields>
-            <Field alias="orders" column="orderid" defaultValue="" isKey="1" locator="/Root/Orders/orders.orderid" name="orders.orderid" table="orders">
+            <Field alias="orders" column="orderid" defaultValue="" isKey="1" locator="/Root/Orders/orders.orderid" name="orders.orderid" table="orders" type="TABLE_COLUMN">
               <DynamicProperties>
                 <DynamicProperty name="public" value="true"/>
               </DynamicProperties>
             </Field>
-            <Field alias="orders" column="userid" defaultValue="" locator="/Root/Orders/orders.userid" name="orders.userid" table="orders">
+            <Field alias="orders" column="userid" defaultValue="" locator="/Root/Orders/orders.userid" name="orders.userid" table="orders" type="TABLE_COLUMN">
               <DynamicProperties>
                 <DynamicProperty name="public" value="true"/>
               </DynamicProperties>
             </Field>
-            <Field alias="orders" column="orderdate" defaultValue="" locator="/Root/Orders/orders.orderdate" name="orders.orderdate" table="orders">
+            <Field alias="orders" column="orderdate" defaultValue="" locator="/Root/Orders/orders.orderdate" name="orders.orderdate" table="orders" type="TABLE_COLUMN">
               <DynamicProperties>
                 <DynamicProperty name="public" value="true"/>
               </DynamicProperties>
             </Field>
-            <Field alias="orders" column="shipcountry" defaultValue="" locator="/Root/Orders/orders.shipcountry" name="orders.shipcountry" table="orders">
+            <Field alias="orders" column="shipcountry" defaultValue="" locator="/Root/Orders/orders.shipcountry" name="orders.shipcountry" table="orders" type="TABLE_COLUMN">
               <DynamicProperties>
                 <DynamicProperty name="public" value="true"/>
               </DynamicProperties>
             </Field>
-            <Field alias="ship_country" column="codedesc" defaultValue="" locator="/Root/Orders/ship_country.codedesc" name="ship_country.codedesc" table="country">
+            <Field alias="ship_country" column="codedesc" defaultValue="" locator="/Root/Orders/ship_country.codedesc" name="ship_country.codedesc" table="country" type="TABLE_ALIAS">
               <DynamicProperties>
                 <DynamicProperty name="public" value="true"/>
               </DynamicProperties>
             </Field>
-            <Field alias="orders" column="billcountry" defaultValue="" locator="/Root/Orders/orders.billcountry" name="orders.billcountry" table="orders">
+            <Field alias="orders" column="billcountry" defaultValue="" locator="/Root/Orders/orders.billcountry" name="orders.billcountry" table="orders" type="TABLE_COLUMN">
               <DynamicProperties>
                 <DynamicProperty name="public" value="true"/>
               </DynamicProperties>
             </Field>
-            <Field alias="bill_country" column="codedesc" defaultValue="" locator="/Root/Orders/bill_country.codedesc" name="bill_country.codedesc" table="country">
+            <Field alias="bill_country" column="codedesc" defaultValue="" locator="/Root/Orders/bill_country.codedesc" name="bill_country.codedesc" table="country" type="TABLE_ALIAS">
               <DynamicProperties>
                 <DynamicProperty name="public" value="true"/>
               </DynamicProperties>
             </Field>
-            <Field alias="orders" column="totalprice" defaultValue="" locator="/Root/Orders/orders.totalprice" name="orders.totalprice" table="orders">
+            <Field alias="orders" column="totalprice" defaultValue="" locator="/Root/Orders/orders.totalprice" name="orders.totalprice" table="orders" type="TABLE_COLUMN">
               <DynamicProperties>
                 <DynamicProperty name="public" value="true"/>
               </DynamicProperties>
@@ -134,43 +129,38 @@
               <DynamicProperty name="canDelete" value="true"/>
               <DynamicProperty name="canSearch" value="true"/>
             </DynamicProperties>
-            <RecordRelation destination="Orders" locator="/Root/LineItems/Relation" source="LineItems" type="masterDetail">
-              <DynamicProperties>
-                <DynamicProperty name="primaryFields">
-                  <Field alias="orders" column="orderid" name="orders.orderid" table="orders"/>
-                </DynamicProperty>
-                <DynamicProperty name="foreignFields">
-                  <Field alias="lineitem" column="orderid" name="lineitem.orderid" table="lineitem"/>
-                </DynamicProperty>
-              </DynamicProperties>
+            <RecordRelation destination="Orders" locator="/Root/LineItems/Relation" run="ON EVERY ROW" source="LineItems">
+              <Parameters>
+                <Parameter name="lineitem.orderid" value="orders.orderid"/>
+              </Parameters>
             </RecordRelation>
             <Fields>
-              <Field alias="lineitem" column="orderid" defaultValue="" isKey="1" locator="/Root/LineItems/lineitem.orderid" name="lineitem.orderid" table="lineitem">
+              <Field alias="lineitem" column="orderid" defaultValue="" isKey="1" locator="/Root/LineItems/lineitem.orderid" name="lineitem.orderid" table="lineitem" type="TABLE_COLUMN">
                 <DynamicProperties>
                   <DynamicProperty name="public" value="true"/>
                 </DynamicProperties>
               </Field>
-              <Field alias="lineitem" column="linenum" defaultValue="" isKey="1" locator="/Root/LineItems/lineitem.linenum" name="lineitem.linenum" table="lineitem">
+              <Field alias="lineitem" column="linenum" defaultValue="" isKey="1" locator="/Root/LineItems/lineitem.linenum" name="lineitem.linenum" table="lineitem" type="TABLE_COLUMN">
                 <DynamicProperties>
                   <DynamicProperty name="public" value="true"/>
                 </DynamicProperties>
               </Field>
-              <Field alias="lineitem" column="itemid" defaultValue="" locator="/Root/LineItems/lineitem.itemid" name="lineitem.itemid" table="lineitem">
+              <Field alias="lineitem" column="itemid" defaultValue="" locator="/Root/LineItems/lineitem.itemid" name="lineitem.itemid" table="lineitem" type="TABLE_COLUMN">
                 <DynamicProperties>
                   <DynamicProperty name="public" value="true"/>
                 </DynamicProperties>
               </Field>
-              <Field alias="product" column="prodname" defaultValue="" locator="/Root/LineItems/product.prodname" name="product.prodname" table="product">
+              <Field alias="product" column="prodname" defaultValue="" locator="/Root/LineItems/product.prodname" name="product.prodname" table="product" type="TABLE_COLUMN">
                 <DynamicProperties>
                   <DynamicProperty name="public" value="true"/>
                 </DynamicProperties>
               </Field>
-              <Field alias="lineitem" column="quantity" defaultValue="" locator="/Root/LineItems/lineitem.quantity" name="lineitem.quantity" table="lineitem">
+              <Field alias="lineitem" column="quantity" defaultValue="" locator="/Root/LineItems/lineitem.quantity" name="lineitem.quantity" table="lineitem" type="TABLE_COLUMN">
                 <DynamicProperties>
                   <DynamicProperty name="public" value="true"/>
                 </DynamicProperties>
               </Field>
-              <Field alias="lineitem" column="unitprice" defaultValue="" locator="/Root/LineItems/lineitem.unitprice" name="lineitem.unitprice" table="lineitem">
+              <Field alias="lineitem" column="unitprice" defaultValue="" locator="/Root/LineItems/lineitem.unitprice" name="lineitem.unitprice" table="lineitem" type="TABLE_COLUMN">
                 <DynamicProperties>
                   <DynamicProperty name="public" value="true"/>
                 </DynamicProperties>
@@ -194,7 +184,7 @@
       <Alias alias="ship_country" table="country"/>
     </Module>
   </File>
-  <Database name="officestore" schemaFile="C:\Users\Scott Barney\Documents\My Genero Files\sample_jsonbamwebservice\OfficeStoreRes\schema-4dbx\officestore.4dbx">
+  <Database name="officestore" schemaFile="C:\Users\sbarney\Downloads\ex_bam_json_web_service-master\ex_bam_json_web_service-master\ex_bam_json_web_service\OfficeStoreRes\schema-4dbx\officestore.4dbx">
     <Table name="item">
       <DBColumn datatype="CHAR(10)" defaultValue="" fglDatatype="CHAR(10)" fglLength="10" length="10" name="itemid" notNull="1">
         <DynamicProperties>

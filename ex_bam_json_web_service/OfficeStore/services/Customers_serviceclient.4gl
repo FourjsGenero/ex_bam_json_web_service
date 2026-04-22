@@ -2,7 +2,7 @@
 #+ JSON Web service client
 
 --------------------------------------------------------------------------------
---This code is generated with the template dbapp4.1
+--This code is generated with the template dbapp5.0
 --Warning: Enter your changes within a <BLOCK> or <POINT> section, otherwise they will be lost.
 {<POINT Name="user.comments">} {</POINT>}
 
@@ -11,12 +11,10 @@
 --Import Genero Web Service COM library
 IMPORT com
 IMPORT util
-IMPORT FGL libdbappWSCore
 IMPORT FGL libdbappWSClient
 {<POINT Name="import">} {</POINT>}
 
---------------------------------------------------------------------------------
---Database schema
+-- Database schema
 SCHEMA officestore
 
 --------------------------------------------------------------------------------
@@ -273,8 +271,8 @@ FUNCTION Customers_client_createAll(documents)
     DEFINE respStatus HTTPResponseStatus
     DEFINE createAll_OUT createAll_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     {<POINT Name="fct.createAll.define">} {</POINT>}
 
@@ -283,7 +281,7 @@ FUNCTION Customers_client_createAll(documents)
 
     TRY
         LET urlString = libdbappWSClient.createURL("Customers", NULL)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("POST")
@@ -296,8 +294,8 @@ FUNCTION Customers_client_createAll(documents)
             CALL util.JSON.parse(resp.getTextResponse(), createAll_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, createAll_OUT.*
@@ -321,8 +319,8 @@ FUNCTION Customers_client_readAll(qbe)
     DEFINE respStatus HTTPResponseStatus
     DEFINE readAll_OUT readAll_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     {<POINT Name="fct.readAll.define">} {</POINT>}
 
@@ -331,7 +329,7 @@ FUNCTION Customers_client_readAll(qbe)
 
     TRY
         LET urlString = libdbappWSClient.createURL("Customers", NULL)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setHeader("CRUDOperation", "READCollection")
@@ -345,8 +343,8 @@ FUNCTION Customers_client_readAll(qbe)
             CALL util.JSON.parse(resp.getTextResponse(), readAll_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, readAll_OUT.*
@@ -369,8 +367,8 @@ FUNCTION Customers_client_Accounts_create(rows)
     DEFINE respStatus HTTPResponseStatus
     DEFINE create_OUT Accounts_create_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     {<POINT Name="fct.Accounts_create.define">} {</POINT>}
 
@@ -379,7 +377,7 @@ FUNCTION Customers_client_Accounts_create(rows)
 
     TRY
         LET urlString = libdbappWSClient.createURL("Customers/Accounts", NULL)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("POST")
@@ -392,8 +390,8 @@ FUNCTION Customers_client_Accounts_create(rows)
             CALL util.JSON.parse(resp.getTextResponse(), create_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, create_OUT.*
@@ -416,8 +414,8 @@ FUNCTION Customers_client_Orders_create(rows)
     DEFINE respStatus HTTPResponseStatus
     DEFINE create_OUT Orders_create_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     {<POINT Name="fct.Orders_create.define">} {</POINT>}
 
@@ -426,7 +424,7 @@ FUNCTION Customers_client_Orders_create(rows)
 
     TRY
         LET urlString = libdbappWSClient.createURL("Customers/Accounts/Orders", NULL)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("POST")
@@ -439,8 +437,8 @@ FUNCTION Customers_client_Orders_create(rows)
             CALL util.JSON.parse(resp.getTextResponse(), create_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, create_OUT.*
@@ -463,8 +461,8 @@ FUNCTION Customers_client_LineItems_create(rows)
     DEFINE respStatus HTTPResponseStatus
     DEFINE create_OUT LineItems_create_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     {<POINT Name="fct.LineItems_create.define">} {</POINT>}
 
@@ -473,7 +471,7 @@ FUNCTION Customers_client_LineItems_create(rows)
 
     TRY
         LET urlString = libdbappWSClient.createURL("Customers/Accounts/Orders/LineItems", NULL)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("POST")
@@ -486,8 +484,8 @@ FUNCTION Customers_client_LineItems_create(rows)
             CALL util.JSON.parse(resp.getTextResponse(), create_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, create_OUT.*
@@ -510,8 +508,8 @@ FUNCTION Customers_client_Accounts_readRow(key)
     DEFINE respStatus HTTPResponseStatus
     DEFINE read_OUT Accounts_read_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     DEFINE keyList DYNAMIC ARRAY OF STRING
     {<POINT Name="fct.Accounts_readRow.define">} {</POINT>}
@@ -524,7 +522,7 @@ FUNCTION Customers_client_Accounts_readRow(key)
         CALL keyList.appendElement()
         LET keyList[keyList.getLength()] = key.account_userid
         LET urlString = libdbappWSClient.createURL("Customers/Accounts", keyList)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("GET")
@@ -537,8 +535,8 @@ FUNCTION Customers_client_Accounts_readRow(key)
             CALL util.JSON.parse(resp.getTextResponse(), read_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, read_OUT.*
@@ -561,8 +559,8 @@ FUNCTION Customers_client_Orders_readRow(key)
     DEFINE respStatus HTTPResponseStatus
     DEFINE read_OUT Orders_read_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     DEFINE keyList DYNAMIC ARRAY OF STRING
     {<POINT Name="fct.Orders_readRow.define">} {</POINT>}
@@ -575,7 +573,7 @@ FUNCTION Customers_client_Orders_readRow(key)
         CALL keyList.appendElement()
         LET keyList[keyList.getLength()] = key.orders_orderid
         LET urlString = libdbappWSClient.createURL("Customers/Accounts/Orders", keyList)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("GET")
@@ -588,8 +586,8 @@ FUNCTION Customers_client_Orders_readRow(key)
             CALL util.JSON.parse(resp.getTextResponse(), read_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, read_OUT.*
@@ -612,8 +610,8 @@ FUNCTION Customers_client_LineItems_readRow(key)
     DEFINE respStatus HTTPResponseStatus
     DEFINE read_OUT LineItems_read_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     DEFINE keyList DYNAMIC ARRAY OF STRING
     {<POINT Name="fct.LineItems_readRow.define">} {</POINT>}
@@ -628,7 +626,7 @@ FUNCTION Customers_client_LineItems_readRow(key)
         CALL keyList.appendElement()
         LET keyList[keyList.getLength()] = key.lineitem_linenum
         LET urlString = libdbappWSClient.createURL("Customers/Accounts/Orders/LineItems", keyList)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("GET")
@@ -641,8 +639,8 @@ FUNCTION Customers_client_LineItems_readRow(key)
             CALL util.JSON.parse(resp.getTextResponse(), read_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, read_OUT.*
@@ -664,8 +662,8 @@ FUNCTION Customers_client_Accounts_update(keysAndData)
     DEFINE respStatus HTTPResponseStatus
     DEFINE update_OUT Accounts_update_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     {<POINT Name="fct.Accounts_update.define">} {</POINT>}
 
@@ -674,7 +672,7 @@ FUNCTION Customers_client_Accounts_update(keysAndData)
 
     TRY
         LET urlString = libdbappWSClient.createURL("Customers/Accounts", NULL)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setHeader("CRUDOperation", "UPDATECollection")
@@ -688,8 +686,8 @@ FUNCTION Customers_client_Accounts_update(keysAndData)
             CALL util.JSON.parse(resp.getTextResponse(), update_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, update_OUT.*
@@ -713,8 +711,8 @@ FUNCTION Customers_client_Accounts_updateRow(key, data)
     DEFINE respStatus HTTPResponseStatus
     DEFINE update_OUT Accounts_update_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     DEFINE keyList DYNAMIC ARRAY OF STRING
     {<POINT Name="fct.Accounts_updateRow.define">} {</POINT>}
@@ -727,7 +725,7 @@ FUNCTION Customers_client_Accounts_updateRow(key, data)
         CALL keyList.appendElement()
         LET keyList[keyList.getLength()] = key.account_userid
         LET urlString = libdbappWSClient.createURL("Customers/Accounts", keyList)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("PUT")
@@ -740,8 +738,8 @@ FUNCTION Customers_client_Accounts_updateRow(key, data)
                 CALL util.JSON.parse(resp.getTextResponse(), update_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, update_OUT.*
@@ -763,8 +761,8 @@ FUNCTION Customers_client_Orders_update(keysAndData)
     DEFINE respStatus HTTPResponseStatus
     DEFINE update_OUT Orders_update_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     {<POINT Name="fct.Orders_update.define">} {</POINT>}
 
@@ -773,7 +771,7 @@ FUNCTION Customers_client_Orders_update(keysAndData)
 
     TRY
         LET urlString = libdbappWSClient.createURL("Customers/Accounts/Orders", NULL)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setHeader("CRUDOperation", "UPDATECollection")
@@ -787,8 +785,8 @@ FUNCTION Customers_client_Orders_update(keysAndData)
             CALL util.JSON.parse(resp.getTextResponse(), update_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, update_OUT.*
@@ -812,8 +810,8 @@ FUNCTION Customers_client_Orders_updateRow(key, data)
     DEFINE respStatus HTTPResponseStatus
     DEFINE update_OUT Orders_update_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     DEFINE keyList DYNAMIC ARRAY OF STRING
     {<POINT Name="fct.Orders_updateRow.define">} {</POINT>}
@@ -826,7 +824,7 @@ FUNCTION Customers_client_Orders_updateRow(key, data)
         CALL keyList.appendElement()
         LET keyList[keyList.getLength()] = key.orders_orderid
         LET urlString = libdbappWSClient.createURL("Customers/Accounts/Orders", keyList)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("PUT")
@@ -839,8 +837,8 @@ FUNCTION Customers_client_Orders_updateRow(key, data)
                 CALL util.JSON.parse(resp.getTextResponse(), update_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, update_OUT.*
@@ -862,8 +860,8 @@ FUNCTION Customers_client_LineItems_update(keysAndData)
     DEFINE respStatus HTTPResponseStatus
     DEFINE update_OUT LineItems_update_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     {<POINT Name="fct.LineItems_update.define">} {</POINT>}
 
@@ -872,7 +870,7 @@ FUNCTION Customers_client_LineItems_update(keysAndData)
 
     TRY
         LET urlString = libdbappWSClient.createURL("Customers/Accounts/Orders/LineItems", NULL)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setHeader("CRUDOperation", "UPDATECollection")
@@ -886,8 +884,8 @@ FUNCTION Customers_client_LineItems_update(keysAndData)
             CALL util.JSON.parse(resp.getTextResponse(), update_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, update_OUT.*
@@ -911,8 +909,8 @@ FUNCTION Customers_client_LineItems_updateRow(key, data)
     DEFINE respStatus HTTPResponseStatus
     DEFINE update_OUT LineItems_update_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     DEFINE keyList DYNAMIC ARRAY OF STRING
     {<POINT Name="fct.LineItems_updateRow.define">} {</POINT>}
@@ -927,7 +925,7 @@ FUNCTION Customers_client_LineItems_updateRow(key, data)
         CALL keyList.appendElement()
         LET keyList[keyList.getLength()] = key.lineitem_linenum
         LET urlString = libdbappWSClient.createURL("Customers/Accounts/Orders/LineItems", keyList)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("PUT")
@@ -940,8 +938,8 @@ FUNCTION Customers_client_LineItems_updateRow(key, data)
                 CALL util.JSON.parse(resp.getTextResponse(), update_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, update_OUT.*
@@ -963,8 +961,8 @@ FUNCTION Customers_client_Accounts_delete(keys)
     DEFINE respStatus HTTPResponseStatus
     DEFINE delete_OUT Accounts_delete_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     {<POINT Name="fct.Accounts_delete.define">} {</POINT>}
 
@@ -973,7 +971,7 @@ FUNCTION Customers_client_Accounts_delete(keys)
 
     TRY
         LET urlString = libdbappWSClient.createURL("Customers/Accounts", NULL)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setHeader("CRUDOperation", "DELETECollection")
@@ -987,8 +985,8 @@ FUNCTION Customers_client_Accounts_delete(keys)
             CALL util.JSON.parse(resp.getTextResponse(), delete_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, delete_OUT.*
@@ -1010,8 +1008,8 @@ FUNCTION Customers_client_Accounts_deleteRow(key)
     DEFINE respStatus HTTPResponseStatus
     DEFINE delete_OUT Accounts_delete_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     DEFINE keyList DYNAMIC ARRAY OF STRING
     {<POINT Name="fct.Accounts_deleteRow.define">} {</POINT>}
@@ -1024,7 +1022,7 @@ FUNCTION Customers_client_Accounts_deleteRow(key)
         CALL keyList.appendElement()
         LET keyList[keyList.getLength()] = key.account_userid
         LET urlString = libdbappWSClient.createURL("Customers/Accounts", keyList)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("DELETE")
@@ -1037,8 +1035,8 @@ FUNCTION Customers_client_Accounts_deleteRow(key)
             CALL util.JSON.parse(resp.getTextResponse(), delete_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, delete_OUT.*
@@ -1060,8 +1058,8 @@ FUNCTION Customers_client_Orders_delete(keys)
     DEFINE respStatus HTTPResponseStatus
     DEFINE delete_OUT Orders_delete_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     {<POINT Name="fct.Orders_delete.define">} {</POINT>}
 
@@ -1070,7 +1068,7 @@ FUNCTION Customers_client_Orders_delete(keys)
 
     TRY
         LET urlString = libdbappWSClient.createURL("Customers/Accounts/Orders", NULL)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setHeader("CRUDOperation", "DELETECollection")
@@ -1084,8 +1082,8 @@ FUNCTION Customers_client_Orders_delete(keys)
             CALL util.JSON.parse(resp.getTextResponse(), delete_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, delete_OUT.*
@@ -1107,8 +1105,8 @@ FUNCTION Customers_client_Orders_deleteRow(key)
     DEFINE respStatus HTTPResponseStatus
     DEFINE delete_OUT Orders_delete_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     DEFINE keyList DYNAMIC ARRAY OF STRING
     {<POINT Name="fct.Orders_deleteRow.define">} {</POINT>}
@@ -1121,7 +1119,7 @@ FUNCTION Customers_client_Orders_deleteRow(key)
         CALL keyList.appendElement()
         LET keyList[keyList.getLength()] = key.orders_orderid
         LET urlString = libdbappWSClient.createURL("Customers/Accounts/Orders", keyList)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("DELETE")
@@ -1134,8 +1132,8 @@ FUNCTION Customers_client_Orders_deleteRow(key)
             CALL util.JSON.parse(resp.getTextResponse(), delete_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, delete_OUT.*
@@ -1157,8 +1155,8 @@ FUNCTION Customers_client_LineItems_delete(keys)
     DEFINE respStatus HTTPResponseStatus
     DEFINE delete_OUT LineItems_delete_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     {<POINT Name="fct.LineItems_delete.define">} {</POINT>}
 
@@ -1167,7 +1165,7 @@ FUNCTION Customers_client_LineItems_delete(keys)
 
     TRY
         LET urlString = libdbappWSClient.createURL("Customers/Accounts/Orders/LineItems", NULL)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setHeader("CRUDOperation", "DELETECollection")
@@ -1181,8 +1179,8 @@ FUNCTION Customers_client_LineItems_delete(keys)
             CALL util.JSON.parse(resp.getTextResponse(), delete_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, delete_OUT.*
@@ -1204,8 +1202,8 @@ FUNCTION Customers_client_LineItems_deleteRow(key)
     DEFINE respStatus HTTPResponseStatus
     DEFINE delete_OUT LineItems_delete_OUT_type
 
-    DEFINE req com.HTTPRequest
-    DEFINE resp com.HTTPResponse
+    DEFINE req com.HttpRequest
+    DEFINE resp com.HttpResponse
     DEFINE urlString STRING
     DEFINE keyList DYNAMIC ARRAY OF STRING
     {<POINT Name="fct.LineItems_deleteRow.define">} {</POINT>}
@@ -1220,7 +1218,7 @@ FUNCTION Customers_client_LineItems_deleteRow(key)
         CALL keyList.appendElement()
         LET keyList[keyList.getLength()] = key.lineitem_linenum
         LET urlString = libdbappWSClient.createURL("Customers/Accounts/Orders/LineItems", keyList)
-        LET req = com.HTTPRequest.Create(urlString)
+        LET req = com.HttpRequest.Create(urlString)
         CALL req.setHeader("Content-Type", "application/json")
         CALL req.setHeader("Accept", "application/json")
         CALL req.setMethod("DELETE")
@@ -1233,8 +1231,8 @@ FUNCTION Customers_client_LineItems_deleteRow(key)
             CALL util.JSON.parse(resp.getTextResponse(), delete_OUT)
         END IF
     CATCH
-        LET respStatus.code = STATUS
-        LET respStatus.description = SQLCA.SQLERRM
+        LET respStatus.code = status
+        LET respStatus.description = sqlca.sqlerrm
     END TRY
 
     RETURN respStatus.*, delete_OUT.*
